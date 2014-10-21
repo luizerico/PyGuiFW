@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load addcss %}
+
+{% block content %}
+
+<form class="form-horizontal" role="form" action="" method="post">{% csrf_token %}
+    <fieldset class="module aligned ">
+        {% for field in form %}
+        {% if field.errors %}
+        <div class="form-group form-group-sm error has-error has-feedback">
+            <label class="col-sm-2 control-label">{{ field.label }}:</label>
+
+            <div class="col-sm-8">{{  field|addcss:"form-control" }}
+                <span class="glyphicon glyphicon-remove"></span>
+				<span class="help-inline text-danger">
+					{% for error in  field.errors %}{{ error }}{% endfor %}
+				</span>
+            </div>
+        </div>
+        {% else %}
+        <div class="form-group form-group-sm">
+            <label class="col-sm-2 control-label">{{ field.label }}:</label>
+            <div class="col-sm-10">{{  field|addcss:"form-control" }}</div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        <div class="submit-row form-actions">
+            <button type="submit" class="">Submit</button>
+        </div>
+    </fieldset>
+</form>
+
+{% endblock %}
