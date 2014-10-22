@@ -1,5 +1,8 @@
 from django.views import generic
-from models import Asset, Risk, RiskType, AssetForm
+from AppRisk.models.risk import Risk
+from AppRisk.models.risktype import RiskType
+from AppRisk.models.asset import Asset
+from AppRisk.models.asset import AssetForm
 
 # Create your views here.
 

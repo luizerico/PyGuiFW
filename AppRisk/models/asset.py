@@ -1,26 +1,9 @@
 from django.db import models
 from django import forms
 from django.contrib.admin import widgets
+from AppRisk.models.risk import Risk
 
 # Create your models here.
-
-
-class RiskType(models.Model):
-    name = models.CharField(max_length=150)
-    description = models.TextField()
-
-    def __str__(self):
-        return self.name
-
-
-class Risk(models.Model):
-    name = models.CharField(max_length=250)
-    type = models.CharField(max_length=250)
-    risktype = models.ForeignKey(RiskType, null=True)
-
-    def __str__(self):
-        return self.name
-
 
 class Asset(models.Model):
     name = models.CharField(max_length=250)
@@ -42,8 +25,3 @@ class AssetForm(forms.ModelForm):
         widgets = {
             'register': widgets.AdminDateWidget()
         }
-
-
-
-
-

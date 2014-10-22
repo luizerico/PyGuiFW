@@ -46,7 +46,7 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name='risk',
-            name='risktype',
+            name='risktype.py',
             field=models.ForeignKey(to='AppRisk.RiskType', null=True),
             preserve_default=True,
         ),
