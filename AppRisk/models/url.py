@@ -1,14 +1,13 @@
 from django.db import models
 from django import forms
 from django.contrib.admin import widgets
+from AppRisk.models import address
 
 # Create your models here.
 
 
-class URL(models.Model):
-    url = models.CharField(max_length=250)
-    description = models.TextField(blank=True)
-    #icon = models.ImageField(upload_to='images', blank=True)
+class URL(address.Address):
+    address = models.CharField("URL", max_length=250)
 
     def __str__(self):
-        return self.url
+        return self.address

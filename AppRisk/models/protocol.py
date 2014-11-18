@@ -7,8 +7,8 @@ from django.contrib.admin import widgets
 
 class Protocol(models.Model):
     protocol = models.CharField(max_length=250)
-    number = models.IntegerField()
     description = models.TextField(blank=True)
+    number = models.IntegerField()
     #icon = models.ImageField(upload_to='images', blank=True)
 
     def __str__(self):

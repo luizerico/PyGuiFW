@@ -5,12 +5,10 @@ from django.contrib.admin import widgets
 # Create your models here.
 
 
-class Port(models.Model):
-    name = models.CharField(max_length=250)
+class Address(models.Model):
+    name = models.CharField(max_length=250, default="")
     description = models.TextField(blank=True)
-    port_from = models.IntegerField()
-    port_to = models.IntegerField()
-    #icon = models.ImageField(upload_to='images', blank=True)
+    # icon
 
     def __str__(self):
         return self.name

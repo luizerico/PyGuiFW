@@ -1,18 +1,15 @@
 from django.views import generic
-from AppRisk.models.risk import Risk
-from AppRisk.models.risktype import RiskType
-from AppRisk.models.asset import Asset
-from AppRisk.models.asset import AssetForm
+from AppRisk.models.rule import Rule, RuleForm
 
 # Create your views here.
 
 
-class AssetListView(generic.ListView):
-    model = Asset
-    template_name = 'assetlistview.html'
+class RuleListView(generic.ListView):
+    model = Rule
+    template_name = 'rulelistview.html'
 
 
-class AssetEditView(generic.FormView):
-    form_class = AssetForm
+class RuleEditView(generic.FormView):
+    form_class = RuleForm
     template_name = 'baseformview.html'
     success_url = '/list/'

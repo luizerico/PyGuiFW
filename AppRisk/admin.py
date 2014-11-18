@@ -1,10 +1,4 @@
 from django.contrib import admin
-
-from AppRisk.models.risk import Risk
-from AppRisk.models.asset import Asset
-from AppRisk.models.risktype import RiskType
-
-
 from AppRisk.models.host import Host
 from AppRisk.models.network import Network
 from AppRisk.models.url import URL
@@ -14,19 +8,6 @@ from AppRisk.models.protocol import Protocol
 from AppRisk.models.rule import Rule
 
 # Register your models here.
-
-@admin.register(Asset)
-class AssetAdmin(admin.ModelAdmin):
-    filter_horizontal = ('risk',)
-
-
-@admin.register(Risk)
-class RiskAdmin(admin.ModelAdmin):
-    pass
-
-@admin.register(RiskType)
-class RiskTypeAdmin(admin.ModelAdmin):
-    pass
 
 @admin.register(Host)
 class HostAdmin(admin.ModelAdmin):
@@ -54,4 +35,4 @@ class InterfaceAdmin(admin.ModelAdmin):
 
 @admin.register(Rule)
 class RuleAdmin(admin.ModelAdmin):
-     filter_horizontal = ('source', 'destin', 'port', 'protocol', )
+     filter_horizontal = ('source', 'destiny', 'port', 'protocol', )
