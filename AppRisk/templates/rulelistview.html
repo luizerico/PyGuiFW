@@ -3,7 +3,7 @@
 {% block content %}
     <h2>Rule List</h2>
     <ul>
-        {% for rule in object_list %}
+        {% for rule in rules %}
             <li>{{ rule.name }}
                 {% for source in rule.source.all %} {{ source.address }} {% endfor %}
                 {{ rule.destiny.all }} {{ rule.port.name }} {{ rule.action }}</li>

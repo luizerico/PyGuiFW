@@ -1,7 +1,7 @@
 from django.contrib import admin
-from AppRisk.models.host import Host
-from AppRisk.models.network import Network
-from AppRisk.models.url import URL
+from AppRisk.models.host import Host, FormHost
+from AppRisk.models.network import Network, FormNetwork
+from AppRisk.models.url import URL, FormURL
 from AppRisk.models.interface import Interface
 from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
@@ -11,15 +11,15 @@ from AppRisk.models.rule import Rule
 
 @admin.register(Host)
 class HostAdmin(admin.ModelAdmin):
-    pass
+    form = FormHost
 
 @admin.register(Network)
 class NetworkAdmin(admin.ModelAdmin):
-    pass
+    form = FormNetwork
 
 @admin.register(URL)
 class URLAdmin(admin.ModelAdmin):
-    pass
+    form = FormURL
 
 @admin.register(Port)
 class PortAdmin(admin.ModelAdmin):
