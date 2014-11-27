@@ -1,12 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Rule List</h2>
+    <h2>Rule List ii</h2>
     <ul>
         {% for rule in rules %}
-            <li>{{ rule.name }}
-                {% for source in rule.source.all %} {{ source.address }} {% endfor %}
-                {{ rule.destiny.all }} {{ rule.port.name }} {{ rule.action }}</li>
+            <li>{{ rule.name }} {
+                {% for source in rule.source.all %} {{ source.address }} {% endfor %} }-{
+                {% for destiny in rule.destiny.all %} {{ destiny.address }} {% endfor %} }-{
+                {% for port in rule.port.all %} {{ port.port_from }}-{{port.port_to}} {% endfor %} }-{
+                {{ rule.action }} }</li>
         {% endfor %}
     </ul>
 {% endblock %}
