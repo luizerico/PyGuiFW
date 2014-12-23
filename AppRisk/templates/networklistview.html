@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Network List ii</h2>
+    <ul>
+        {% for network in network %}
+            <li>{{ network.name }} {{ network.address }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

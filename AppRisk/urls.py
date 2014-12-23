@@ -8,5 +8,6 @@ urlpatterns = patterns('',
                        url('list/$', views.RuleListView.as_view(), name='list'),
                        url('edit/$', views.RuleEditView.as_view(), name='edit'),
                        url('ruleview/$', views.rule_view, name='ruleview'),
+                       url('networkview/$', views.network_view, name='networkview'),
                        )
 

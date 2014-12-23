@@ -5,8 +5,8 @@
     <ul>
         {% for rule in rules %}
             <li>{{ rule.name }} {
-                {% for source in rule.source.all %} {{ source.address }} {% endfor %} }-{
-                {% for destiny in rule.destiny.all %} {{ destiny.address }} {% endfor %} }-{
+                {% for source in rule.source.all %} {{ source.address }} {{ source.mask }} {% endfor %} }-{
+                {% for destiny in rule.destiny.all %} {{ destiny.address }} {{ destiny.mask }} {% endfor %} }-{
                 {% for port in rule.port.all %} {{ port.port_from }}-{{port.port_to}} {% endfor %} }-{
                 {{ rule.action }} }</li>
         {% endfor %}

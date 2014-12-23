@@ -14,3 +14,6 @@ class Address(models.Model):
 
     def __str__(self):
         return self.name
+
+    def getFullAddress(self):
+        return self.address + "/" + self.mask
