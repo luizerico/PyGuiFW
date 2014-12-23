@@ -9,5 +9,6 @@ urlpatterns = patterns('',
                        url('edit/$', views.RuleEditView.as_view(), name='edit'),
                        url('ruleview/$', views.rule_view, name='ruleview'),
                        url('networkview/$', views.network_view, name='networkview'),
+                       url('rulecomposerview/$', views.ruleComposerView, name='composerview'),
                        )
 

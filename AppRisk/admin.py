@@ -35,4 +35,4 @@ class InterfaceAdmin(admin.ModelAdmin):
 
 @admin.register(Rule)
 class RuleAdmin(admin.ModelAdmin):
-     filter_horizontal = ('source', 'destiny', 'port', 'protocol', )
+     filter_horizontal = ('source', 'srcport', 'destiny', 'dstport')

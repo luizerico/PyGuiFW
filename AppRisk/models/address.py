@@ -16,4 +16,7 @@ class Address(models.Model):
         return self.name
 
     def getFullAddress(self):
-        return self.address + "/" + self.mask
+        if(self.mask):
+            return self.address + "/" + self.mask
+        else:
+            return self.address

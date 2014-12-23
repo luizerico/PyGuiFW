@@ -10,20 +10,19 @@ from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
 from AppRisk.models.address import Address
 
-
 # Create your models here.
-
 
 class Rule(models.Model):
     order = models.IntegerField()
     name = models.CharField(max_length=250)
-    description = models.TextField(blank=True)
-    source = models.ManyToManyField(Address, related_name='source')
-    destiny = models.ManyToManyField(Address, related_name='destiny')
-    port = models.ManyToManyField(Port, blank=True)
-    protocol = models.ManyToManyField(Protocol, blank=True)
+    source = models.ManyToManyField(Address, related_name='source', blank=True)
+    srcport = models.ManyToManyField(Port, blank=True, related_name='srcport')
+    destiny = models.ManyToManyField(Address, related_name='destiny', blank=True)
+    dstport = models.ManyToManyField(Port, blank=True, related_name='dstport')
+    protocol = models.ForeignKey(Protocol, null=True, blank=True)
     interface = models.ForeignKey(Interface, null=True, blank=True)
     action = models.CharField(max_length=50, blank=True)
+    description = models.TextField(blank=True)
 
     def __str__(self):
         return self.name
