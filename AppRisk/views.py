@@ -1,22 +1,65 @@
 from django.shortcuts import render
 from django.views import generic
-from AppRisk.models.rule import Rule, RuleForm
+from AppRisk.models.filter import Filter, FilterForm
 from AppRisk.models.network import Network
 
 # Create your views here.
 
 def ruleComposerView(request):
-    rules = Rule.objects.all()
+    rules = Filter.objects.all()
     context = {}
-    for rule in rules:
-        srcaddress = ', '.join([source.getFullAddress() for source in rule.source.all()])
-        srcport = ', '.join([source.getFullAddress() for source in rule.source.all()])
-        dstaddress = ', '.join([destiny.getFullAddress() for destiny in rule.destiny.all()])
-        dstport = ', '.join([port.port for port in rule.port.all()])
+    tmp = []
 
-        tmp = srcaddress
-        #source = ','.join([str(i) for i in rule.source.values_list('address', 'mask')])
-        context = {'rules': tmp}
+
+    for rule in rules:
+        cmp_rule = "iptables -I " + str(rule.order)
+        if rule.source.all( ):
+            cmp_rule += " -s " + str(','.join([source.getFullAddress() for source in rule.source.all()]))
+
+        if rule.srcport.all():
+            cmp_rule += " -sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+
+        if rule.destiny.all():
+            cmp_rule += " -d " + str(','.join([destiny.getFullAddress() for destiny in rule.destiny.all()]))
+
+        if rule.dstport.all():
+            cmp_rule += " -dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+
+        if rule.protocol:
+            cmp_rule += " -p " + str(rule.protocol.number)
+
+        if rule.in_interface:
+            cmp_rule += " -i " + str(rule.in_interface)
+
+        if rule.out_interface:
+            cmp_rule += " -o " + str(rule.out_interface )
+
+        if rule.log:
+            if rule.log_preffix:
+                log_rule = cmp_rule + " --log_preffix " + str(rule.log_preffix) +\
+                           " --log_level " + str(rule.log_level.number) + " -j LOG "
+            else:
+                log_rule = cmp_rule + " --log_level " + str(rule.log_level.number) + " -j LOG "
+            tmp.append(log_rule)
+
+        if rule.conn_state:
+            states = ("NEW","RELATED","ESTABLISHED","INVALID","UNTRACKED")
+            # Convert UNICODE values into a list of strings and after this
+            # convert into a integer list to filter the STATES list
+            list_states = map(int,(str(rule.conn_state).replace("u'","").translate(None, "]['")).split(','))
+            selected_states = [states[x] for x in list_states]
+            cmp_rule += " -m state --state " + str(selected_states).translate(None,"'[]")
+            #cmp_rule += " -m state --state " + str(list_states)
+
+        if rule.adv_options:
+            cmp_rule += " " + str(rule.adv_options)
+
+        if rule.action:
+            cmp_rule += " -j " + str(rule.action)
+
+        tmp.append(cmp_rule)
+
+    context = {'rules': tmp}
 
     return render(request, 'rulecomposerview.html', context)
 
@@ -34,11 +77,11 @@ def network_view(request):
 
 
 class RuleListView(generic.ListView):
-    model = Rule
+    model = Filter
     template_name = 'rulelistview.html'
 
 
 class RuleEditView(generic.FormView):
-    form_class = RuleForm
+    form_class = FilterForm
     template_name = 'baseformview.html'
     success_url = '/list/'

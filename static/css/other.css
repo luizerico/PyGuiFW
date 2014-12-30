@@ -1,14 +1,55 @@
+/*  Custom Luiz Erico */
+
+.help{
+display: none;
+}
+
+.add-another{
+display: none;
+}
+
+.selector{
+    float:none;
+    display:block;
+}
+
+.selector input[type="submit"]{
+    display:block;
+    clear:both;
+}
+
+.selector h2{
+    font-size:15px;
+}
+.selector  select{
+    margin: 2px 0;
+    padding: 2px 3px;
+    font-weight: normal;
+    width: 270px !important;
+    height: 150px;
+}
+
+textarea{
+    display:block;
+    width:450px;
+}
+
 /*css for admin widgets*/
 
 /*for FilteredSelectMultiple*/
 .selector {
 width: 100%;
-float: left;
+
+}
+
+label {
+font-weight: bold  !important;;
+color: #444  !important;;
 }
 
 .selector select {
 width: 270px;
-height: 8em;
+height: 50px;
 }
 
 .selector-available, .selector-chosen {
@@ -55,8 +96,8 @@ width: 230px;
 .selector ul.selector-chooser {
 float: left;
 width: 22px;
-height: 50px;
-margin: 8em 3px 0 3px;
+height: 20px;
+margin: 3em 3px 0 3px;
 padding: 0;
 }
 
@@ -67,7 +108,7 @@ list-style-type: none;
 }
 
 .selector select {
-margin-bottom: 5px;
+margin-bottom: 0px;
 margin-top: 0;
 }
 
@@ -80,8 +121,8 @@ text-indent: -3000px;
 
 
 a.selector-chooseall, a.selector-clearall {
-display: block;
-width: 6em;
+display: none;
+width: 85px;
 text-align: left;
 margin-left: auto;
 margin-right: auto;
@@ -92,6 +133,11 @@ padding: 3px 0 3px 18px;
 
 a.selector-chooseall:hover, a.selector-clearall:hover {
 color: #036;
+}
+
+a.add-another {
+float: right;
+display: block;
 }
 
 .selector select {
