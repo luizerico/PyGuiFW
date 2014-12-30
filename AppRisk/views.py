@@ -12,7 +12,7 @@ def ruleComposerView(request):
 
 
     for rule in rules:
-        cmp_rule = "iptables -I " + str(rule.order)
+        cmp_rule = str(rule.chain)
         if rule.source.all( ):
             cmp_rule += " -s " + str(','.join([source.getFullAddress() for source in rule.source.all()]))
 
@@ -34,14 +34,6 @@ def ruleComposerView(request):
         if rule.out_interface:
             cmp_rule += " -o " + str(rule.out_interface )
 
-        if rule.log:
-            if rule.log_preffix:
-                log_rule = cmp_rule + " --log_preffix " + str(rule.log_preffix) +\
-                           " --log_level " + str(rule.log_level.number) + " -j LOG "
-            else:
-                log_rule = cmp_rule + " --log_level " + str(rule.log_level.number) + " -j LOG "
-            tmp.append(log_rule)
-
         if rule.conn_state:
             states = ("NEW","RELATED","ESTABLISHED","INVALID","UNTRACKED")
             # Convert UNICODE values into a list of strings and after this
@@ -54,8 +46,15 @@ def ruleComposerView(request):
         if rule.adv_options:
             cmp_rule += " " + str(rule.adv_options)
 
-        if rule.action:
-            cmp_rule += " -j " + str(rule.action)
+        if rule.log:
+            if rule.log_preffix:
+                log_rule = cmp_rule + " --log_preffix " + str(rule.log_preffix) +\
+                           " --log_level " + str(rule.log_level.number) + " -j LOG "
+            else:
+                log_rule = "iptables -I " + str(rule.order + 100) + " " + cmp_rule + " --log_level " + str(rule.log_level.number) + " -j LOG "
+            tmp.append(log_rule)
+
+        cmp_rule = "iptables -I " + str(rule.order + 1000) + " " + cmp_rule + " -j " + str(rule.action)
 
         tmp.append(cmp_rule)
 
