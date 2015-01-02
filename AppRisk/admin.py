@@ -6,13 +6,29 @@ from AppRisk.models.interface import Interface
 from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
 from AppRisk.models.filter import Filter, FilterForm
-from AppRisk.models.action import Action
-from AppRisk.models.loglevel import LogLevel
 from AppRisk.models.chain import Chain
 from AppRisk.models.nat import Nat
+from AppRisk.models.sethost import Sethost, SethostForm
+from AppRisk.models.setnet import Setnet, SetnetForm
 
 
 # Register your models here.
+
+@admin.register(Sethost)
+class SethostAdmin(admin.ModelAdmin):
+    filter_horizontal = ('address',)
+    form = SethostForm
+
+    class Media:
+        css = { 'all':['css/other.css',], }
+
+@admin.register(Setnet)
+class SetnetAdmin(admin.ModelAdmin):
+    filter_horizontal = ('address',)
+    form = SetnetForm
+
+    class Media:
+        css = { 'all':['css/other.css',], }
 
 @admin.register(Host)
 class HostAdmin(admin.ModelAdmin):
@@ -42,10 +58,6 @@ class InterfaceAdmin(admin.ModelAdmin):
 #class ActionAdmin(admin.ModelAdmin):
 #    pass
 
-@admin.register(LogLevel)
-class LogLevelAdmin(admin.ModelAdmin):
-    pass
-
 @admin.register(Chain)
 class ChainAdmin(admin.ModelAdmin):
     pass
@@ -62,8 +74,8 @@ class FilterAdmin(admin.ModelAdmin):
     list_display_links = ()
 
     fieldsets = [
-        (None, {'fields':('order','name','chain','source','srcport','destiny',
-                          'dstport','protocol','in_interface','out_interface',
+        (None, {'fields':('order','name','chain','source','srcset','srcport','destiny',
+                          'dstset','dstport','protocol','in_interface','out_interface',
                           'conn_state','adv_options','action','description')}),
         ('Log',{'classes': ('collapse','wide'),
                'fields':('log','log_level','log_preffix')})

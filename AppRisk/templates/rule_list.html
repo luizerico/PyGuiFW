@@ -1,0 +1,163 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Risk
+	<a href="{% url 'host-create' %}">
+		<button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
+			<span class="glyphicon glyphicon-plus"></span> Create New</button>
+	</a>
+</h2>
+
+<table id="datatable" class="display table">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th>Impact</th>
+			<th>Probability</th>
+			<th style='width : 100px'>Action</th>
+		</tr>
+        </thead>
+	<tbody>
+	{% for risk in object_list %}
+	<tr {% if risk.impact.value > 4 %} class="danger" {% elif risk.impact.value > 3 %} class="warning" {% endif %}>
+		<td>{{ risk.name }}</td>
+		<td>{{ risk.description }}</td>
+		<td>{{ risk.impact }}</td>
+		<td>{{ risk.probability }}</td>
+		<td>
+			<a data-toggle="modal" href="/onebt/risk/detail/{{risk.id}}" data-target="#myModal">
+				<button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
+					<span class="glyphicon glyphicon-zoom-in"></span></button>
+			</a>
+			<a href="/onebt/risk/edit/{{risk.id}}">
+				<button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
+					<span class="glyphicon glyphicon-edit"></span></button>
+			</a>
+			<a href="/onebt/risk/delete/{{risk.id}}" data-target="#myModal">
+				<button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
+					<span class="glyphicon glyphicon-trash"></span></button>
+			</a>
+		</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+</table>
+
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="fa fa-long-arrow-right"></i> Risk Bar Graph </h3>
+	</div>
+	<div class="panel-body">
+		<div id="risk-bar-chart"></div>
+		<div class="text-right">
+			<a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+		</div>
+	</div>
+</div>
+
+<!--<div id="chart"></div>-->
+
+<script>
+$(function() {
+  Morris.Bar({
+	element: 'risk-bar-chart',
+	data: [
+		{% for risk in object_list %}
+			{risk_id: {{risk.id}}, risk: '{{ risk.name }}', impact: {{ risk.impact.value }}, probability: {{ risk.probability.value }} },
+	  	{% endfor %}
+	],
+        xkey: 'risk',
+	ykeys: ['impact', 'probability'],
+	labels: ['impact', 'probability'],
+	resize: true,
+	goals: [3.0, 0],
+	stacked: true,
+	hideHover: 'auto',
+	//barColors: ['#5544EE', '#50AA33', '#8844EE'],
+	formatter: function (x) { return x + ' % '}}).on('click', function(i,data){
+									$('#myModal').modal({remote: '/onebt/risk/detail/'+data.risk_id }) });
+})
+
+$('body').on('hidden.bs.modal', '.modal', function () { $(this).removeData('bs.modal'); });
+
+$('[data-toggle="tooltip"]').tooltip({placement : 'bottom'});
+
+</script>
+
+<!--<div id="morris-area-chart"></div>-->
+<!--<div class="row">
+        <div class="col-lg-12">
+                <div class="panel panel-green">
+                        <div class="panel-heading">
+                                <h3 class="panel-title"><i class="fa fa-bar-chart-o"></i> Area Line Graph Example with Tooltips</h3>
+                        </div>
+                        <div class="panel-body">
+                                        <div id="chart"></div>
+                                <div class="text-right">
+                                <a href="#">View Details <i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                        </div>
+                </div>
+        <div>
+</div>
+-->
+
+<!-- Code to generate Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+		</div>
+	</div>
+</div>
+
+
+<!--
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">Launch demo modal</button>
+<a  data-toggle="modal" href="http://www.uol.com.br" data-target="#myModal" >Launch Modal</a>
+
+<div class="modal fade" id="myModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">
+					<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+				</button>
+				<h4 class="modal-title">Modal title</h4>
+			</div>
+			<div class="modal-body">
+				<p>One fine body&hellip;</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary">Save changes</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<a href="#" data-toggle="modal">link</a>
+<a href="http://www.uol.com.br" data-toggle="modal">link</a>
+
+<script>
+$(document).ready(function() {
+
+// Support for AJAX loaded modal window.
+// Focuses on first input textbox after it loads the window.
+$('[data-toggle="modal"]').click(function(e) {
+	e.preventDefault();
+	var url = $(this).attr('href');
+	if (url.indexOf('#') == 0) {
+		$(url).modal('show');
+	} else {
+		alert(url);
+		$.get(url, function(data) {
+			$('<div class="modal fade">' + data + '</div>').modal('show');
+		});
+	}
+});
+});
+</script>
+-->
+{%endblock %}

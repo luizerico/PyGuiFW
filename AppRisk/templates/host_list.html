@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> Hosts
+    <a href="{% url 'host-create' %}">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-plus"></span> Create New
+        </button>
+    </a>
+    <a href="javascript:;" class="deleteall" title="dtable">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-trash"></span> Delete Selected
+        </button>
+    </a>
+</h2>
+
+<table id="datatable" class="display table">
+    <thead>
+    <tr>
+        <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Description</th>
+        <th style='width : 100px'>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for host in object_list %}
+    <tr>
+        <td><input type="checkbox" value={{ host.id }} class="checkbox"/></td>
+        <td>{{ host.name }}</td>
+        <td>{{ host.address }}</td>
+        <td>{{ host.description }}</td>
+        <td>
+            <a data-toggle="modal" href="{% url 'host-detail' host.id %}" data-target="#myModal">
+                <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
+                    <span class="glyphicon glyphicon-zoom-in"></span></button>
+            </a>
+            <a href="{% url 'host-edit' host.id %}">
+                <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
+                    <span class="glyphicon glyphicon-edit"></span></button>
+            </a>
+            <a href="{% url 'host-delete' host.id %}" data-target="#myModal">
+                <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
+                    <span class="glyphicon glyphicon-trash"></span></button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- Code to generate Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+
+    //function is used to delete selected row
+    $('.deleteall').on("click", function(event){
+        var hosts=[]
+        var c = confirm('This action cannot be undone.\nAre sure about delete all selected items?');
+        if(c) {
+            $.each($('.checkbox'), function(){
+                if ($(this).prop('checked'))
+                {
+                    checked = ($(this).prop("value"));
+                    hosts.push(checked);
+                }
+            });
+
+            arr = [1,2,5];
+            $.ajax({
+                  type:"GET",
+                  url:"{% url 'host-multidelete' %}",
+                  data:{hosts:hosts},
+                  success:function(data){ window.location=self.location;},
+                  error:function(data){alert("Dados não deletados...");},
+            });
+        };
+
+        return false;
+    });
+});
+
+function toggleChecked(status) {
+  $(".checkbox").each( function() {
+  	$(this).prop("checked",status);
+  })
+}
+
+</script>
+
+{%endblock %}

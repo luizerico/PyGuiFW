@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load addcss %}
+
+<form method="post" action="">
+    <table id="datatable" class="display table">
+        <thead>
+        <tr>
+
+            <th>Name</th>
+            <th>Address</th>
+            <th>Description</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for form in formset %}
+        <tr>
+            <td>{{ form.name }}</td>
+            <td>{{ form.address }}</td>
+            <td>{{ form.description }}</td>
+            {% if formset.can_delete %}
+            <td>{{ form.DELETE }}</td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    {{ formset.management_form }}
+    {% csrf_token %}
+    <button type="submit" name="action" value="save">save</button>
+    <button type="submit" name="action" value="delete">delete</button>
+
+</form>
+
+{% endblock %}

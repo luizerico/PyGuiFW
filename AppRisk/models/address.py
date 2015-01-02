@@ -6,8 +6,8 @@ from django.contrib.admin import widgets
 
 
 class Address(models.Model):
-    name = models.CharField(max_length=250, default="")
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=150, default="")
+    description = models.CharField(max_length=300, null=True, blank=True)
     address = models.CharField(max_length=250, default="")
     mask = models.CharField(max_length=250, default="")
     # icon

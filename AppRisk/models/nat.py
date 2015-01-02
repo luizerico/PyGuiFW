@@ -9,14 +9,14 @@ from AppRisk.models.interface import Interface
 from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
 from AppRisk.models.address import Address
-from AppRisk.models.action import Action
 from AppRisk.models.chain import Chain
-from AppRisk.models.loglevel import LogLevel
 
 # Create your models here.
 
 class Nat(models.Model):
     ACTION = (('--snat','Source NAT'),('--dnat','Destination NAT'),('--masquerade','Masquerade'))
+    LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
+                 ('crit','crit'),('alert','alert'),('emerg','emerg'))
     order = models.IntegerField()
     name = models.CharField(max_length=250)
     action = models.CharField(max_length=20, choices=ACTION, default='DNAT')
@@ -32,7 +32,7 @@ class Nat(models.Model):
     adv_options = models.CharField(max_length=250, blank=True, null=True)
     description = models.TextField(blank=True)
     log = models.BooleanField(default=False)
-    log_level = models.ForeignKey(LogLevel, null=True, blank=True, default=1)
+    log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
 
 
