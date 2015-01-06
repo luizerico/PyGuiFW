@@ -1,9 +1,9 @@
 from django.shortcuts import render
 from django.views import generic
-from AppRisk.models.filter import Filter, FilterForm
+from AppRisk.models.filter import Filter, FormFilter
 from AppRisk.models.network import Network
-from AppRisk.models.netset import Setnet
-from AppRisk.models.hostset import Sethost
+from AppRisk.models.netset import Netset
+from AppRisk.models.hostset import Hostset
 
 
 # Create your views here.
@@ -13,15 +13,15 @@ def ruleComposerView(request):
     context = {}
     tmp = []
 
-    srcset = Sethost.buildSet() + " " + Setnet.buildSet()
+    #srcset = Hostset.buildSet() + " " + Netset.buildSet()
 
-    for set in Setnet.objects.all():
+    for set in Netset.objects.all():
         tmp.append("#### Building the IPSET: " + set.name)
         tmp.append("ipset -N " + set.name + " nethash")
         for address in set.address.all():
             tmp.append("ipset -A " + set.name + " " + address.getFullAddress())
 
-    for set in Sethost.objects.all():
+    for set in Hostset.objects.all():
         tmp.append("#### Building the IPSET: " + set.name)
         tmp.append("ipset -N " + set.name + " iphash")
         for address in set.address.all():
@@ -90,7 +90,7 @@ def ruleComposerView(request):
 
 
 def rule_view(request):
-    rules = Rule.objects.all()
+    rules = Filter.objects.all()
     context = {'rules': rules}
     return render(request, 'rulelistview.html', context)
 
@@ -107,6 +107,6 @@ class RuleListView(generic.ListView):
 
 
 class RuleEditView(generic.FormView):
-    form_class = FilterForm
+    form_class = FormFilter
     template_name = 'baseformview.html'
     success_url = '/list/'

@@ -1,8 +1,72 @@
 /*  Custom Luiz Erico */
 
-.help{
+/* Custom for Form-Control */
+
+.form-custom {
+  /*
+  display: block;
+  height: 34px;
+  */
+  margin: 2px 0px 2px;
+  font-size: 11px;
+  width: 568px;
+  padding: 2px 6px;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #ccc;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+       -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+          transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+}
+
+input[type="checkbox"] {
+-webkit-appearance: checkbox;
+box-sizing: border-box;
+width:15px;
+text-align: left;
+}
+
+.has-error .form-custom{
+border-color: #a94442;
+}
+
+.form-control-feedback{
+top: -3px;
+}
+
+.table td  {
+vertical-align: middle;
+}
+/* Custom for MultiSelectChoice */
+
+
+.selector label {
+font-weight: bold  !important;;
+color: #444  !important;;
+margin-bottom: 9px;
+}
+
+.selector h2 {
+margin: 2px 0px 0px 0px; /*override dojo style*/
+}
+
+.module h2, .module caption, .inline-group h2{
+font-size: 162px;
+padding: 8px;
+}
+
+.help-inline{
 display: none;
 }
+
+.text-danger {
+display: block}
 
 .add-another{
 display: none;
@@ -19,7 +83,7 @@ display: none;
 }
 
 .selector h2{
-    font-size:15px;
+    font-size:12px;
 }
 .selector  select{
     margin: 2px 0;
@@ -31,7 +95,7 @@ display: none;
 
 textarea{
     display:block;
-    width:450px;
+    height: 42px;
 }
 
 /*css for admin widgets*/
@@ -45,24 +109,28 @@ width: 100%;
 label {
 font-weight: bold  !important;;
 color: #444  !important;;
+margin-bottom: 0px;
 }
 
 .selector select {
 width: 270px;
-height: 50px;
+height: 61px;
 }
 
 .selector-available, .selector-chosen {
 float: left;
 width: 270px;
 text-align: center;
-margin-bottom: 5px;
+margin-bottom: 2px;
+
 }
 
 .selector-available h2, .selector-chosen h2 {
+padding: 3px;
 border: 1px solid #ccc;
 font-family:"Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
 font-size:11px;
+background: #7CA0C7
 }
 
 .selector .selector-available h2 {
@@ -90,7 +158,7 @@ padding: 4px 5px;
 }
 
 .selector .selector-available input {
-width: 230px;
+width: 90%;
 }
 
 .selector ul.selector-chooser {
@@ -144,7 +212,4 @@ display: block;
 font-family:"Lucida Grande",Verdana,Arial,sans-serif;
 font-size:11px;
 font-weight:normal;
-}
-.selector h2 {
-margin-bottom:0; /*override dojo style*/
 }

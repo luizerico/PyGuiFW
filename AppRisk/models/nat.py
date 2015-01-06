@@ -10,11 +10,13 @@ from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
 from AppRisk.models.address import Address
 from AppRisk.models.chain import Chain
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
 # Create your models here.
 
 class Nat(models.Model):
     ACTION = (('--snat','Source NAT'),('--dnat','Destination NAT'),('--masquerade','Masquerade'))
+    CONNECTION = ((0,'NEW'),(1, 'RELATED'),(2,'ESTABLISHED'),(3,'INVALID'),(4,'UNTRACKED'))
     LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
                  ('crit','crit'),('alert','alert'),('emerg','emerg'))
     order = models.IntegerField()
@@ -29,6 +31,7 @@ class Nat(models.Model):
     out_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='nat_in_out')
     to_destiny = models.ForeignKey(Address, blank=True, null=True, related_name='to_destiny')
     to_port = models.ForeignKey(Port, blank=True, null=True, related_name='to_port')
+    conn_state = models.CharField(max_length=150, null=True, blank=True)
     adv_options = models.CharField(max_length=250, blank=True, null=True)
     description = models.TextField(blank=True)
     log = models.BooleanField(default=False)
@@ -40,5 +43,19 @@ class Nat(models.Model):
         return self.name
 
 
-class RuleForm(forms.Form):
-    pass
+class FormNat(forms.Form):
+    conn_state = forms.MultipleChoiceField(required=False,
+                                           widget=forms.CheckboxSelectMultiple(),
+                                           choices=Nat.CONNECTION)
+    source = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Source', False,attrs={}))
+    destiny = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Destiny', False,attrs={}))
+    srcport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Source Port', False,attrs={}))
+    dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Destiny Port', False,attrs={}))
+
+
+    class Meta:
+        model = Nat

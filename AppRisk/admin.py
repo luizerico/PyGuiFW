@@ -5,27 +5,27 @@ from AppRisk.models.url import URL, FormURL
 from AppRisk.models.interface import Interface
 from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
-from AppRisk.models.filter import Filter, FilterForm
+from AppRisk.models.filter import Filter, FormFilter
 from AppRisk.models.chain import Chain
 from AppRisk.models.nat import Nat
-from AppRisk.models.sethost import Sethost, SethostForm
-from AppRisk.models.setnet import Setnet, SetnetForm
+from AppRisk.models.hostset import Hostset, FormHostset
+from AppRisk.models.netset import Netset, FormNetset
 
 
 # Register your models here.
 
-@admin.register(Sethost)
+@admin.register(Hostset)
 class SethostAdmin(admin.ModelAdmin):
     filter_horizontal = ('address',)
-    form = SethostForm
+    form = FormHostset
 
     class Media:
         css = { 'all':['css/other.css',], }
 
-@admin.register(Setnet)
+@admin.register(Netset)
 class SetnetAdmin(admin.ModelAdmin):
     filter_horizontal = ('address',)
-    form = SetnetForm
+    form = FormNetset
 
     class Media:
         css = { 'all':['css/other.css',], }
@@ -64,7 +64,22 @@ class ChainAdmin(admin.ModelAdmin):
 
 @admin.register(Nat)
 class NatAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('order','name','action','log')
+    list_filter = ('order','action', )
+    list_display_links = ()
+
+    fieldsets = [
+        (None, {'fields':('order','name','action','source','srcport','destiny',
+                          'protocol','in_interface','out_interface',
+                          'conn_state','adv_options','description')}),
+        ('Log',{'classes': ('collapse','wide'),
+               'fields':('log','log_level','log_preffix')})
+           ]
+
+    #filter_horizontal = ('source', 'srcport', 'destiny', 'dstport')
+
+    form = FormFilter
+
 
 @admin.register(Filter)
 class FilterAdmin(admin.ModelAdmin):
@@ -83,7 +98,7 @@ class FilterAdmin(admin.ModelAdmin):
 
     filter_horizontal = ('source', 'srcport', 'destiny', 'dstport')
 
-    form = FilterForm
+    form = FormFilter
 
     class Media:
         css = { 'all':['css/other.css',], }

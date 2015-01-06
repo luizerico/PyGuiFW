@@ -12,3 +12,10 @@ class Chain(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class FormChain(forms.ModelForm):
+    pass
+
+    class Meta:
+        model = Chain

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> Hosts
-    <a href="{% url 'host-create' %}">
+<h2> Net Sets
+    <a href="{% url 'netset-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -20,27 +20,25 @@
         <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
         <th>Name</th>
         <th>Address</th>
-        <th>Description</th>
         <th style='width : 100px'>Action</th>
     </tr>
     </thead>
     <tbody>
-    {% for host in object_list %}
+    {% for netset in object_list %}
     <tr>
-        <td><input type="checkbox" value={{ host.id }} class="checkbox"/></td>
-        <td>{{ host.name }}</td>
-        <td>{{ host.getFullAddress }}</td>
-        <td>{{ host.description }}</td>
+        <td><input type="checkbox" value={{ netset.id }} class="checkbox"/></td>
+        <td>{{ netset.name }}</td>
+        <td>{{ netset.buildSet }}</td>
         <td>
-            <a data-toggle="modal" href="{% url 'host-detail' host.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'netset-detail' netset.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'host-edit' host.id %}">
+            <a href="{% url 'netset-edit' netset.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'host-delete' host.id %}" data-target="#myModal">
+            <a href="{% url 'netset-delete' netset.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -66,22 +64,22 @@ $(document).ready(function(){
 
     //function is used to delete selected row
     $('.deleteall').on("click", function(event){
-        var hosts=[]
+        var items=[]
         var c = confirm('This action cannot be undone.\nAre sure about delete all selected items?');
         if(c) {
             $.each($('.checkbox'), function(){
                 if ($(this).prop('checked'))
                 {
                     checked = ($(this).prop("value"));
-                    hosts.push(checked);
+                    items.push(checked);
                 }
             });
 
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'host-multidelete' %}",
-                  data:{hosts:hosts},
+                  url:"{% url 'netset-multidelete' %}",
+                  data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},
             });

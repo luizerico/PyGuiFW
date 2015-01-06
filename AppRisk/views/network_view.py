@@ -14,7 +14,7 @@ def multipleDelete(request):
     # To implement validation checks
     # Avoid insecures algorithms
 
-    networklist=request.GET.getlist('networks[]')
+    networklist=request.GET.getlist('items[]')
     if networklist:
         #Network.objects.filter(id__in=networklist).delete()
         print "Deleting " + str(networklist)

@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> Hosts
-    <a href="{% url 'host-create' %}">
+<h2> Filters
+    <a href="{% url 'filter-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -18,29 +18,51 @@
     <thead>
     <tr>
         <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
+        <th>Ord</th>
         <th>Name</th>
-        <th>Address</th>
-        <th>Description</th>
+        <th>Chain</th>
+        <th>Source</th>
+        <th>Port</th>
+        <th>Destiny</th>
+        <th>Port</th>
+        <th>Log</th>
+        <th>Action</th>
         <th style='width : 100px'>Action</th>
     </tr>
     </thead>
     <tbody>
-    {% for host in object_list %}
-    <tr>
-        <td><input type="checkbox" value={{ host.id }} class="checkbox"/></td>
-        <td>{{ host.name }}</td>
-        <td>{{ host.getFullAddress }}</td>
-        <td>{{ host.description }}</td>
+    {% for filter in object_list %}
+    <tr >
+        <td><input type="checkbox" value={{ filter.id }} class="checkbox"/></td>
+        <td>{{ filter.order }}</td>
+        <td>{{ filter.name }}</td>
+        <td>{{ filter.chain }}</td>
+        <td>{% for source in filter.source.all %} {{ source.getFullAddress }} <br>{% endfor %}
+            {% if filter.srcset %} {{ filter.srcset }} {% endif %}</td>
+        <td>{% for srcport in filter.srcport.all %} {{ srcport }} <br>{% endfor %}</td>
+        <td>{% for destiny in filter.destiny.all %} {{ destiny.getFullAddress }} <br>{% endfor %}
+            {% if filter.dstset %} {{ filter.dstset }} {% endif %}</td>
+        <td>{% for dstport in filter.dstport.all %} {{ dstport }} <br>{% endfor %}</td>
+        <td align="center">{% if filter.log %}
+            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+        <td align="center">
+            {% if filter.action == "DROP" %}
+            <span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove"></span>
+            {% elif filter.action == "REJECT" %}
+            <span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle"></span>
+            {% elif filter.action == "ACCEPT"%}
+            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right"></span>
+            {% endif %}</td>
         <td>
-            <a data-toggle="modal" href="{% url 'host-detail' host.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'filter-detail' filter.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'host-edit' host.id %}">
+            <a href="{% url 'filter-edit' filter.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'host-delete' host.id %}" data-target="#myModal">
+            <a href="{% url 'filter-delete' filter.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -66,22 +88,22 @@ $(document).ready(function(){
 
     //function is used to delete selected row
     $('.deleteall').on("click", function(event){
-        var hosts=[]
+        var items=[]
         var c = confirm('This action cannot be undone.\nAre sure about delete all selected items?');
         if(c) {
             $.each($('.checkbox'), function(){
                 if ($(this).prop('checked'))
                 {
                     checked = ($(this).prop("value"));
-                    hosts.push(checked);
+                    items.push(checked);
                 }
             });
 
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'host-multidelete' %}",
-                  data:{hosts:hosts},
+                  url:"{% url 'filter-multidelete' %}",
+                  data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},
             });

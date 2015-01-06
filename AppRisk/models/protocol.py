@@ -6,10 +6,16 @@ from django.contrib.admin import widgets
 
 
 class Protocol(models.Model):
-    protocol = models.CharField(max_length=250)
-    description = models.TextField(blank=True)
+    name = models.CharField(max_length=250)
     number = models.IntegerField()
+    description = models.TextField(blank=True)
     #icon = models.ImageField(upload_to='images', blank=True)
 
     def __str__(self):
-        return self.protocol
+        return self.name
+
+
+class FormProtocol(forms.ModelForm):
+
+    class Meta:
+        model = Protocol

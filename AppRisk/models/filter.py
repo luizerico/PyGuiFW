@@ -1,16 +1,13 @@
 from django.db import models
 from django import forms
-from django.contrib.admin import widgets
+from django.contrib.admin.widgets import FilteredSelectMultiple
 
-from AppRisk.models.host import Host
-from AppRisk.models.network import Network
-from AppRisk.models.url import URL
 from AppRisk.models.interface import Interface
 from AppRisk.models.port import Port
 from AppRisk.models.protocol import Protocol
 from AppRisk.models.address import Address
 from AppRisk.models.chain import Chain
-from AppRisk.models.setip import Setip
+from AppRisk.models.Ipset import Ipset
 
 # Create your models here.
 
@@ -23,10 +20,10 @@ class Filter(models.Model):
     name = models.CharField(max_length=250)
     chain = models.ForeignKey(Chain)
     source = models.ManyToManyField(Address, blank=True, related_name='source')
-    srcset = models.ForeignKey(Setip, null=True, blank=True, related_name='src_set')
+    srcset = models.ForeignKey(Ipset, null=True, blank=True, related_name='src_set')
     srcport = models.ManyToManyField(Port, blank=True, related_name='srcport')
     destiny = models.ManyToManyField(Address, blank=True, related_name='destiny')
-    dstset = models.ForeignKey(Setip, null=True, blank=True, related_name='dst_set')
+    dstset = models.ForeignKey(Ipset, null=True, blank=True, related_name='dst_set')
     dstport = models.ManyToManyField(Port, blank=True, related_name='dstport')
     protocol = models.ForeignKey(Protocol, null=True, blank=True)
     in_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='in_in')
@@ -44,16 +41,25 @@ class Filter(models.Model):
         return self.name
 
 
-class FilterForm(forms.ModelForm):
+class FormFilter(forms.ModelForm):
     conn_state = forms.MultipleChoiceField(required=False,
                                            widget=forms.CheckboxSelectMultiple(),
                                            choices=Filter.CONNECTION)
+    source = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Source', False,attrs={}))
+    destiny = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Destiny', False,attrs={}))
+    srcport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Source Port', False,attrs={}))
+    dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
+                                            widget=FilteredSelectMultiple('Destiny Port', False,attrs={}))
+
     def clean(self):
-        cleaned_data = super(FilterForm, self).clean()
-        if not (bool(self.cleaned_data['source']) !=  bool(self.cleaned_data['srcset'])):
+        cleaned_data = super(FormFilter, self).clean()
+        if not (bool(self.cleaned_data['srcset']) !=  bool(self.cleaned_data['source'])):
             raise forms.ValidationError, 'Fill in only one of the two source fields'
 
-        if not (bool(self.cleaned_data['destiny']) !=  bool(self.cleaned_data['dstset'])):
+        if not (bool(self.cleaned_data['dstset']) !=  bool(self.cleaned_data['destiny'])):
             raise forms.ValidationError, 'Fill in only one of the two destiny fields'
 
         return cleaned_data
