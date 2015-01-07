@@ -1,7 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h2>Rule List ii</h2>
+    <h2>NAT List</h2>
+    <ul>
+         {% for nat in nats %}
+            <li>{{ nat }}</li>
+        {% endfor %}
+    </ul>
+    <h2>Rule List</h2>
     <ul>
          {% for rule in rules %}
             <li>{{ rule }}</li>

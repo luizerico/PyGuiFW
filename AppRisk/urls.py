@@ -9,6 +9,7 @@ from AppRisk.views.chain_view import *
 from AppRisk.views.hostset_view import *
 from AppRisk.views.netset_view import *
 from AppRisk.views.filter_view import *
+from AppRisk.views.nat_view import *
 from AppRisk.views.general import *
 
 urlpatterns = patterns('',
@@ -97,6 +98,14 @@ urlpatterns = patterns('',
                        url(r'^filter/detail/(?P<pk>\d+)/$', FilterDetail.as_view(), name='filter-detail'),
                        url(r'^filter/edit/(?P<pk>\d+)/$', FilterUpdate.as_view(), name='filter-edit'),
                        url(r'^filter/delete/(?P<pk>\d+)/$', FilterDelete.as_view(), name='filter-delete'),
+
+                       #NAT URLs Configuration
+                       url(r'^nat/multidelete/$', multipleDelete, name='nat-multidelete'),
+                       url(r'^nat/list/$', NatList.as_view(), name='nat-list'),
+                       url(r'^nat/create/$', NatCreate.as_view(), name='nat-create'),
+                       url(r'^nat/detail/(?P<pk>\d+)/$', NatDetail.as_view(), name='nat-detail'),
+                       url(r'^nat/edit/(?P<pk>\d+)/$', NatUpdate.as_view(), name='nat-edit'),
+                       url(r'^nat/delete/(?P<pk>\d+)/$', NatDelete.as_view(), name='nat-delete'),
 
 
 

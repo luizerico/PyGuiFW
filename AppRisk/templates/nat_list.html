@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> Ports
-    <a href="{% url 'port-create' %}">
+<h2> NAT
+    <a href="{% url 'nat-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -18,29 +18,44 @@
     <thead>
     <tr>
         <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
+        <th>Ord</th>
         <th>Name</th>
+        <th>Source</th>
         <th>Port</th>
-        <th>Description</th>
-        <th style='width : 100px'>Action</th>
+        <th>Destiny</th>
+        <th>Port</th>
+        <th>Action</th>
+        <th>Rdct Destiny</th>
+        <th>Rdct Port</th>
+        <th>Log</th>
+        <th style='width : 100px'></th>
     </tr>
     </thead>
     <tbody>
-    {% for port in object_list %}
-    <tr>
-        <td><input type="checkbox" value={{ port.id }} class="checkbox"/></td>
-        <td>{{ port.name }}</td>
-        <td>{{ port.port }}</td>
-        <td>{{ port.description }}</td>
+    {% for nat in object_list %}
+    <tr >
+        <td><input type="checkbox" value={{ nat.id }} class="checkbox"/></td>
+        <td>{{ nat.order }}</td>
+        <td>{{ nat.name }}</td>
+        <td>{{ nat.source.getFullAddress }} </td>
+        <td>{% for srcport in nat.srcport.all %} {{ srcport }} <br>{% endfor %}</td>
+        <td>{{ nat.destiny.getFullAddress }} </td>
+        <td>{% for dstport in nat.dstport.all %} {{ dstport }} <br>{% endfor %}</td>
+        <td>{{ nat.action }}</td>
+        <td>{{ nat.to_destiny }}</td>
+        <td>{{ nat.to_port }}</td>
+        <td align="center">{% if nat.log %}
+            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-ok"></span>{% endif %}</td>
         <td>
-            <a data-toggle="modal" href="{% url 'port-detail' port.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'nat-detail' nat.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'port-edit' port.id %}">
+            <a href="{% url 'nat-edit' nat.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'port-delete' port.id %}" data-target="#myModal">
+            <a href="{% url 'nat-delete' nat.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -80,7 +95,7 @@ $(document).ready(function(){
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'port-multidelete' %}",
+                  url:"{% url 'nat-multidelete' %}",
                   data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},

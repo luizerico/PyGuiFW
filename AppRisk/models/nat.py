@@ -15,7 +15,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 # Create your models here.
 
 class Nat(models.Model):
-    ACTION = (('--snat','Source NAT'),('--dnat','Destination NAT'),('--masquerade','Masquerade'))
+    ACTION = (('SNAT','Source NAT'),('DNAT','Destination NAT'),('MASQUERADE','Masquerade'))
     CONNECTION = ((0,'NEW'),(1, 'RELATED'),(2,'ESTABLISHED'),(3,'INVALID'),(4,'UNTRACKED'))
     LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
                  ('crit','crit'),('alert','alert'),('emerg','emerg'))
@@ -23,9 +23,9 @@ class Nat(models.Model):
     name = models.CharField(max_length=250)
     action = models.CharField(max_length=20, choices=ACTION, default='DNAT')
     source = models.ForeignKey(Address, blank=True, null=True, related_name='nat_source')
-    srcport = models.ForeignKey(Port, blank=True, null=True, related_name='nat_srcport')
+    srcport = models.ManyToManyField(Port, blank=True, related_name='nat_srcport')
     destiny = models.ForeignKey(Address, blank=True, null=True, related_name='nat_destiny')
-    dstport = models.ForeignKey(Port, blank=True, null=True, related_name='nat_dstport')
+    dstport = models.ManyToManyField(Port, blank=True, related_name='nat_dstport')
     protocol = models.ForeignKey(Protocol, null=True, blank=True)
     in_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='nat_in_in')
     out_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='nat_in_out')
@@ -38,24 +38,22 @@ class Nat(models.Model):
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
 
-
     def __str__(self):
         return self.name
 
 
-class FormNat(forms.Form):
+class FormNat(forms.ModelForm):
     conn_state = forms.MultipleChoiceField(required=False,
                                            widget=forms.CheckboxSelectMultiple(),
                                            choices=Nat.CONNECTION)
-    source = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
-                                            widget=FilteredSelectMultiple('Source', False,attrs={}))
-    destiny = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
-                                            widget=FilteredSelectMultiple('Destiny', False,attrs={}))
+    #source = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
+    #                                        widget=FilteredSelectMultiple('Source', False,attrs={}))
+    #destiny = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
+    #                                        widget=FilteredSelectMultiple('Destiny', False,attrs={}))
     srcport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
-                                            widget=FilteredSelectMultiple('Source Port', False,attrs={}))
+                                            widget=FilteredSelectMultiple('Source Port', False, attrs={}))
     dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
-                                            widget=FilteredSelectMultiple('Destiny Port', False,attrs={}))
-
+                                            widget=FilteredSelectMultiple('Destiny Port', False, attrs={}))
 
     class Meta:
         model = Nat
