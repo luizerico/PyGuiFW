@@ -18,20 +18,21 @@ def ruleComposerView(request):
 
     #srcset = Hostset.buildSet() + " " + Netset.buildSet()
 
+    tmprule.append("### Building the SET to the Firewall RULES")
     for set in Netset.objects.all():
-        tmprule.append("#### Building the IPSET: " + set.name)
+        tmprule.append("### Building the IPSET: " + set.name)
         tmprule.append("ipset -N " + set.name + " nethash")
         for address in set.address.all():
             tmprule.append("ipset -A " + set.name + " " + address.getFullAddress())
 
     for set in Hostset.objects.all():
-        tmprule.append("#### Building the IPSET: " + set.name)
+        tmprule.append("### Building the IPSET: " + set.name)
         tmprule.append("ipset -N " + set.name + " iphash")
         for address in set.address.all():
             tmprule.append("ipset -A " + set.name + " " + address.getFullAddress())
 
-    tmprule.append("#### Building the Filter Firewall RULES")
-    tmpnat.append("#### Building the NAT Firewall RULES")
+    tmprule.append("### Building the Filter Firewall RULES")
+    tmpnat.append("### Building the NAT Firewall RULES")
 
     # Nat Rules Composer
     for nat in nats:
@@ -79,12 +80,18 @@ def ruleComposerView(request):
                            " --log_level " + str(nat.log_level) + " -j LOG "
             tmpnat.append(log_rule)
 
-        cmp_rule += " -j " + str(nat.action) + " --to-destination " + str(nat.to_destiny)
+        if nat.action == "DNAT" or nat.action == "MASQUERADE":
+            cmp_rule = "iptables -I " + str(nat.order) + " -t nat -A POSTROUTING " + cmp_rule + " -j " + str(nat.action)
+        elif nat.action =="SNAT":
+            cmp_rule = "iptables -I " + str(nat.order) + " -t nat -A PREROUTING " + cmp_rule + " -j " + str(nat.action)
+
+        if nat.to_destiny:
+            cmp_rule += " --to-destination " + str(nat.to_destiny)
 
         if nat.to_port:
             cmp_rule += " --to-port " + str(nat.to_port)
 
-        cmp_rule = "iptables -I " + str(nat.order) + " -t nat " + cmp_rule
+
         tmpnat.append(cmp_rule)
 
     # Filter Rules Composer
