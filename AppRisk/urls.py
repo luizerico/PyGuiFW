@@ -108,8 +108,5 @@ urlpatterns = patterns('',
                        url(r'^nat/edit/(?P<pk>\d+)/$', NatUpdate.as_view(), name='nat-edit'),
                        url(r'^nat/delete/(?P<pk>\d+)/$', NatDelete.as_view(), name='nat-delete'),
 
-
-
-
 )
 

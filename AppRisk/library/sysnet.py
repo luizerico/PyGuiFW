@@ -3,7 +3,7 @@
 # Thanks to Philipp Klaus - https://gist.github.com/pklaus
 
 import socket
-import fcntl
+#import fcntl
 import struct
 import array
 
