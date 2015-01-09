@@ -10,6 +10,8 @@ from AppRisk.views.hostset_view import *
 from AppRisk.views.netset_view import *
 from AppRisk.views.filter_view import *
 from AppRisk.views.nat_view import *
+from AppRisk.views.interface_view import *
+
 from AppRisk.views.general import *
 
 urlpatterns = patterns('',
@@ -20,7 +22,7 @@ urlpatterns = patterns('',
                        #url('ruleview/$', views.rule_view, name='ruleview'),
                        #url('networkview/$', views.network_view, name='networkview'),
                        url('rulecomposerview/$', ruleComposerView, name='composerview'),
-                       url('interfaces/$', listInterfaces, name='interfaces'),
+                       url('infall/$', listInterfaces, name='infall'),
 
 
                        url(r'^dynamic-media/jsi18n/$', 'django.views.i18n.javascript_catalog'),
@@ -107,6 +109,14 @@ urlpatterns = patterns('',
                        url(r'^nat/detail/(?P<pk>\d+)/$', NatDetail.as_view(), name='nat-detail'),
                        url(r'^nat/edit/(?P<pk>\d+)/$', NatUpdate.as_view(), name='nat-edit'),
                        url(r'^nat/delete/(?P<pk>\d+)/$', NatDelete.as_view(), name='nat-delete'),
+
+                       #Interface URLs Configuration
+                       url(r'^interface/multidelete/$', multipleDelete, name='interface-multidelete'),
+                       url(r'^interface/list/$', InterfaceList.as_view(), name='interface-list'),
+                       url(r'^interface/create/$', InterfaceCreate.as_view(), name='interface-create'),
+                       url(r'^interface/detail/(?P<pk>\d+)/$', InterfaceDetail.as_view(), name='interface-detail'),
+                       url(r'^interface/edit/(?P<pk>\d+)/$', InterfaceUpdate.as_view(), name='interface-edit'),
+                       url(r'^interface/delete/(?P<pk>\d+)/$', InterfaceDelete.as_view(), name='interface-delete'),
 
 )
 

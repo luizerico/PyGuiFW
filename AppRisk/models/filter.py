@@ -9,6 +9,8 @@ from AppRisk.models.address import Address
 from AppRisk.models.chain import Chain
 from AppRisk.models.Ipset import Ipset
 
+from AppRisk.library.sysnet import Sysnet
+
 # Create your models here.
 
 class Filter(models.Model):
@@ -16,6 +18,7 @@ class Filter(models.Model):
     CONNECTION = ((0,'NEW'),(1, 'RELATED'),(2,'ESTABLISHED'),(3,'INVALID'),(4,'UNTRACKED'))
     LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
                  ('crit','crit'),('alert','alert'),('emerg','emerg'))
+
     order = models.IntegerField()
     name = models.CharField(max_length=250)
     chain = models.ForeignKey(Chain)

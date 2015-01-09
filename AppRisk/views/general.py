@@ -10,10 +10,9 @@ from AppRisk.library.sysnet import Sysnet
 # Create your views here.
 
 def listInterfaces(request):
-    pass
     ifaces = Sysnet()
-    print ifaces.allInterfaces()
-    return render(request, 'rulecomposerview.html', "")
+    if_all = {'rules':ifaces.allInterfaces()}
+    return render(request, 'rulecomposerview.html', if_all)
 
 
 

@@ -27,7 +27,7 @@ class Sysnet:
             lst.append((name, ip))
         return lst
 
-    def format_ip(addr):
+    def format_ip(self, addr):
         return str(ord(addr[0])) + '.' + \
                str(ord(addr[1])) + '.' + \
                str(ord(addr[2])) + '.' + \
@@ -35,7 +35,8 @@ class Sysnet:
 
     def allInterfaces(self):
         all_int = []
-        ifs = self.all_interfaces()
+        #ifs = self.all_interfaces()
+        ifs = (('io','127.0.0.1'),('eth0','10.0.0.1'))
         for i in ifs:
             all_int.append((i[0],self.format_ip(i[1])))
             print "%12s   %s" % (i[0], self.format_ip(i[1]))
