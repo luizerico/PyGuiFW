@@ -5,9 +5,15 @@ from AppRisk.models.nat import Nat
 from AppRisk.models.network import Network
 from AppRisk.models.netset import Netset
 from AppRisk.models.hostset import Hostset
-
+from AppRisk.library.sysnet import Sysnet
 
 # Create your views here.
+
+def listInterfaces():
+    ifaces = Sysnet()
+    print ifaces.allInterfaces()
+
+
 
 def ruleComposerView(request):
     rules = Filter.objects.all()

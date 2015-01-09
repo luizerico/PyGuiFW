@@ -20,6 +20,7 @@ urlpatterns = patterns('',
                        #url('ruleview/$', views.rule_view, name='ruleview'),
                        #url('networkview/$', views.network_view, name='networkview'),
                        url('rulecomposerview/$', ruleComposerView, name='composerview'),
+                       url('interfaces/$', listInterfaces, name='interfaces'),
 
 
                        url(r'^dynamic-media/jsi18n/$', 'django.views.i18n.javascript_catalog'),
