@@ -20,7 +20,8 @@ class FormInterface(forms.ModelForm):
     inf = Sysnet()
     device = forms.ChoiceField(
         widget=forms.Select,
-        choices=inf.allInterfaces(),   # not worked
+        choices=inf.allInterfaces(),
+        # not worked
         #choices=(('1', '1'), ('2', '2')),  # worked
         #label='AAAA',
     )

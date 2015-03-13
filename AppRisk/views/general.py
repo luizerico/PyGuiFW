@@ -183,3 +183,18 @@ class RuleEditView(generic.FormView):
     form_class = FormFilter
     template_name = 'baseformview.html'
     success_url = '/list/'
+
+def listRoutes(request):
+    routes = Sysnet.listRoutes()
+    context = {'routes': routes}
+    return render(request, 'routes.html', context)
+
+def listInterfaces(request):
+    interfaces = Sysnet.listInterfaces()
+    context = {'interfaces': interfaces}
+    return render(request, 'interfaces.html', context)
+
+def listConnections(request):
+    connections = Sysnet.listConnections()
+    context = {'connections': connections }
+    return render(request, 'connections.html', context)

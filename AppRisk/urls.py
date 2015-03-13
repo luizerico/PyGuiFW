@@ -25,6 +25,11 @@ urlpatterns = patterns('',
                        url('infall/$', listInterfaces, name='infall'),
 
 
+                       # System URL
+                       url('routes/$', listRoutes, name='routes'),
+                       url('interfaces/$', listInterfaces, name='interfaces'),
+                       url('connections/$', listConnections, name='connections'),
+
                        url(r'^dynamic-media/jsi18n/$', 'django.views.i18n.javascript_catalog'),
                        # Definitions of Risk URL
                        url(r'^$', HostList.as_view(), name='host-list'),

@@ -6,6 +6,7 @@ import socket
 #import fcntl
 import struct
 import array
+import subprocess
 
 class Sysnet:
 
@@ -42,3 +43,18 @@ class Sysnet:
             print "%12s   %s" % (i[0], self.format_ip(i[1]))
 
         return all_int
+
+    @staticmethod
+    def listRoutes():
+        routes = subprocess.check_output(["netstat", "-rn"])
+        return routes
+
+    @staticmethod
+    def listInterfaces():
+        interfaces = subprocess.check_output(["netstat", "-an"])
+        return interfaces
+
+    @staticmethod
+    def listConnections():
+        connections = subprocess.check_output(["netstat", "-an"])
+        return connections
