@@ -198,3 +198,8 @@ def listConnections(request):
     connections = Sysnet.listConnections()
     context = {'connections': connections }
     return render(request, 'connections.html', context)
+
+def listProcesses(request):
+    processes = Sysnet.listProcesses()
+    context = {'connections': processes }
+    return render(request, 'processes.html', context)

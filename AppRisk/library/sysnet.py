@@ -37,10 +37,10 @@ class Sysnet:
     def allInterfaces(self):
         all_int = []
         #ifs = self.all_interfaces()
-        ifs = (('io','127.0.0.1'),('eth0','10.0.0.1'))
+        ifs = (('io','1.0.0.127'),('eth0','1.0.0.10'), ('eth0','11.34.23.10'))
         for i in ifs:
-            all_int.append((i[0],self.format_ip(i[1])))
-            print "%12s   %s" % (i[0], self.format_ip(i[1]))
+            all_int.append((i[0],(i[1])))
+            print "%12s   %s" % (i[0], i[1])
 
         return all_int
 
@@ -51,10 +51,15 @@ class Sysnet:
 
     @staticmethod
     def listInterfaces():
-        interfaces = subprocess.check_output(["netstat", "-an"])
+        interfaces = subprocess.check_output(["ipconfig", "/all"])
         return interfaces
 
     @staticmethod
     def listConnections():
         connections = subprocess.check_output(["netstat", "-an"])
         return connections
+
+    @staticmethod
+    def listProcesses():
+        processes = subprocess.check_output(["top", "-n 1"])
+        return processes
