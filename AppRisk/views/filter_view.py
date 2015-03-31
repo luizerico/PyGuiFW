@@ -1,5 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
 
 from AppRisk.models.filter import Filter, FormFilter
 # Create your views here.
@@ -18,10 +20,13 @@ def multipleDelete(request):
     return HttpResponseRedirect('/apprisk/filter/list')
 
 
-
 class FilterList(ListView):
     model = Filter
     template_name = 'filter_list.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(FilterList, self).dispatch(*args, **kwargs)
 
 
 class FilterDetail(DetailView):

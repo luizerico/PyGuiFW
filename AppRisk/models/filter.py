@@ -69,3 +69,5 @@ class FormFilter(forms.ModelForm):
 
     class Meta:
         model = Filter
+        permissions = (("can_view_filter", "Can view filter"),
+                       ("can_edit_filter", "Can edit filter"),)

@@ -11,6 +11,7 @@ from AppRisk.views.netset_view import *
 from AppRisk.views.filter_view import *
 from AppRisk.views.nat_view import *
 from AppRisk.views.interface_view import *
+from AppRisk.views.auth import *
 
 from AppRisk.views.general import *
 
@@ -26,9 +27,15 @@ urlpatterns = patterns('',
 
 
                        # System URL
+                       url('processes/$', listProcesses, name='processes'),
                        url('routes/$', listRoutes, name='routes'),
                        url('interfaces/$', listInterfaces, name='interfaces'),
                        url('connections/$', listConnections, name='connections'),
+
+                       #url('login/$', login_view),
+                       url(r'^login/$', 'django.contrib.auth.views.login',{'template_name': 'login.html'}),
+                       url(r'^logout/$', logout_view, name='logout'),
+                       url(r'^denied/$', denied_view, name='denied'),
 
                        url(r'^dynamic-media/jsi18n/$', 'django.views.i18n.javascript_catalog'),
                        # Definitions of Risk URL
@@ -108,12 +115,12 @@ urlpatterns = patterns('',
                        url(r'^filter/delete/(?P<pk>\d+)/$', FilterDelete.as_view(), name='filter-delete'),
 
                        #NAT URLs Configuration
-                       url(r'^nat/multidelete/$', multipleDelete, name='nat-multidelete'),
-                       url(r'^nat/list/$', NatList.as_view(), name='nat-list'),
-                       url(r'^nat/create/$', NatCreate.as_view(), name='nat-create'),
-                       url(r'^nat/detail/(?P<pk>\d+)/$', NatDetail.as_view(), name='nat-detail'),
-                       url(r'^nat/edit/(?P<pk>\d+)/$', NatUpdate.as_view(), name='nat-edit'),
-                       url(r'^nat/delete/(?P<pk>\d+)/$', NatDelete.as_view(), name='nat-delete'),
+                       url(r'^nat/multidelete/$', permission_required('AppRisk.edit_rules')(multipleDelete), name='nat-multidelete'),
+                       url(r'^nat/list/$', permission_required('AppRisk.view_rules')(NatList.as_view()), name='nat-list'),
+                       url(r'^nat/create/$', permission_required('AppRisk.edit_rules',login_url='denied')(NatCreate.as_view()), name='nat-create'),
+                       url(r'^nat/detail/(?P<pk>\d+)/$', permission_required('AppRisk.view_rules')(NatDetail.as_view()), name='nat-detail'),
+                       url(r'^nat/edit/(?P<pk>\d+)/$', permission_required('AppRisk.edit_rules')(NatUpdate.as_view()), name='nat-edit'),
+                       url(r'^nat/delete/(?P<pk>\d+)/$', permission_required('AppRisk.edit_rules')(NatDelete.as_view()), name='nat-delete'),
 
                        #Interface URLs Configuration
                        url(r'^interface/multidelete/$', multipleDelete, name='interface-multidelete'),

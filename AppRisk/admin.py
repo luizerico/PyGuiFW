@@ -13,6 +13,8 @@ from AppRisk.models.hostset import Hostset, FormHostset
 from AppRisk.models.netset import Netset, FormNetset
 
 
+from django.contrib.auth.models import Permission
+admin.site.register(Permission)
 
 # Register your models here.
 
