@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
+
 <h2> Hosts
     <a href="{% url 'host-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
@@ -21,7 +22,7 @@
         <th>Name</th>
         <th>Address</th>
         <th>Description</th>
-        <th style='width : 100px'>Action</th>
+        <th style='width : 105px'>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -63,6 +64,10 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+    $('#datatable').DataTable({
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
+        "pageLength": 50,
+    });
 
     //function is used to delete selected row
     $('.deleteall').on("click", function(event){

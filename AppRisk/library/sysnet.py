@@ -45,7 +45,7 @@ class Sysnet:
         return all_int
 
     @staticmethod
-    def listRoutes(self):
+    def listRoutes():
         routes = subprocess.check_output(["netstat", "-rn"])
         return routes
 
@@ -55,11 +55,11 @@ class Sysnet:
         return interfaces
 
     @staticmethod
-    def listConnections(self):
+    def listConnections():
         connections = subprocess.check_output(["netstat", "-an"])
         return connections
 
     @staticmethod
-    def listProcesses(self):
+    def listProcesses():
         processes = subprocess.check_output(["top", "-n 1"])
         return processes

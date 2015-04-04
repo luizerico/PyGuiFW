@@ -89,5 +89,5 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
 
-LOGIN_URL="/apprisk/login"
-LOGIN_REDIRECT_URL="/apprisk/filter/list"
+LOGIN_URL="/apprisk/denied"
+LOGIN_REDIRECT_URL="/apprisk/composerview"

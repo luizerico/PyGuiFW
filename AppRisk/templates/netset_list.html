@@ -61,6 +61,10 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
+    $('#datatable').DataTable({
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
+        "pageLength": 50,
+    });
 
     //function is used to delete selected row
     $('.deleteall').on("click", function(event){
