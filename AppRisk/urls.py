@@ -22,10 +22,11 @@ urlpatterns = patterns('',
                        #url('edit/$', permission_required('AppRisk.edit_rules')(views.RuleEditView.as_view()), name='edit'),
                        #url('ruleview/$', permission_required('AppRisk.edit_rules')(views.rule_view), name='ruleview'),
                        #url('networkview/$', permission_required('AppRisk.edit_rules')(views.network_view), name='networkview'),
-                       url(r'^$', HostList.as_view(), name='host-list'),
+                       url(r'^$', permission_required('AppRisk.view_rules', login_url='login')(HostList.as_view()), name='host-list'),
 
                        # System URL
-                       url('composerview/$', permission_required('AppRisk.view_rules')(ruleComposerView), name='composerview'),
+                       url('ruleview/$', permission_required('AppRisk.view_rules')(ruleView), name='ruleview'),
+                       url('ruleapply/$', permission_required('AppRisk.edit_rules')(ruleApply), name='ruleapply'),
                        url('infall/$', permission_required('AppRisk.view_rules')(listInterfaces), name='infall'),
                        url('processes/$', permission_required('AppRisk.view_rules')(listProcesses), name='processes'),
                        url('routes/$', permission_required('AppRisk.view_rules')(listRoutes), name='routes'),

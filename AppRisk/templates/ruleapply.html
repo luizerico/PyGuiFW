@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> Apply Rules:
+    <a href="{% url 'url-create' %}">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-plus"></span> Create New
+        </button>
+    </a>
+    <a href="javascript:;" class="deleteall" title="dtable">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-trash"></span> Delete Selected
+        </button>
+    </a>
+</h2>
+
+<h2>NAT List</h2>
+<ul>
+    {% for nat in nats %}
+    <li>{{ nat }}</li>
+    {% endfor %}
+</ul>
+<h2>Rule List</h2>
+<ul>
+    {% for rule in rules %}
+    <li>{{ rule }}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
