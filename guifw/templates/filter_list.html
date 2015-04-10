@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> Filters
+    <a href="{% url 'filter-create' %}">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-plus"></span> Create New
+        </button>
+    </a>
+    <a href="{% url 'filter-reorder' order_id=3  %}" >
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Reorder">
+            <span class="glyphicon glyphicon-trash"></span> Reorder Down
+        </button>
+    </a>
+     <a href="{% url 'filter-reorderup' order_id=3  %}" >
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Reorder">
+            <span class="glyphicon glyphicon-trash"></span> Reorder UP
+        </button>
+    </a>
+     <a href="javascript:;" class="deleteall" title="dtable">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-trash"></span> Delete Selected
+        </button>
+    </a>
+</h2>
+
+<table id="datatable" class="display table">
+    <thead>
+    <tr>
+        <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
+        <th>Ord</th>
+        <th>Name</th>
+        <th>Chain</th>
+        <th>Source</th>
+        <th>Port</th>
+        <th>Destiny</th>
+        <th>Port</th>
+        <th>Log</th>
+        <th>Action</th>
+        <th style='width : 97px'></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for filter in object_list %}
+    <tr >
+        <td><input type="checkbox" value={{ filter.id }} class="checkbox"/></td>
+        <td>
+            <a href="{% url 'filter-reorderup' order_id=filter.order %}">
+                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Up">
+                    <span class="glyphicon glyphicon-chevron-up"></span></button>
+            </a>
+            <a href="{% url 'filter-reorderdown' order_id=filter.order %}">
+                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
+                    <span class="glyphicon glyphicon-chevron-down"></span></button>
+            </a>
+            {{ filter.order }}</td>
+        <td>{{ filter.name }}</td>
+        <td>{{ filter.chain }}</td>
+        <td>{% for source in filter.source.all %} {{ source.getFullAddress }} <br>{% endfor %}
+            {% if filter.srcset %} {{ filter.srcset }} {% endif %}</td>
+        <td>{% for srcport in filter.srcport.all %} {{ srcport }} <br>{% endfor %}</td>
+        <td>{% for destiny in filter.destiny.all %} {{ destiny.getFullAddress }} <br>{% endfor %}
+            {% if filter.dstset %} {{ filter.dstset }} {% endif %}</td>
+        <td>{% for dstport in filter.dstport.all %} {{ dstport }} <br>{% endfor %}</td>
+        <td align="center">{% if filter.log %}
+            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-ok"></span>{% endif %}</td>
+        <td align="center">
+            {% if filter.action == "DROP" %}
+            <span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove"></span>
+            {% elif filter.action == "REJECT" %}
+            <span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle"></span>
+            {% elif filter.action == "ACCEPT"%}
+            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right"></span>
+            {% endif %}</td>
+        <td>
+            <a data-toggle="modal" href="{% url 'filter-detail' filter.id %}" data-target="#myModal">
+                <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
+                    <span class="glyphicon glyphicon-zoom-in"></span></button>
+            </a>
+            <a href="{% url 'filter-edit' filter.id %}">
+                <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
+                    <span class="glyphicon glyphicon-edit"></span></button>
+            </a>
+            <a href="{% url 'filter-delete' filter.id %}" data-target="#myModal">
+                <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
+                    <span class="glyphicon glyphicon-trash"></span></button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- Code to generate Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $('#datatable').DataTable({
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
+        "pageLength": 50,
+    });
+
+    //function is used to delete selected row
+    $('.deleteall').on("click", function(event){
+        var items=[]
+        var c = confirm('This action cannot be undone.\nAre sure about delete all selected items?');
+        if(c) {
+            $.each($('.checkbox'), function(){
+                if ($(this).prop('checked'))
+                {
+                    checked = ($(this).prop("value"));
+                    items.push(checked);
+                }
+            });
+
+            arr = [1,2,5];
+            $.ajax({
+                  type:"GET",
+                  url:"{% url 'filter-multidelete' %}",
+                  data:{items:items},
+                  success:function(data){ window.location=self.location;},
+                  error:function(data){alert("Dados não deletados...");},
+            });
+        };
+
+        return false;
+    });
+});
+
+function toggleChecked(status) {
+  $(".checkbox").each( function() {
+  	$(this).prop("checked",status);
+  })
+}
+
+</script>
+
+{%endblock %}
