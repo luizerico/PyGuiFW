@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.db.models import F
 
 from guifw.models.interface import Interface
 from guifw.models.port import Port
@@ -40,8 +41,23 @@ class Filter(models.Model):
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
 
+    class Meta:
+        ordering = ["order"]
+
     def __str__(self):
         return self.name
+
+    def save(self):
+        if (Filter.objects.filter(order = self.order)):
+            Filter.objects.filter(order__gte = self.order).update(order=F('order') + 1)
+            print "OK"
+        print self.order
+        super(Filter, self).save()
+
+    def delete(self):
+        Filter.objects.filter(order__gte = self.order).update(order=F('order') - 1)
+        print self.order
+        super(Filter, self).delete()
 
 
 class FormFilter(forms.ModelForm):
