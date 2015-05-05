@@ -48,10 +48,15 @@ class Filter(models.Model):
         return self.name
 
     def save(self):
-        if (Filter.objects.filter(order = self.order)):
-            Filter.objects.filter(order__gte = self.order).update(order=F('order') + 1)
-            print "OK"
-        print self.order
+        if self.pk is not None:
+            orig = Filter.objects.get(pk=self.pk)
+            if orig.order != self.order :
+                if (Filter.objects.filter(order = self.order)):
+                    Filter.objects.filter(order__gte = self.order).update(order=F('order') + 1)
+                    print "OK"
+                    print self.order
+                    print "order changed"
+
         super(Filter, self).save()
 
     def delete(self):
