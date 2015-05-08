@@ -58,8 +58,11 @@ class Rule:
             if rule.srcset:
                 cmp_rule += " -m set --set " + str(rule.srcset) + " src "
 
-            if rule.srcport.all():
-                cmp_rule += " --sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+            if rule.srcport.exists():
+                if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
+                    cmp_rule += " -m multiport --sports " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+                else:
+                    cmp_rule += " --sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
 
             if rule.destiny.all():
                 cmp_rule += " -d " + str(','.join([destiny.getFullAddress() for destiny in rule.destiny.all()]))
@@ -67,8 +70,11 @@ class Rule:
             if rule.dstset:
                 cmp_rule += " -m set --set " + str(rule.dstset) + " dst "
 
-            if rule.dstport.all():
-                cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+            if rule.dstport.exists():
+                if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
+                    cmp_rule += " -m multiport --dports " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+                else:
+                    cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
 
             if rule.in_interface:
                 cmp_rule += " -i " + str(rule.in_interface.device)

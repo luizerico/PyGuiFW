@@ -87,6 +87,9 @@ class FormFilter(forms.ModelForm):
 
         if not (bool(self.cleaned_data['dstset']) !=  bool(self.cleaned_data['destiny'])):
             raise forms.ValidationError, 'Fill in only one of the two destiny fields'
+        
+        if (bool(self.cleaned_data['protocol']) != bool(bool(self.cleaned_data['dstport']) or bool(self.cleaned_data['srcport']))):
+            raise forms.ValidationError, 'You need set protocol TCP or UDP using destination and/or source ports'
 
         return cleaned_data
 
