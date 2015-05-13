@@ -7,17 +7,7 @@
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
     </a>
-    <a href="{% url 'filter-reorder' order_id=3  %}" >
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Reorder">
-            <span class="glyphicon glyphicon-trash"></span> Reorder Down
-        </button>
-    </a>
-     <a href="{% url 'filter-reorderup' order_id=3  %}" >
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Reorder">
-            <span class="glyphicon glyphicon-trash"></span> Reorder UP
-        </button>
-    </a>
-     <a href="javascript:;" class="deleteall" title="dtable">
+    <a href="javascript:;" class="deleteall" title="dtable">
         <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-trash"></span> Delete Selected
         </button>
@@ -32,9 +22,9 @@
         <th>Name</th>
         <th>Chain</th>
         <th>Source</th>
-        <th>Port</th>
+        <th>SrcPort</th>
         <th>Destiny</th>
-        <th>Port</th>
+        <th>DstPort</th>
         <th>Log</th>
         <th>Action</th>
         <th style='width : 97px'></th>
@@ -56,21 +46,53 @@
             {{ filter.order }}</td>
         <td>{{ filter.name }}</td>
         <td>{{ filter.chain }}</td>
-        <td>{% for source in filter.source.all %} {{ source.getFullAddress }} <br>{% endfor %}
-            {% if filter.srcset %} {{ filter.srcset }} {% endif %}</td>
-        <td>{% for srcport in filter.srcport.all %} {{ srcport }} <br>{% endfor %}</td>
-        <td>{% for destiny in filter.destiny.all %} {{ destiny.getFullAddress }} <br>{% endfor %}
-            {% if filter.dstset %} {{ filter.dstset }} {% endif %}</td>
-        <td>{% for dstport in filter.dstport.all %} {{ dstport }} <br>{% endfor %}</td>
+        <td>{% for source in filter.source.all %} 
+                <span data-toggle="tooltip" title="{{ source.getFullAddress }}">
+			{{ source.name }}
+		</span><br>
+		<span class="hidden">{{ source.getFullAddress }}</span>
+	    {% endfor %}
+            {% if filter.srcset %} 
+            	<span data-toggle="tooltip" title="Ipset">
+            		{{ filter.srcset }} 
+	    	</span>
+            {% endif %}
+	</td>
+        <td>{% for srcport in filter.srcport.all %}
+                <span data-toggle="tooltip" title="{{ srcport.port }}">
+                        {{ srcport }}
+                </span><br>
+                <span class="hidden">{{ srcport.port }}</span>
+            {% endfor %}
+	</td>
+        <td>{% for destiny in filter.destiny.all %} 
+		<span data-toggle="tooltip" title="{{ destiny.getFullAddress }}">
+                        {{ destiny.name }}
+		</span><br>
+		<span class="hidden">{{ destiny.getFullAddress }}</span>
+	    {% endfor %}
+	    {% if filter.dstset %} 
+                <span data-toggle="tooltip" title="Ipset">
+			{{ filter.dstset }}
+                </span>
+            {% endif %}
+	</td>
+	<td>{% for dstport in filter.dstport.all %}
+                <span data-toggle="tooltip" title="{{ dstport.port }}">
+                        {{ dstport }}
+                </span><br>
+                <span class="hidden">{{ dstport.port }}</span>
+            {% endfor %}
+        </td>
         <td align="center">{% if filter.log %}
             <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-ok"></span>{% endif %}</td>
         <td align="center">
             {% if filter.action == "DROP" %}
-            <span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove"></span>
+            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove" data-toggle="tooltip" title="{{ filter.action }}"></span>
             {% elif filter.action == "REJECT" %}
-            <span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle"></span>
+            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" title="{{ filter.action }}"></span>
             {% elif filter.action == "ACCEPT"%}
-            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right"></span>
+            	<span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right" data-toggle="tooltip" title="{{ filter.action }}"></span>
             {% endif %}</td>
         <td>
             <a data-toggle="modal" href="{% url 'filter-detail' filter.id %}" data-target="#myModal">

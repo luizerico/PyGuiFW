@@ -49,15 +49,17 @@ class Filter(models.Model):
 
     def save(self):
         if self.pk is not None:
-            orig = Filter.objects.get(pk=self.pk)
-            if orig.order != self.order :
-                if (Filter.objects.filter(order = self.order)):
-                    Filter.objects.filter(order__gte = self.order).update(order=F('order') + 1)
-                    print "OK"
-                    print self.order
-                    print "order changed"
-
+            if (Filter.objects.filter(order = self.order)):
+                orig = Filter.objects.get(pk=self.pk)
+                if orig.order > self.order :
+                    Filter.objects.filter(order__lt = orig.order, order__gte = self.order).update(order=F('order') + 1)
+                elif orig.order < self.order :
+                    Filter.objects.filter(order__lte = self.order, order__gte = orig.order).update(order=F('order') - 1)
+        else:
+            Filter.objects.filter(order__gte = self.order).update(order=F('order') + 1)
+            
         super(Filter, self).save()
+
 
     def delete(self):
         Filter.objects.filter(order__gte = self.order).update(order=F('order') - 1)
@@ -85,6 +87,9 @@ class FormFilter(forms.ModelForm):
 
         if not (bool(self.cleaned_data['dstset']) !=  bool(self.cleaned_data['destiny'])):
             raise forms.ValidationError, 'Fill in only one of the two destiny fields'
+        
+        if (bool(self.cleaned_data['protocol']) != bool(bool(self.cleaned_data['dstport']) or bool(self.cleaned_data['srcport']))):
+            raise forms.ValidationError, 'You need set protocol TCP or UDP using destination and/or source ports'
 
         return cleaned_data
 
