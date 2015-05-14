@@ -21,6 +21,7 @@
         <th>Ord</th>
         <th>Name</th>
         <th>Chain</th>
+        <th>Protocol</th>
         <th>Source</th>
         <th>SrcPort</th>
         <th>Destiny</th>
@@ -46,7 +47,9 @@
             {{ filter.order }}</td>
         <td>{{ filter.name }}</td>
         <td>{{ filter.chain }}</td>
-        <td>{% for source in filter.source.all %} 
+        <td>{% if filter.protocol %} {{ filter.protocol }} {% endif%}</td>
+
+        <td>{% for source in filter.source.all %}
                 <span data-toggle="tooltip" title="{{ source.getFullAddress }}">
 			{{ source.name }}
 		</span><br>
@@ -57,7 +60,7 @@
             		{{ filter.srcset }} 
 	    	</span>
             {% endif %}
-	</td>
+	    </td>
         <td>{% for srcport in filter.srcport.all %}
                 <span data-toggle="tooltip" title="{{ srcport.port }}">
                         {{ srcport }}

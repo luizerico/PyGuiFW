@@ -56,7 +56,7 @@ class Rule:
                 cmp_rule += " -s " + str(','.join([source.getFullAddress() for source in rule.source.all()]))
 
             if rule.srcset:
-                cmp_rule += " -m set --set " + str(rule.srcset) + " src "
+                cmp_rule += " -m set --match-set " + str(rule.srcset) + " src "
 
             if rule.srcport.exists():
                 if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
@@ -68,7 +68,7 @@ class Rule:
                 cmp_rule += " -d " + str(','.join([destiny.getFullAddress() for destiny in rule.destiny.all()]))
 
             if rule.dstset:
-                cmp_rule += " -m set --set " + str(rule.dstset) + " dst "
+                cmp_rule += " -m set --match-set " + str(rule.dstset) + " dst "
 
             if rule.dstport.exists():
                 if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
@@ -97,11 +97,11 @@ class Rule:
             if rule.log:
                 if rule.log_preffix:
                     log_rule = "iptables -I " + str(rule.chain) + " " + cmp_rule + \
-                               " --log_preffix " + str(rule.log_preffix) + \
-                               " --log_level " + str(rule.log_level) + " -j LOG "
+                               " -j LOG --log-prefix " + str(rule.log_preffix) + \
+                               " --log-level " + str(rule.log_level)
                 else:
                     log_rule = "iptables -I " + str(rule.chain) + " " + cmp_rule + \
-                               " --log_level " + str(rule.log_level) + " -j LOG "
+                               " -j LOG --log-level " + str(rule.log_level)
                 tmprule.append(log_rule)
 
             cmp_rule = "iptables -I "  + str(rule.chain) + " " + cmp_rule + " -j " + str(rule.action)
@@ -157,11 +157,11 @@ class Rule:
             if nat.log:
                 if nat.log_preffix:
                     log_rule = "iptables -I " + str(nat.order + 100) + " " + cmp_rule + \
-                               " --log_preffix " + str(nat.log_preffix) + \
-                               " --log_level " + str(nat.log_level) + " -j LOG "
+                               "  -j LOG --log-prefix " + str(nat.log_preffix) + \
+                               " --log-level " + str(nat.log_level)
                 else:
                     log_rule = "iptables -I " + str(nat.order + 100) + " " + cmp_rule + \
-                               " --log_level " + str(nat.log_level) + " -j LOG "
+                               "  -j LOG --log-level " + str(nat.log_level)
                 tmpnat.append(log_rule)
 
             if nat.action == "DNAT" or nat.action == "MASQUERADE":

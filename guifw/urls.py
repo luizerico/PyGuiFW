@@ -13,7 +13,6 @@ from guifw.views.nat_view import *
 from guifw.views.interface_view import *
 from guifw.views.auth import *
 
-
 from guifw.views.general import *
 
 urlpatterns = patterns('',

@@ -37,10 +37,35 @@
         <td><input type="checkbox" value={{ nat.id }} class="checkbox"/></td>
         <td>{{ nat.order }}</td>
         <td>{{ nat.name }}</td>
-        <td>{{ nat.source.getFullAddress }} </td>
-        <td>{% for srcport in nat.srcport.all %} {{ srcport }} <br>{% endfor %}</td>
-        <td>{{ nat.destiny.getFullAddress }} </td>
-        <td>{% for dstport in nat.dstport.all %} {{ dstport }} <br>{% endfor %}</td>
+
+        <td>{% for source in nat.source.all %}
+                <span data-toggle="tooltip" title="{{ source.getFullAddress }}">
+                    {{ source.name }}
+                </span><br>
+                <span class="hidden">{{ source.getFullAddress }}</span>
+            {% endfor %}
+	    </td>
+        <td>{% for srcport in nat.srcport.all %}
+                <span data-toggle="tooltip" title="{{ srcport.port }}">
+                    {{ srcport }}
+                </span><br>
+                <span class="hidden">{{ srcport.port }}</span>
+            {% endfor %}
+	    </td>
+        <td>{% for destiny in nat.destiny.all %}
+		        <span data-toggle="tooltip" title="{{ destiny.getFullAddress }}">
+                        {{ destiny.name }}
+		        </span><br>
+		        <span class="hidden">{{ destiny.getFullAddress }}</span>
+	        {% endfor %}
+	    </td>
+        <td>{% for dstport in nat.dstport.all %}
+                <span data-toggle="tooltip" title="{{ dstport.port }}">
+                        {{ dstport }}
+                </span><br>
+                <span class="hidden">{{ dstport.port }}</span>
+            {% endfor %}
+        </td>
         <td>{{ nat.action }}</td>
         <td>{{ nat.to_destiny }}</td>
         <td>{{ nat.to_port }}</td>
