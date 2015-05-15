@@ -91,8 +91,6 @@ class FormFilter(forms.ModelForm):
         if (bool(self.cleaned_data['protocol']) != bool(bool(self.cleaned_data['dstport']) or bool(self.cleaned_data['srcport']))):
             raise forms.ValidationError, 'You need set protocol TCP or UDP using destination and/or source ports'
 
-        print self.cleaned_data['chain'].name
-
         if (self.cleaned_data['chain'].name == 'INPUT' and bool(self.cleaned_data['out_interface'])):
             raise forms.ValidationError, 'You cant use output interface when using the chain INPUT'
 

@@ -15,8 +15,7 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 # Create your models here.
 
 class Nat(models.Model):
-    ACTION = (('SNAT','Source NAT'),('DNAT','Destination NAT'),('MASQUERADE','Masquerade'))
-    CONNECTION = ((0,'NEW'),(1, 'RELATED'),(2,'ESTABLISHED'),(3,'INVALID'),(4,'UNTRACKED'))
+    ACTION = (('REDIRECT','Redirect'),('SNAT','Source NAT'),('DNAT','Destination NAT'),('MASQUERADE','Masquerade'))
     LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
                  ('crit','crit'),('alert','alert'),('emerg','emerg'))
     order = models.IntegerField()
@@ -29,9 +28,8 @@ class Nat(models.Model):
     protocol = models.ForeignKey(Protocol, null=True, blank=True)
     in_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='nat_in_in')
     out_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='nat_in_out')
-    to_destiny = models.ForeignKey(Address, blank=True, null=True, related_name='to_destiny')
+    to_ip = models.ForeignKey(Address, blank=True, null=True, related_name='to_ip')
     to_port = models.ForeignKey(Port, blank=True, null=True, related_name='to_port')
-    conn_state = models.CharField(max_length=150, null=True, blank=True)
     adv_options = models.CharField(max_length=250, blank=True, null=True)
     description = models.TextField(blank=True)
     log = models.BooleanField(default=False)
@@ -43,9 +41,6 @@ class Nat(models.Model):
 
 
 class FormNat(forms.ModelForm):
-    conn_state = forms.MultipleChoiceField(required=False,
-                                           widget=forms.CheckboxSelectMultiple(),
-                                           choices=Nat.CONNECTION)
     #source = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
     #                                        widget=FilteredSelectMultiple('Source', False,attrs={}))
     #destiny = forms.ModelMultipleChoiceField(Address.objects.all(), required=False,
@@ -54,6 +49,51 @@ class FormNat(forms.ModelForm):
                                             widget=FilteredSelectMultiple('Source Port', False, attrs={}))
     dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
                                             widget=FilteredSelectMultiple('Destiny Port', False, attrs={}))
+
+    def clean(self):
+        cleaned_data = super(FormNat, self).clean()
+        if (self.cleaned_data['action'] == 'MASQUERADE'):
+            if (bool(self.cleaned_data['in_interface']) or \
+                bool(self.cleaned_data['to_ip']) or \
+                bool(self.cleaned_data['to_port'])):
+                raise forms.ValidationError, 'Masquerade dont accept in_interface, to_ip or to_port.'
+            if not (bool(self.cleaned_data['out_interface'])):
+                raise forms.ValidationError, 'Masquerade needs out_interface option.'
+
+        if (self.cleaned_data['action'] == 'SNAT'):
+            if (bool(self.cleaned_data['in_interface'])):
+                raise forms.ValidationError, 'Masquerade dont accept in_interface.'
+            if (not bool(self.cleaned_data['out_interface']) or \
+                not bool(self.cleaned_data['protocol'])) or \
+                not bool(self.cleaned_data['to_ip']):
+                raise forms.ValidationError, 'SNAT needs protocol, to_ip and out_interface options.'
+
+
+        if (self.cleaned_data['action'] == 'REDIRECT'):
+            if (bool(self.cleaned_data['out_interface']) or \
+                bool(self.cleaned_data['to_ip'])):
+                raise forms.ValidationError, 'Redirect dont accept out_interface or to_ip.'
+            if not (bool(self.cleaned_data['to_port']) or bool(self.cleaned_data['protocol'])):
+                raise forms.ValidationError, 'Redirect needs protocol and to_port options.'
+
+
+            raise forms.ValidationError, 'Masquerade dont accept in interface'
+
+        if (self.cleaned_data['action'] == 'SNAT' and bool(self.cleaned_data['in_interface'])):
+            raise forms.ValidationError, 'Masquerade dont accept in interface'
+
+
+        '''if (bool(self.cleaned_data['protocol']) != bool(bool(self.cleaned_data['dstport']) or bool(self.cleaned_data['srcport']))):
+            raise forms.ValidationError, 'You need set protocol TCP or UDP using destination and/or source ports'
+
+        if (self.cleaned_data['chain'].name == 'INPUT' and bool(self.cleaned_data['out_interface'])):
+            raise forms.ValidationError, 'You cant use output interface when using the chain INPUT'
+
+        if (self.cleaned_data['chain'].name == 'OUTPUT' and bool(self.cleaned_data['in_interface'])):
+            raise forms.ValidationError, 'You cant use input interface when using the chain OUTPUT'
+        '''
+        return cleaned_data
+
 
     class Meta:
         model = Nat
