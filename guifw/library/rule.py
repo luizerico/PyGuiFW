@@ -184,9 +184,8 @@ class Rule:
                 cmp_rule = "iptables -t nat -A POSTROUTING " + cmp_rule + " -j " + str(
                     nat.action)
 
-
             if nat.to_ip:
-                cmp_rule += " --to " + str(nat.to_ip)
+                cmp_rule += " --to " + str(nat.to_ip.getFullAddress())
 
             if nat.to_port:
                 cmp_rule += " --to-port " + str(nat.to_port)

@@ -60,15 +60,6 @@ class FormNat(forms.ModelForm):
             if not (bool(self.cleaned_data['out_interface'])):
                 raise forms.ValidationError, 'Masquerade needs out_interface option.'
 
-        if (self.cleaned_data['action'] == 'SNAT'):
-            if (bool(self.cleaned_data['in_interface'])):
-                raise forms.ValidationError, 'Masquerade dont accept in_interface.'
-            if (not bool(self.cleaned_data['out_interface']) or \
-                not bool(self.cleaned_data['protocol'])) or \
-                not bool(self.cleaned_data['to_ip']):
-                raise forms.ValidationError, 'SNAT needs protocol, to_ip and out_interface options.'
-
-
         if (self.cleaned_data['action'] == 'REDIRECT'):
             if (bool(self.cleaned_data['out_interface']) or \
                 bool(self.cleaned_data['to_ip'])):
@@ -76,22 +67,22 @@ class FormNat(forms.ModelForm):
             if not (bool(self.cleaned_data['to_port']) or bool(self.cleaned_data['protocol'])):
                 raise forms.ValidationError, 'Redirect needs protocol and to_port options.'
 
+        if (self.cleaned_data['action'] == 'SNAT'):
+            if (bool(self.cleaned_data['in_interface'])):
+                raise forms.ValidationError, 'Source NAT dont accept in_interface.'
+            if (not bool(self.cleaned_data['out_interface']) or \
+                not bool(self.cleaned_data['protocol'])) or \
+                not bool(self.cleaned_data['to_ip']):
+                raise forms.ValidationError, 'Source NAT needs protocol, to_ip and out_interface options.'
 
-            raise forms.ValidationError, 'Masquerade dont accept in interface'
+        if (self.cleaned_data['action'] == 'DNAT'):
+            if (bool(self.cleaned_data['out_interface'])):
+                raise forms.ValidationError, 'Destination NAT dont accept out_interface.'
+            if (not bool(self.cleaned_data['in_interface']) or \
+                not bool(self.cleaned_data['protocol'])) or \
+                not bool(self.cleaned_data['to_ip']):
+                raise forms.ValidationError, 'Destination NAT needs protocol, to_ip and in_interface options.'
 
-        if (self.cleaned_data['action'] == 'SNAT' and bool(self.cleaned_data['in_interface'])):
-            raise forms.ValidationError, 'Masquerade dont accept in interface'
-
-
-        '''if (bool(self.cleaned_data['protocol']) != bool(bool(self.cleaned_data['dstport']) or bool(self.cleaned_data['srcport']))):
-            raise forms.ValidationError, 'You need set protocol TCP or UDP using destination and/or source ports'
-
-        if (self.cleaned_data['chain'].name == 'INPUT' and bool(self.cleaned_data['out_interface'])):
-            raise forms.ValidationError, 'You cant use output interface when using the chain INPUT'
-
-        if (self.cleaned_data['chain'].name == 'OUTPUT' and bool(self.cleaned_data['in_interface'])):
-            raise forms.ValidationError, 'You cant use input interface when using the chain OUTPUT'
-        '''
         return cleaned_data
 
 
