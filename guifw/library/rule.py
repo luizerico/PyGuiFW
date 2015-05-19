@@ -3,20 +3,24 @@ from guifw.models.nat import Nat
 from guifw.models.netset import Netset
 from guifw.models.hostset import Hostset
 from datetime import datetime, date
-import subprocess
+from django.conf import settings
+import subprocess, os
 
 class Rule:
 
     @staticmethod
     def applyRules(filename):
-        result = subprocess.check_output(["sh", "filename"])
+	print settings.RULES_DIR
+	rulefile = os.path.join(settings.RULES_DIR, filename)
+        result = subprocess.check_output(["sh", rulefile])
         return result
 
     @staticmethod
     def writeFilter():
+	print settings.RULES_DIR
         rules = Rule.filterrulecomposer()
         filename = datetime.now().strftime("%Y%m%d_%H%M") + "_filter.rule"
-        filterfile = open(filename,'w')
+        filterfile = open(settings.RULES_DIR + "/" + filename,'w')
         for rule in rules:
             filterfile.writelines(rule + "\n")
         filterfile.close()
@@ -25,9 +29,10 @@ class Rule:
 
     @staticmethod
     def writeNat():
+	print settings.RULES_DIR
         rules = Rule.natrulecomposer()
         filename = datetime.now().strftime("%Y%m%d_%H%M") + "_nat.rule"
-        natfile = open(filename,'w')
+        natfile = open(settings.RULES_DIR + "/" + filename,'w')
         for rule in rules:
             natfile.writelines(rule + "\n")
         natfile.close()
@@ -92,6 +97,8 @@ class Rule:
 
             if rule.conn_state != '[]':
                 states = ("NEW","RELATED","ESTABLISHED","INVALID","UNTRACKED")
+                # Convert UNICODE values into a list of strings and after this
+                # Convert UNICODE values into a list of strings and after this
                 # Convert UNICODE values into a list of strings and after this
                 # convert into a integer list to filter the STATES list
                 list_states = map(int, (str(rule.conn_state).replace("u'", "").translate(None, "]['")).split(','))
@@ -349,6 +356,4 @@ class Rule:
             'rules': tmprule,
             'nats': tmpnat
         }
-
-        return (context)
 

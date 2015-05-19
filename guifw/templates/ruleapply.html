@@ -14,16 +14,10 @@
     </a>
 </h2>
 
-<h2>NAT List</h2>
-<ul>
-    {% for nat in nats %}
-    <li>{{ nat }}</li>
-    {% endfor %}
-</ul>
-<h2>Rule List</h2>
-<ul>
-    {% for rule in rules %}
-    <li>{{ rule }}</li>
-    {% endfor %}
-</ul>
+<h2>NAT Apply</h2>
+{{ nats }}
+
+<h2>Rule Apply</h2>
+{{ rules }}
+
 {% endblock %}
