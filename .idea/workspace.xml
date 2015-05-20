@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="3e8ac1b0-047e-4780-a722-0673d8afbe42" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/base.html" afterPath="$PROJECT_DIR$/guifw/templates/base.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/views/general.py" afterPath="$PROJECT_DIR$/guifw/views/general.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/library/rule.py" afterPath="$PROJECT_DIR$/guifw/library/rule.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/ruleapply.html" afterPath="$PROJECT_DIR$/guifw/templates/ruleapply.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/urls.py" afterPath="$PROJECT_DIR$/guifw/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/ruleview.html" afterPath="$PROJECT_DIR$/guifw/templates/ruleview.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyGUIFW.iws" />
@@ -85,18 +81,28 @@
       <file leaf-file-name="base.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/guifw/templates/base.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.9818182" vertical-offset="2356" max-vertical-offset="3179">
-              <caret line="145" column="50" selection-start-line="145" selection-start-column="46" selection-end-line="145" selection-end-column="50" />
+            <state vertical-scroll-proportion="-2.2727273" vertical-offset="2323" max-vertical-offset="3179">
+              <caret line="144" column="56" selection-start-line="144" selection-start-column="52" selection-end-line="144" selection-end-column="56" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="general.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="general.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/guifw/views/general.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.5902778" vertical-offset="0" max-vertical-offset="1394">
+            <state vertical-scroll-proportion="0.0" vertical-offset="153" max-vertical-offset="1394">
               <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ruleview.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/guifw/templates/ruleview.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.7536946" vertical-offset="0" max-vertical-offset="578">
+              <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -116,31 +122,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="20150519_2121_filter.rule" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/20150519_2121_filter.rule">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="72" max-vertical-offset="493">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="20150519_2121_nat.rule" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/20150519_2121_nat.rule">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="153">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="ruleapply.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/guifw/templates/ruleapply.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-11.769231" vertical-offset="153" max-vertical-offset="578">
-              <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
+            <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="578">
+              <caret line="14" column="5" selection-start-line="3" selection-start-column="0" selection-end-line="14" selection-end-column="5" />
               <folding />
             </state>
           </provider>
@@ -173,6 +159,7 @@
         <option value="$PROJECT_DIR$/guifw/urls.py" />
         <option value="$PROJECT_DIR$/guifw/library/rule.py" />
         <option value="$PROJECT_DIR$/guifw/views/general.py" />
+        <option value="$PROJECT_DIR$/guifw/templates/ruleview.html" />
       </list>
     </option>
   </component>
@@ -252,6 +239,24 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="guifw" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyGUIFW" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="PyGUIFW" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="guifw" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="templates" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -551,7 +556,13 @@
       <option name="project" value="LOCAL" />
       <updated>1432079016529</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="apply and save rules&#10;">
+      <created>1432088089595</created>
+      <option name="number" value="00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1432088089595</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -601,7 +612,8 @@
     <MESSAGE value="Project Name changed&#10;Add buttons to change the order of filter rules&#10;Save adjusted&#10;Pending reorder between&#10;" />
     <MESSAGE value="NAT at Work&#10;" />
     <MESSAGE value="NAT at Work&#10;NatRules&#10;" />
-    <option name="LAST_COMMIT_MESSAGE" value="NAT at Work&#10;NatRules&#10;" />
+    <MESSAGE value="apply and save rules&#10;" />
+    <option name="LAST_COMMIT_MESSAGE" value="apply and save rules&#10;" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -966,14 +978,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/templates/ruleapply.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-11.769231" vertical-offset="153" max-vertical-offset="578">
-          <caret line="27" column="5" selection-start-line="27" selection-start-column="5" selection-end-line="27" selection-end-column="5" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/20150519_2121_filter.rule">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="493">
@@ -990,11 +994,34 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/library/rule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="280" max-vertical-offset="901">
+          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#38#0" expanded="true" />
+            <element signature="e#1040#4899#0" expanded="false" />
+            <element signature="e#4955#8518#0" expanded="false" />
+            <element signature="e#8571#14953#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/guifw/templates/base.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.9818182" vertical-offset="2356" max-vertical-offset="3179">
-          <caret line="145" column="50" selection-start-line="145" selection-start-column="46" selection-end-line="145" selection-end-column="50" />
+        <state vertical-scroll-proportion="-2.2727273" vertical-offset="2323" max-vertical-offset="3179">
+          <caret line="144" column="56" selection-start-line="144" selection-start-column="52" selection-end-line="144" selection-end-column="56" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2499">
+          <caret line="30" column="89" selection-start-line="30" selection-start-column="89" selection-end-line="30" selection-end-column="89" />
+          <folding>
+            <element signature="e#0#51#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1010,33 +1037,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/urls.py">
+    <entry file="file://$PROJECT_DIR$/guifw/templates/ruleapply.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="306" max-vertical-offset="2499">
-          <caret line="30" column="89" selection-start-line="30" selection-start-column="89" selection-end-line="30" selection-end-column="89" />
-          <folding>
-            <element signature="e#0#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/library/rule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="280" max-vertical-offset="901">
-          <caret line="25" column="17" selection-start-line="25" selection-start-column="17" selection-end-line="25" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#38#0" expanded="true" />
-            <element signature="e#1040#4899#0" expanded="false" />
-            <element signature="e#4955#8518#0" expanded="false" />
-            <element signature="e#8571#14953#0" expanded="false" />
-          </folding>
+        <state vertical-scroll-proportion="-9.153846" vertical-offset="0" max-vertical-offset="578">
+          <caret line="14" column="5" selection-start-line="3" selection-start-column="0" selection-end-line="14" selection-end-column="5" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/guifw/views/general.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5902778" vertical-offset="0" max-vertical-offset="1394">
+        <state vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1394">
           <caret line="20" column="37" selection-start-line="20" selection-start-column="37" selection-end-line="20" selection-end-column="37" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/templates/ruleview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.7536946" vertical-offset="0" max-vertical-offset="578">
+          <caret line="18" column="30" selection-start-line="18" selection-start-column="30" selection-end-line="18" selection-end-column="30" />
           <folding />
         </state>
       </provider>

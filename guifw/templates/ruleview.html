@@ -1,6 +1,19 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+    <h2> Apply Rules:
+        <a href="{% url 'rule-apply' %}">
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Rule Apply">
+                <span class="glyphicon glyphicon-ok"></span> Save and Apply
+            </button>
+        </a>
+        <a href="{% url 'rule-save' %}">
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Rule Apply">
+                <span class="glyphicon glyphicon-save"></span> Only Save
+            </button>
+        </a>
+    </h2>
     <h2>NAT List</h2>
     <ul>
          {% for nat in nats %}
