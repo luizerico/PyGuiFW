@@ -17,8 +17,8 @@ def ruleApply(request):
     rulefile = Rule.writeFilter()
 
     context = {
-            'rules': ruleApply(rulefile),
-            'nats': ruleApply(natfile)
+            'rules': Rule.applyRules(rulefile),
+            'nats': Rule.applyRules(natfile)
     }
     return render(request, 'ruleapply.html', context)
 
