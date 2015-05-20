@@ -3,8 +3,14 @@ from guifw.models.nat import Nat
 from guifw.models.netset import Netset
 from guifw.models.hostset import Hostset
 from datetime import datetime, date
+import subprocess
 
 class Rule:
+
+    @staticmethod
+    def applyRules(filename):
+        result = subprocess.check_output(["sh", "filename"])
+        return result
 
     @staticmethod
     def writeFilter():
@@ -14,6 +20,7 @@ class Rule:
         for rule in rules:
             filterfile.writelines(rule + "\n")
         filterfile.close()
+        return filename
 
 
     @staticmethod
@@ -24,6 +31,7 @@ class Rule:
         for rule in rules:
             natfile.writelines(rule + "\n")
         natfile.close()
+        return filename
 
 
     @staticmethod

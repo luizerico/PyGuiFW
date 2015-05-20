@@ -13,11 +13,23 @@ def listInterfaces(request):
     return render(request, 'rulecomposerview.html', if_all)
 
 def ruleApply(request):
+    natfile = Rule.writeNat()
+    rulefile = Rule.writeFilter()
+
+    context = {
+            'rules': ruleApply(rulefile),
+            'nats': ruleApply(natfile)
+    }
+    return render(request, 'ruleapply.html', context)
+
+def ruleSave(request):
+    natfile = Rule.writeNat()
+    rulefile = Rule.writeFilter()
     context = {
             'rules': Rule.filterrulecomposer(),
             'nats': Rule.natrulecomposer()
     }
-    return render(request, 'ruleapply.html', context)
+    return render(request,'ruleapply.html', context)
 
 def ruleView(request):
     context = {

@@ -2,14 +2,14 @@
 
 {% block content %}
 <h2> Apply Rules:
-    <a href="{% url 'url-create' %}">
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
-            <span class="glyphicon glyphicon-plus"></span> Create New
+    <a href="{% url 'rule-apply' %}">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Rule Apply">
+            <span class="glyphicon glyphicon-ok"></span> Save and Apply
         </button>
     </a>
-    <a href="javascript:;" class="deleteall" title="dtable">
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
-            <span class="glyphicon glyphicon-trash"></span> Delete Selected
+    <a href="{% url 'rule-save' %}">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Rule Apply">
+            <span class="glyphicon glyphicon-save"></span> Only Save
         </button>
     </a>
 </h2>

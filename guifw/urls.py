@@ -22,11 +22,14 @@ urlpatterns = patterns('',
                        #url('edit/$', permission_required('guifw.edit_rules')(views.RuleEditView.as_view()), name='edit'),
                        #url('ruleview/$', permission_required('guifw.edit_rules')(views.rule_view), name='ruleview'),
                        #url('networkview/$', permission_required('guifw.edit_rules')(views.network_view), name='networkview'),
-                       url(r'^$', permission_required('guifw.view_rules', login_url='login')(HostList.as_view()), name='host-list'),
+
+                       url(r'^$', permission_required('guifw.view_rules', login_url='login')(ruleView), name='host-list'),
 
                        # System URL
-                       url('ruleview/$', permission_required('guifw.view_rules')(ruleView), name='ruleview'),
-                       url('ruleapply/$', permission_required('guifw.edit_rules')(ruleApply), name='ruleapply'),
+                       url('ruleview/$', permission_required('guifw.view_rules')(ruleView), name='rule-view'),
+                       url('ruleapply/$', permission_required('guifw.edit_rules')(ruleApply), name='rule-apply'),
+                       url('rulesave/$', permission_required('guifw.edit_rules')(ruleSave), name='rule-save'),
+
                        url('infall/$', permission_required('guifw.view_rules')(listInterfaces), name='infall'),
                        url('processes/$', permission_required('guifw.view_rules')(listProcesses), name='processes'),
                        url('routes/$', permission_required('guifw.view_rules')(listRoutes), name='routes'),
