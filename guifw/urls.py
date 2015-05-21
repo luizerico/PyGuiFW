@@ -18,19 +18,13 @@ from guifw.views.general import *
 urlpatterns = patterns('',
                        # Examples:
                        # url(r'^$', 'PyGUIFW.views.home', name='home'),
-                       # url('list/$', permission_required('guifw.edit_rules')(views.RuleListView.as_view()), name='list'),
-                       #url('edit/$', permission_required('guifw.edit_rules')(views.RuleEditView.as_view()), name='edit'),
-                       #url('ruleview/$', permission_required('guifw.edit_rules')(views.rule_view), name='ruleview'),
-                       #url('networkview/$', permission_required('guifw.edit_rules')(views.network_view), name='networkview'),
-
-                       url(r'^$', permission_required('guifw.view_rules', login_url='login')(ruleView), name='host-list'),
+                       url(r'^$', permission_required('guifw.view_rules', login_url='login')(ruleView), name='rule-view'),
 
                        # System URL
                        url('ruleview/$', permission_required('guifw.view_rules')(ruleView), name='rule-view'),
                        url('ruleapply/$', permission_required('guifw.edit_rules')(ruleApply), name='rule-apply'),
                        url('rulesave/$', permission_required('guifw.edit_rules')(ruleSave), name='rule-save'),
 
-                       url('infall/$', permission_required('guifw.view_rules')(listInterfaces), name='infall'),
                        url('processes/$', permission_required('guifw.view_rules')(listProcesses), name='processes'),
                        url('routes/$', permission_required('guifw.view_rules')(listRoutes), name='routes'),
                        url('interfaces/$', permission_required('guifw.view_rules')(listInterfaces), name='interfaces'),
@@ -41,9 +35,6 @@ urlpatterns = patterns('',
                        url(r'^login/$', 'django.contrib.auth.views.login',{'template_name': 'login.html'}, name='login'),
                        url(r'^logout/$', logout_view, name='logout'),
                        url(r'^denied/$', denied_view, name='denied'),
-
-                       #url(r'^dynamic-media/jsi18n/$', permission_required('guifw.edit_rules')('django.views.i18n.javascript_catalog'),
-                       # Definitions of Risk URL
 
                        # Hosts URLs Configuration
                        url(r'^host/list/$', permission_required('guifw.view_rules')(HostList.as_view()), name='host-list'),

@@ -1,6 +1,7 @@
 from django.db import models
 from django import forms
-from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.forms.widgets import DateTimeInput
+from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget, AdminSplitDateTime
 from django.db.models import F
 
 from guifw.models.interface import Interface
@@ -40,6 +41,8 @@ class Filter(models.Model):
     log = models.BooleanField(default=False)
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
+    date_start = models.DateTimeField( null=True)
+    date_stop = models.DateTimeField( null=True)
 
     class Meta:
         ordering = ["order"]
@@ -79,6 +82,8 @@ class FormFilter(forms.ModelForm):
                                             widget=FilteredSelectMultiple('Source Port', False,attrs={}))
     dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
                                             widget=FilteredSelectMultiple('Destiny Port', False,attrs={}))
+
+    date_start = forms.CharField(widget=AdminSplitDateTime(attrs={}))
 
     def clean(self):
         cleaned_data = super(FormFilter, self).clean()

@@ -7,20 +7,20 @@ from guifw.library.rule import Rule
 
 # Create your views here.
 
-def listInterfaces(request):
-    ifaces = Sysnet()
-    if_all = {'rules':ifaces.allInterfaces()}
-    return render(request, 'rulecomposerview.html', if_all)
+#def listInterfaces(request):
+#    ifaces = Sysnet()
+#    if_all = {'rules':ifaces.allInterfaces()}
+#    return render(request, 'rulecomposerview.html', if_all)
 
 def ruleApply(request):
     natfile = Rule.writeNat()
     rulefile = Rule.writeFilter()
-
     context = {
             'rules': Rule.applyRules(rulefile),
             'nats': Rule.applyRules(natfile)
     }
     return render(request, 'ruleapply.html', context)
+
 
 def ruleSave(request):
     natfile = Rule.writeNat()
@@ -31,6 +31,7 @@ def ruleSave(request):
     }
     return render(request,'ruleapply.html', context)
 
+
 def ruleView(request):
     context = {
             'rules': Rule.filterrulecomposer(),
@@ -39,27 +40,11 @@ def ruleView(request):
     return render(request, 'ruleview.html', context)
 
 
-def rule_view(request):
-    rules = Filter.objects.all()
-    context = {'rules': rules}
-    return render(request, 'rulelistview.html', context)
-
-
 def network_view(request):
     network = Network.objects.all()
     context = {'network': network}
     return render(request, 'networklistview.html', context)
 
-
-class RuleListView(generic.ListView):
-    model = Filter
-    template_name = 'rulelistview.html'
-
-
-class RuleEditView(generic.FormView):
-    form_class = FormFilter
-    template_name = 'baseformview.html'
-    success_url = '/list/'
 
 def listRoutes(request):
     routes = Sysnet.listRoutes()
