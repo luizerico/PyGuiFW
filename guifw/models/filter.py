@@ -41,8 +41,10 @@ class Filter(models.Model):
     log = models.BooleanField(default=False)
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
-    date_start = models.DateTimeField( null=True)
-    date_stop = models.DateTimeField( null=True)
+    date_start = models.DateField(blank=True, null=True)
+    date_stop = models.DateField(blank=True, null=True)
+    time_start = models.TimeField(blank=True, null=True)
+    time_stop = models.TimeField(blank=True, null=True)
 
     class Meta:
         ordering = ["order"]
@@ -83,7 +85,10 @@ class FormFilter(forms.ModelForm):
     dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
                                             widget=FilteredSelectMultiple('Destiny Port', False,attrs={}))
 
-    date_start = forms.CharField(widget=AdminSplitDateTime(attrs={}))
+    date_start = forms.DateField(widget=DateTimeInput(format='%Y-%m-%d', attrs={'class':'datepicker'}), required=False)
+    date_stop = forms.DateField(widget=DateTimeInput(format='%Y-%m-%d', attrs={'class':'datepicker'}), required=False)
+    time_start = forms.TimeField(widget=DateTimeInput(format='%H:%M', attrs={'class':'timepicker'}), required=False)
+    time_stop = forms.TimeField(widget=DateTimeInput(format='%H:%M', attrs={'class':'timepicker'}), required=False)
 
     def clean(self):
         cleaned_data = super(FormFilter, self).clean()
@@ -106,5 +111,6 @@ class FormFilter(forms.ModelForm):
 
     class Meta:
         model = Filter
-        permissions = (("can_view_filter", "Can view filter"),
+        '''permissions = (("can_view_filter", "Can view filter"),
                        ("can_edit_filter", "Can edit filter"),)
+        '''
