@@ -20,6 +20,7 @@ class Filter(models.Model):
     CONNECTION = ((0,'NEW'),(1, 'RELATED'),(2,'ESTABLISHED'),(3,'INVALID'),(4,'UNTRACKED'))
     LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
                  ('crit','crit'),('alert','alert'),('emerg','emerg'))
+    WEEKDAYS = ((1,'Sunday'),(2, 'Monday'),(3,'Tuesday'),(4,'Wednesday'),(5,'Thursday'),(6,'Friday'),(7,'Saturday'))
 
     order = models.IntegerField()
     name = models.CharField(max_length=250)
@@ -41,6 +42,7 @@ class Filter(models.Model):
     log = models.BooleanField(default=False)
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
+    week_days = models.CharField(max_length=150, null=True, blank=True)
     date_start = models.DateField(blank=True, null=True)
     date_stop = models.DateField(blank=True, null=True)
     time_start = models.TimeField(blank=True, null=True)
@@ -84,7 +86,9 @@ class FormFilter(forms.ModelForm):
                                             widget=FilteredSelectMultiple('Source Port', False,attrs={}))
     dstport = forms.ModelMultipleChoiceField(Port.objects.all(), required=False,
                                             widget=FilteredSelectMultiple('Destiny Port', False,attrs={}))
-
+    week_days = forms.MultipleChoiceField(required=False,
+                                           widget=forms.CheckboxSelectMultiple(),
+                                           choices=Filter.WEEKDAYS)
     date_start = forms.DateField(widget=DateTimeInput(format='%Y-%m-%d', attrs={'class':'datepicker'}), required=False)
     date_stop = forms.DateField(widget=DateTimeInput(format='%Y-%m-%d', attrs={'class':'datepicker'}), required=False)
     time_start = forms.TimeField(widget=DateTimeInput(format='%H:%M', attrs={'class':'timepicker'}), required=False)
