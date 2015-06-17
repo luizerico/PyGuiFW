@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2> TC Class
+    <a href="{% url 'trafficclass-create' %}">
+        <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-plus"></span> Create New
+        </button>
+    </a>
+    <a href="javascript:;" class="deleteall" title="dtable">
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Create New">
+            <span class="glyphicon glyphicon-trash"></span> Delete Selected
+        </button>
+    </a>
+</h2>
+
+<table id="datatable" class="display table">
+    <thead>
+    <tr>
+        <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
+        <th>Name</th>
+        <th>Flow ID</th>
+        <th>Parent</th>
+        <th>Rate</th>
+        <th>Ceil</th>
+        <th>Burst</th>
+        <th>Prio</th>
+        <th>Perturb</th>
+        <th style='width : 97px'></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for class in object_list %}
+    <tr >
+        <td><input type="checkbox" value={{ class.id }} class="checkbox"/></td>
+        <td>{{ class.name }}</td>
+        <td>{{ class.flowid }}</td>
+        <td>{{ class.parent }}</td>
+        <td>{% if class.rate %} {{ class.rate }} {% endif%}</td>
+        <td>{% if class.ceil %} {{ class.ceil }} {% endif%}</td>
+        <td>{% if class.burst %} {{ class.burst }} {% endif%}</td>
+        <td>{% if class.prio %} {{ class.prio }} {% endif%}</td>
+        <td>{% if class.perturb %} {{ class.perturb }} {% endif%}</td>
+        <td>
+            <a data-toggle="modal" href="{% url 'trafficclass-detail' class.id %}" data-target="#myModal">
+                <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
+                    <span class="glyphicon glyphicon-zoom-in"></span></button>
+            </a>
+            <a href="{% url 'trafficclass-edit' class.id %}">
+                <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
+                    <span class="glyphicon glyphicon-edit"></span></button>
+            </a>
+            <a href="{% url 'trafficclass-delete' class.id %}" data-target="#myModal">
+                <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
+                    <span class="glyphicon glyphicon-trash"></span></button>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+
+<!-- Code to generate Modal -->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $('#datatable').DataTable({
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
+        "pageLength": 50,
+    });
+
+    //function is used to delete selected row
+    $('.deleteall').on("click", function(event){
+        var items=[]
+        var c = confirm('This action cannot be undone.\nAre sure about delete all selected items?');
+        if(c) {
+            $.each($('.checkbox'), function(){
+                if ($(this).prop('checked'))
+                {
+                    checked = ($(this).prop("value"));
+                    items.push(checked);
+                }
+            });
+
+            arr = [1,2,5];
+            $.ajax({
+                  type:"GET",
+                  url:"{% url 'trafficclass-multidelete' %}",
+                  data:{items:items},
+                  success:function(data){ window.location=self.location;},
+                  error:function(data){alert("Dados não deletados...");},
+            });
+        };
+
+        return false;
+    });
+});
+
+function toggleChecked(status) {
+  $(".checkbox").each( function() {
+  	$(this).prop("checked",status);
+  })
+}
+
+</script>
+
+{%endblock %}

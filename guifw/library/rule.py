@@ -89,6 +89,23 @@ class Rule:
                 else:
                     cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
 
+            if (rule.time_start or rule.time_stop or rule.date_start or rule.date_stop or rule.week_days != '[]'):
+                cmp_rule += " -m time "
+                if(rule.time_start):
+                    cmp_rule += " --timestart " + str(rule.time_start)
+                if(rule.time_stop):
+                    cmp_rule += " --timestop " + str(rule.time_stop)
+                if(rule.date_start):
+                    cmp_rule += " --datestart " + str(rule.date_start)
+                if(rule.date_stop):
+                    cmp_rule += " --datestop " + str(rule.date_stop)
+                if rule.week_days != '[]':
+                    weekdays = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+                    # convert into a integer list to filter the STATES list
+                    list_days = map(int, (str(rule.week_days).replace("u'", "").translate(None, "]['")).split(','))
+                    selected_days = [weekdays[x] for x in list_days]
+                    cmp_rule += " --weekdays " + (str(selected_days).translate(None, "'[]")).translate(None, " ")
+
             if rule.in_interface:
                 cmp_rule += " -i " + str(rule.in_interface.device)
 
@@ -97,9 +114,6 @@ class Rule:
 
             if rule.conn_state != '[]':
                 states = ("NEW", "RELATED", "ESTABLISHED", "INVALID", "UNTRACKED")
-                # Convert UNICODE values into a list of strings and after this
-                # Convert UNICODE values into a list of strings and after this
-                # Convert UNICODE values into a list of strings and after this
                 # convert into a integer list to filter the STATES list
                 list_states = map(int, (str(rule.conn_state).replace("u'", "").translate(None, "]['")).split(','))
                 selected_states = [states[x] for x in list_states]
