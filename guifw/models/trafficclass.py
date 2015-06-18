@@ -1,15 +1,13 @@
-from address import Address
 from django.db import models
 
-class Trfclass(models.Model):
+class Trafficclass(models.Model):
     name = models.CharField(max_length=250)
-    classid = models.CharField()
-    parent = models.ForeignKey(Traffic, blank=True, null=True)
-    source = models.ForeignKey(Address, blank=False, null=False)
-    destiny = models.ForeignKey(Address, blank=False, null=False)
+    flowid = models.IntegerField()
     rate = models.IntegerField()
-    ceil = models.IntegerField()
-    burst = models.IntegerField()
+    ceil = models.IntegerField(null=True, blank=True)
+    burst = models.IntegerField(null=True, blank=True)
+    prio = models.IntegerField(null=True, blank=True)
+    perturb = models.IntegerField(null=True, blank=True)
 
     class Meta:
         ordering = ["name"]

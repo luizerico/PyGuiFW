@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> TC Class
-    <a href="{% url 'trafficclass-create' %}">
+<h2> Traffic Shapping
+    <a href="{% url 'traffic-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -19,38 +19,36 @@
     <tr>
         <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
         <th>Name</th>
-        <th>Flow ID</th>
+        <th>Class</th>
         <th>Parent</th>
-        <th>Rate</th>
-        <th>Ceil</th>
-        <th>Burst</th>
-        <th>Prio</th>
-        <th>Perturb</th>
+        <th>Source</th>
+        <th>Src Port</th>
+        <th>Destiny</th>
+        <th>Dst Port</th>
         <th style='width : 97px'></th>
     </tr>
     </thead>
     <tbody>
-    {% for class in object_list %}
+    {% for traffic in object_list %}
     <tr >
-        <td><input type="checkbox" value={{ class.id }} class="checkbox"/></td>
-        <td>{{ class.name }}</td>
-        <td>{{ class.flowid }}</td>
-        <td>{{ class.parent }}</td>
-        <td>{% if class.rate %} {{ class.rate }} {% endif%}</td>
-        <td>{% if class.ceil %} {{ class.ceil }} {% endif%}</td>
-        <td>{% if class.burst %} {{ class.burst }} {% endif%}</td>
-        <td>{% if class.prio %} {{ class.prio }} {% endif%}</td>
-        <td>{% if class.perturb %} {{ class.perturb }} {% endif%}</td>
+        <td><input type="checkbox" value={{ traffic.id }} class="checkbox"/></td>
+        <td>{{ traffic.name }}</td>
+        <td>{{ traffic.trafficclass }}</td>
+        <td>{% if traffic.parent %} {{ traffic.parent }} {% endif%}</td>
+        <td>{% if traffic.source %} {{ traffic.source }} {% endif%}</td>
+        <td>{% if traffic.srcport %} {{ traffic.srcport }} {% endif%}</td>
+        <td>{% if traffic.destiny %} {{ traffic.destiny }} {% endif%}</td>
+        <td>{% if traffic.dstport %} {{ traffic.dstport }} {% endif%}</td>
         <td>
-            <a data-toggle="modal" href="{% url 'trafficclass-detail' class.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'traffic-detail' traffic.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'trafficclass-edit' class.id %}">
+            <a href="{% url 'traffic-edit' traffic.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'trafficclass-delete' class.id %}" data-target="#myModal">
+            <a href="{% url 'traffic-delete' traffic.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -94,7 +92,7 @@ $(document).ready(function(){
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'trafficclass-multidelete' %}",
+                  url:"{% url 'traffic-multidelete' %}",
                   data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},

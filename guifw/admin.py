@@ -11,6 +11,8 @@ from guifw.models.chain import Chain
 from guifw.models.nat import Nat, FormNat
 from guifw.models.hostset import Hostset, FormHostset
 from guifw.models.netset import Netset, FormNetset
+from guifw.models.trafficclass import Trafficclass
+from guifw.models.traffic import Traffic
 
 
 from django.contrib.auth.models import Permission
@@ -110,3 +112,12 @@ class FilterAdmin(admin.ModelAdmin):
 
     class Media:
         css = { 'all':['css/other.css',], }
+
+
+@admin.register(Trafficclass)
+class TrafficclassAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Traffic)
+class TrafficAdmin(admin.ModelAdmin):
+    pass

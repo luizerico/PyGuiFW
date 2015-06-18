@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> Filters
-    <a href="{% url 'filter-create' %}">
+<h2> Shapping Classes
+    <a href="{% url 'trafficclass-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -18,95 +18,39 @@
     <thead>
     <tr>
         <th><input type="checkbox" class="checkall" onclick="toggleChecked(this.checked)"/></th>
-        <th>Ord</th>
         <th>Name</th>
-        <th>Chain</th>
-        <th>Protocol</th>
-        <th>Source</th>
-        <th>SrcPort</th>
-        <th>Destiny</th>
-        <th>DstPort</th>
-        <th>Log</th>
-        <th>Action</th>
+        <th>Flow ID</th>
+        <th>Parent</th>
+        <th>Rate</th>
+        <th>Ceil</th>
+        <th>Burst</th>
+        <th>Prio</th>
+        <th>Perturb</th>
         <th style='width : 97px'></th>
     </tr>
     </thead>
     <tbody>
-    {% for filter in object_list %}
+    {% for class in object_list %}
     <tr >
-        <td><input type="checkbox" value={{ filter.id }} class="checkbox"/></td>
+        <td><input type="checkbox" value={{ class.id }} class="checkbox"/></td>
+        <td>{{ class.name }}</td>
+        <td>{{ class.flowid }}</td>
+        <td>{{ class.parent }}</td>
+        <td>{% if class.rate %} {{ class.rate }} {% endif%}</td>
+        <td>{% if class.ceil %} {{ class.ceil }} {% endif%}</td>
+        <td>{% if class.burst %} {{ class.burst }} {% endif%}</td>
+        <td>{% if class.prio %} {{ class.prio }} {% endif%}</td>
+        <td>{% if class.perturb %} {{ class.perturb }} {% endif%}</td>
         <td>
-            <a href="{% url 'filter-reorderup' order_id=filter.order %}">
-                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Up">
-                    <span class="glyphicon glyphicon-chevron-up"></span></button>
-            </a>
-            <a href="{% url 'filter-reorderdown' order_id=filter.order %}">
-                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
-                    <span class="glyphicon glyphicon-chevron-down"></span></button>
-            </a>
-            {{ filter.order }}</td>
-        <td>{{ filter.name }}</td>
-        <td>{{ filter.chain }}</td>
-        <td>{% if filter.protocol %} {{ filter.protocol }} {% endif%}</td>
-
-        <td>{% for source in filter.source.all %}
-                <span data-toggle="tooltip" title="{{ source.getFullAddress }}">
-			{{ source.name }}
-		</span><br>
-		<span class="hidden">{{ source.getFullAddress }}</span>
-	    {% endfor %}
-            {% if filter.srcset %} 
-            	<span data-toggle="tooltip" title="Ipset">
-            		{{ filter.srcset }} 
-	    	</span>
-            {% endif %}
-	    </td>
-        <td>{% for srcport in filter.srcport.all %}
-                <span data-toggle="tooltip" title="{{ srcport.port }}">
-                        {{ srcport }}
-                </span><br>
-                <span class="hidden">{{ srcport.port }}</span>
-            {% endfor %}
-	</td>
-        <td>{% for destiny in filter.destiny.all %} 
-		<span data-toggle="tooltip" title="{{ destiny.getFullAddress }}">
-                        {{ destiny.name }}
-		</span><br>
-		<span class="hidden">{{ destiny.getFullAddress }}</span>
-	    {% endfor %}
-	    {% if filter.dstset %} 
-                <span data-toggle="tooltip" title="Ipset">
-			{{ filter.dstset }}
-                </span>
-            {% endif %}
-	</td>
-	<td>{% for dstport in filter.dstport.all %}
-                <span data-toggle="tooltip" title="{{ dstport.port }}">
-                        {{ dstport }}
-                </span><br>
-                <span class="hidden">{{ dstport.port }}</span>
-            {% endfor %}
-        </td>
-        <td align="center">{% if filter.log %}
-            <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-ok"></span>{% endif %}</td>
-        <td align="center">
-            {% if filter.action == "DROP" %}
-            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove" data-toggle="tooltip" title="{{ filter.action }}"></span>
-            {% elif filter.action == "REJECT" %}
-            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" title="{{ filter.action }}"></span>
-            {% elif filter.action == "ACCEPT"%}
-            	<span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right" data-toggle="tooltip" title="{{ filter.action }}"></span>
-            {% endif %}</td>
-        <td>
-            <a data-toggle="modal" href="{% url 'filter-detail' filter.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'trafficclass-detail' class.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'filter-edit' filter.id %}">
+            <a href="{% url 'trafficclass-edit' class.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'filter-delete' filter.id %}" data-target="#myModal">
+            <a href="{% url 'trafficclass-delete' class.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -150,7 +94,7 @@ $(document).ready(function(){
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'filter-multidelete' %}",
+                  url:"{% url 'trafficclass-multidelete' %}",
                   data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},

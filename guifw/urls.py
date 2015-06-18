@@ -12,6 +12,8 @@ from guifw.views.filter_view import *
 from guifw.views.nat_view import *
 from guifw.views.interface_view import *
 from guifw.views.auth import *
+from guifw.views.trafficclass_view import *
+from guifw.views.traffic_view import *
 
 from guifw.views.general import *
 
@@ -127,6 +129,22 @@ urlpatterns = patterns('',
                        url(r'^interface/create/$', permission_required('guifw.edit_rules')(InterfaceCreate.as_view()), name='interface-create'),
                        url(r'^interface/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(InterfaceUpdate.as_view()), name='interface-edit'),
                        url(r'^interface/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(InterfaceDelete.as_view()), name='interface-delete'),
+
+                       #Trafficclass URLs Configuration
+                       url(r'^trafficclass/list/$', permission_required('guifw.view_rules')(TrafficclassList.as_view()), name='trafficclass-list'),
+                       url(r'^trafficclass/detail/(?P<pk>\d+)/$', permission_required('guifw.view_rules')(TrafficclassDetail.as_view()), name='trafficclass-detail'),
+                       url(r'^trafficclass/multidelete/$', permission_required('guifw.edit_rules')(multipleDelete), name='trafficclass-multidelete'),
+                       url(r'^trafficclass/create/$', permission_required('guifw.edit_rules')(TrafficclassCreate.as_view()), name='trafficclass-create'),
+                       url(r'^trafficclass/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(TrafficclassUpdate.as_view()), name='trafficclass-edit'),
+                       url(r'^trafficclass/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(TrafficclassDelete.as_view()), name='trafficclass-delete'),
+
+                       #Traffic URLs Configuration
+                       url(r'^traffic/list/$', permission_required('guifw.view_rules')(TrafficList.as_view()), name='traffic-list'),
+                       url(r'^traffic/detail/(?P<pk>\d+)/$', permission_required('guifw.view_rules')(TrafficDetail.as_view()), name='traffic-detail'),
+                       url(r'^traffic/multidelete/$', permission_required('guifw.edit_rules')(multipleDelete), name='traffic-multidelete'),
+                       url(r'^traffic/create/$', permission_required('guifw.edit_rules')(TrafficCreate.as_view()), name='traffic-create'),
+                       url(r'^traffic/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(TrafficUpdate.as_view()), name='traffic-edit'),
+                       url(r'^traffic/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(TrafficDelete.as_view()), name='traffic-delete'),
 
 )
 

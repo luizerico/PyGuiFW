@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
-from guifw.models.trafficclass import Trafficclass
+from guifw.models.traffic import Traffic
 # Create your views here.
 
 def multipleDelete(request):
@@ -10,42 +10,42 @@ def multipleDelete(request):
     # To implement validation checks
     # Avoid insecures algorithms
 
-    trafficclasslist=request.GET.getlist('items[]')
-    if trafficclasslist:
-        #Trafficclass.objects.trafficclass(id__in=trafficclasslist).delete()
-        print "Deleting " + str(trafficclasslist)
+    trafficlist=request.GET.getlist('items[]')
+    if trafficlist:
+        #Traffic.objects.traffic(id__in=trafficlist).delete()
+        print "Deleting " + str(trafficlist)
 
-    return HttpResponseRedirect('/guifw/trafficclass/list')
-
-
-class TrafficclassList(ListView):
-    model = Trafficclass
-    template_name = 'trafficclass_list.html'
+    return HttpResponseRedirect('/guifw/traffic/list')
 
 
-class TrafficclassDetail(DetailView):
-    model = Trafficclass
-    template_name = 'trafficclass_detail.html'
+class TrafficList(ListView):
+    model = Traffic
+    template_name = 'traffic_list.html'
 
 
-class TrafficclassCreate(CreateView):
-    model = Trafficclass
-    #form_class = FormTrafficclass
-    template_name = 'trafficclass_form.html'
-    success_url = '/guifw/trafficclass/list'
+class TrafficDetail(DetailView):
+    model = Traffic
+    template_name = 'traffic_detail.html'
 
 
-class TrafficclassUpdate(UpdateView):
-    model = Trafficclass
-    #form_class = FormTrafficclass
-    template_name = 'trafficclass_form.html'
-    success_url = '/guifw/trafficclass/list'
+class TrafficCreate(CreateView):
+    model = Traffic
+    #form_class = FormTraffic
+    template_name = 'traffic_form.html'
+    success_url = '/guifw/traffic/list'
 
 
-class TrafficclassDelete(DeleteView):
-    model = Trafficclass
-    success_url = '/guifw/trafficclass/list'
-    template_name = 'trafficclass_delete.html'
+class TrafficUpdate(UpdateView):
+    model = Traffic
+    #form_class = FormTraffic
+    template_name = 'traffic_form.html'
+    success_url = '/guifw/traffic/list'
+
+
+class TrafficDelete(DeleteView):
+    model = Traffic
+    success_url = '/guifw/traffic/list'
+    template_name = 'traffic_delete.html'
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:
@@ -53,4 +53,4 @@ class TrafficclassDelete(DeleteView):
             url = self.get_success_url()
             return HttpResponseRedirect(url)
         else:
-            return super(TrafficclassDelete, self).post(request, *args, **kwargs)
+            return super(TrafficDelete, self).post(request, *args, **kwargs)
