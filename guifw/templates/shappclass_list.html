@@ -2,7 +2,7 @@
 
 {% block content %}
 <h2> Shapping Classes
-    <a href="{% url 'trafficclass-create' %}">
+    <a href="{% url 'shappclass-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -42,15 +42,15 @@
         <td>{% if class.prio %} {{ class.prio }} {% endif%}</td>
         <td>{% if class.perturb %} {{ class.perturb }} {% endif%}</td>
         <td>
-            <a data-toggle="modal" href="{% url 'trafficclass-detail' class.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'shappclass-detail' class.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'trafficclass-edit' class.id %}">
+            <a href="{% url 'shappclass-edit' class.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'trafficclass-delete' class.id %}" data-target="#myModal">
+            <a href="{% url 'shappclass-delete' class.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -94,7 +94,7 @@ $(document).ready(function(){
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'trafficclass-multidelete' %}",
+                  url:"{% url 'shappclass-multidelete' %}",
                   data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},

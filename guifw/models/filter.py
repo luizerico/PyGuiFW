@@ -9,7 +9,8 @@ from guifw.models.port import Port
 from guifw.models.protocol import Protocol
 from guifw.models.address import Address
 from guifw.models.chain import Chain
-from guifw.models.Ipset import Ipset
+from guifw.models.ipset import Ipset
+from audit_log.models.managers import AuditLog
 
 from guifw.library.sysnet import Sysnet
 
@@ -47,6 +48,8 @@ class Filter(models.Model):
     date_stop = models.DateField(blank=True, null=True)
     time_start = models.TimeField(blank=True, null=True)
     time_stop = models.TimeField(blank=True, null=True)
+
+    audit_log = AuditLog()
 
     class Meta:
         ordering = ["order"]

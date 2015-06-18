@@ -2,13 +2,13 @@ from django.db import models
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
-from guifw.models import Ipset
+from guifw.models import ipset
 from guifw.models.network import Network
+from audit_log.models.managers import AuditLog
 
-# Create your models here.
-
-class Netset(Ipset.Ipset):
+class Netset(ipset.Ipset):
     address = models.ManyToManyField(Network, blank=True, related_name='netset_address')
+    #audit_log = AuditLog()
 
     @staticmethod
     def buildSet():

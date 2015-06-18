@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2> Traffic Shapping
-    <a href="{% url 'traffic-create' %}">
+<h2> Shapping Shapping
+    <a href="{% url 'shapping-create' %}">
         <button type="button" class="btn btn-primary btn-sm" data-toggle="tooltip" title="Create New">
             <span class="glyphicon glyphicon-plus"></span> Create New
         </button>
@@ -29,26 +29,26 @@
     </tr>
     </thead>
     <tbody>
-    {% for traffic in object_list %}
+    {% for shapping in object_list %}
     <tr >
-        <td><input type="checkbox" value={{ traffic.id }} class="checkbox"/></td>
-        <td>{{ traffic.name }}</td>
-        <td>{{ traffic.trafficclass }}</td>
-        <td>{% if traffic.parent %} {{ traffic.parent }} {% endif%}</td>
-        <td>{% if traffic.source %} {{ traffic.source }} {% endif%}</td>
-        <td>{% if traffic.srcport %} {{ traffic.srcport }} {% endif%}</td>
-        <td>{% if traffic.destiny %} {{ traffic.destiny }} {% endif%}</td>
-        <td>{% if traffic.dstport %} {{ traffic.dstport }} {% endif%}</td>
+        <td><input type="checkbox" value={{ shapping.id }} class="checkbox"/></td>
+        <td>{{ shapping.name }}</td>
+        <td>{{ shapping.shappclass }}</td>
+        <td>{% if shapping.parent %} {{ shapping.parent }} {% endif%}</td>
+        <td>{% if shapping.source %} {{ shapping.source }} {% endif%}</td>
+        <td>{% if shapping.srcport %} {{ shapping.srcport }} {% endif%}</td>
+        <td>{% if shapping.destiny %} {{ shapping.destiny }} {% endif%}</td>
+        <td>{% if shapping.dstport %} {{ shapping.dstport }} {% endif%}</td>
         <td>
-            <a data-toggle="modal" href="{% url 'traffic-detail' traffic.id %}" data-target="#myModal">
+            <a data-toggle="modal" href="{% url 'shapping-detail' shapping.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-info btn-xs" data-toggle="tooltip" title="Detail">
                     <span class="glyphicon glyphicon-zoom-in"></span></button>
             </a>
-            <a href="{% url 'traffic-edit' traffic.id %}">
+            <a href="{% url 'shapping-edit' shapping.id %}">
                 <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
                     <span class="glyphicon glyphicon-edit"></span></button>
             </a>
-            <a href="{% url 'traffic-delete' traffic.id %}" data-target="#myModal">
+            <a href="{% url 'shapping-delete' shapping.id %}" data-target="#myModal">
                 <button type="button" class="btn btn-danger btn-xs" data-toggle="tooltip" title="Delete">
                     <span class="glyphicon glyphicon-trash"></span></button>
             </a>
@@ -92,7 +92,7 @@ $(document).ready(function(){
             arr = [1,2,5];
             $.ajax({
                   type:"GET",
-                  url:"{% url 'traffic-multidelete' %}",
+                  url:"{% url 'shapping-multidelete' %}",
                   data:{items:items},
                   success:function(data){ window.location=self.location;},
                   error:function(data){alert("Dados não deletados...");},

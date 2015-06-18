@@ -2,13 +2,15 @@ from django.db import models
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
-from guifw.models import Ipset
+from guifw.models import ipset
 from guifw.models.host import Host
-
+from audit_log.models.managers import AuditLog
 # Create your models here.
 
-class Hostset(Ipset.Ipset):
+class Hostset(ipset.Ipset):
     address = models.ManyToManyField(Host, blank=True, related_name='hostset_address')
+
+    #audit_log = AuditLog()
 
     @staticmethod
     def buildSet():

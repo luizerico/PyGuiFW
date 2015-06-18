@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Audit Log Information</h2>
+
+<table id="datatable" class="display table">
+    <thead>
+    <tr>
+        <th>Log</th>
+        <th>Action</th>
+        <th>Date</th>
+        <th>User</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for log in logs %}
+    <tr >
+        <td>{{ log }}</td>
+
+        <td>
+            {% if log.action_type == "I" %}
+            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove" data-toggle="tooltip" title="{{ filter.action }}"></span>
+                Insert
+            {% elif log.action_type == "U" %}
+            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" title="{{ filter.action }}"></span>
+                Update
+            {% elif log.action_type == "D"%}
+            	<span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right" data-toggle="tooltip" title="{{ filter.action }}"></span>
+                Delete
+            {% endif %}</td>
+        <td>{{ log.action_date }}</td>
+        <td>{{ log.action_user }}</td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    $('#datatable').DataTable({
+        "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
+        "pageLength": 50,
+    });
+});
+ </script>
+{% endblock %}
+

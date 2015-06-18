@@ -11,8 +11,8 @@ from guifw.models.chain import Chain
 from guifw.models.nat import Nat, FormNat
 from guifw.models.hostset import Hostset, FormHostset
 from guifw.models.netset import Netset, FormNetset
-from guifw.models.trafficclass import Trafficclass
-from guifw.models.traffic import Traffic
+from guifw.models.shappclass import Shappclass
+from guifw.models.shapping import Shapping
 
 
 from django.contrib.auth.models import Permission
@@ -114,10 +114,10 @@ class FilterAdmin(admin.ModelAdmin):
         css = { 'all':['css/other.css',], }
 
 
-@admin.register(Trafficclass)
+@admin.register(Shappclass)
 class TrafficclassAdmin(admin.ModelAdmin):
     pass
 
-@admin.register(Traffic)
+@admin.register(Shapping)
 class TrafficAdmin(admin.ModelAdmin):
     pass
