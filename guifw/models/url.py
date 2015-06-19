@@ -5,7 +5,7 @@ from audit_log.models.managers import AuditLog
 
 
 class URL(address.Address):
-    #audit_log = AuditLog()
+    audit_log = AuditLog()
     pass
 
 

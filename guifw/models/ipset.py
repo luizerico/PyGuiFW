@@ -6,7 +6,7 @@ class Ipset(models.Model):
     name = models.CharField(max_length=250)
     #address = models.ManyToManyField(Address, blank=True, related_name='setip_address')
 
-    audit_log = AuditLog()
+    #audit_log = AuditLog()
 
     def __str__(self):
         return self.name

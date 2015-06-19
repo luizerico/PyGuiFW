@@ -8,7 +8,7 @@ from audit_log.models.managers import AuditLog
 
 class Netset(ipset.Ipset):
     address = models.ManyToManyField(Network, blank=True, related_name='netset_address')
-    #audit_log = AuditLog()
+    audit_log = AuditLog()
 
     @staticmethod
     def buildSet():

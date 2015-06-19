@@ -19,16 +19,16 @@
 
         <td>
             {% if log.action_type == "I" %}
-            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-remove" data-toggle="tooltip" title="{{ filter.action }}"></span>
+            	<span style="font-size:14px; color:#009900" class="glyphicon glyphicon-plus" data-toggle="tooltip" title="{{ filter.action }}"></span>
                 Insert
             {% elif log.action_type == "U" %}
-            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-ban-circle" data-toggle="tooltip" title="{{ filter.action }}"></span>
+            	<span style="font-size:14px; color:#999900" class="glyphicon glyphicon-edit" data-toggle="tooltip" title="{{ filter.action }}"></span>
                 Update
             {% elif log.action_type == "D"%}
-            	<span style="font-size:14px; color:#009900" class="glyphicon glyphicon-arrow-right" data-toggle="tooltip" title="{{ filter.action }}"></span>
+            	<span style="font-size:14px; color:#AA0000" class="glyphicon glyphicon-minus" data-toggle="tooltip" title="{{ filter.action }}"></span>
                 Delete
             {% endif %}</td>
-        <td>{{ log.action_date }}</td>
+        <td>{{ log.action_date|date:"Y-M-d H:i:s" }}</td>
         <td>{{ log.action_user }}</td>
 
     </tr>
@@ -38,9 +38,10 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    $('#datatable').DataTable({
+    var table = $('#datatable').DataTable({
         "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
         "pageLength": 50,
+         "order": [[ 2, "desc" ]],
     });
 });
  </script>

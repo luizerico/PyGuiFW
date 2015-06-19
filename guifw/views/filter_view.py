@@ -1,12 +1,7 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from django.contrib.auth.decorators import login_required, permission_required
-from django.utils.decorators import method_decorator
 from django.db.models import F, Max
-
 from guifw.models.filter import Filter, FormFilter
-# Create your views here.
-
 
 def FilterReorder(request, order_id):
     Filter.objects.filter(order__gte=order_id).update(order=F('order') + 1)
@@ -33,12 +28,10 @@ def multipleDelete(request):
     # To implement best ways to delete multiple registers
     # To implement validation checks
     # Avoid insecures algorithms
-
     filterlist=request.GET.getlist('items[]')
     if filterlist:
         #Filter.objects.filter(id__in=filterlist).delete()
         print "Deleting " + str(filterlist)
-
     return HttpResponseRedirect('/guifw/filter/list')
 
 

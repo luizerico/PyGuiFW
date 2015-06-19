@@ -10,7 +10,7 @@ class Address(models.Model):
     address = models.CharField(max_length=250, default="")
     mask = models.CharField(max_length=250, default="")
 
-    audit_log = AuditLog()
+    #audit_log = AuditLog()
 
     def __str__(self):
         return self.name

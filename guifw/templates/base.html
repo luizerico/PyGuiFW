@@ -70,10 +70,9 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{% url 'filter-list' %}">Filter</a></li>
                             <li><a href="{% url 'nat-list' %}">Nat</a></li>
-                            <li><a href="{% url 'shapping-list' %}">Shapping Shapping</a></li>
+                            <li><a href="{% url 'shapping-list' %}">Traffic Shapping</a></li>
                             <li class="divider"></li>
-                            <li><a href="{% url 'rule-view' %}">View Rules</a></li>
-                            <li><a href="{% url 'rule-apply' %}">Apply Rules</a></li>
+                            <li><a href="{% url 'rule-view' %}">View and Apply Rules</a></li>
                             <li class="divider"></li>
 
                         </ul>
@@ -104,6 +103,8 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">System
                             <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
+                            <li><a href="{% url 'audit' %}">Log Audit</a></li>
+                            <li class="divider"></li>
                             <li><a href="{% url 'processes' %}">Processes</a></li>
                             <li><a href="{% url 'interfaces' %}">Interfaces</a></li>
                             <li><a href="{% url 'routes' %}">Routes</a></li>

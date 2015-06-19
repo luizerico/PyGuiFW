@@ -10,7 +10,7 @@ from audit_log.models.managers import AuditLog
 class Hostset(ipset.Ipset):
     address = models.ManyToManyField(Host, blank=True, related_name='hostset_address')
 
-    #audit_log = AuditLog()
+    audit_log = AuditLog()
 
     @staticmethod
     def buildSet():
