@@ -1,14 +1,12 @@
 from django.db import models
 from django import forms
-from django.contrib.admin import widgets
-
-from guifw.models.address import Address
-
-# Create your models here.
+from audit_log.models.managers import AuditLog
 
 class Ipset(models.Model):
     name = models.CharField(max_length=250)
     #address = models.ManyToManyField(Address, blank=True, related_name='setip_address')
+
+    audit_log = AuditLog()
 
     def __str__(self):
         return self.name

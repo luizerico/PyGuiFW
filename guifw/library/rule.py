@@ -101,7 +101,7 @@ class Rule:
                     cmp_rule += " --datestop " + str(rule.date_stop)
                 if rule.week_days != '[]':
                     weekdays = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
-                    # convert into a integer list to filter the STATES list
+                    # convert into a integer list to filter the Days list
                     list_days = map(int, (str(rule.week_days).replace("u'", "").translate(None, "]['")).split(','))
                     selected_days = [weekdays[x] for x in list_days]
                     cmp_rule += " --weekdays " + (str(selected_days).translate(None, "'[]")).translate(None, " ")

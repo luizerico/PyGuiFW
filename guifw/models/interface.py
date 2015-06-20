@@ -1,9 +1,7 @@
 from django.db import models
 from django import forms
-from django.contrib.admin import widgets
 from guifw.library.sysnet import Sysnet
-
-# Create your models here.
+from audit_log.models.managers import AuditLog
 
 
 class Interface(models.Model):
@@ -11,6 +9,8 @@ class Interface(models.Model):
     device = models.CharField(max_length=150)
     description = models.TextField(blank=True)
     #icon = models.ImageField(upload_to='images', blank=True)
+
+    audit_log = AuditLog()
 
     def __str__(self):
         return self.name

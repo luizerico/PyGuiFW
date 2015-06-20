@@ -12,6 +12,9 @@ from guifw.views.filter_view import *
 from guifw.views.nat_view import *
 from guifw.views.interface_view import *
 from guifw.views.auth import *
+from guifw.views.shappclass_view import *
+from guifw.views.shapping_view import *
+from guifw.views.auditlog_view import *
 
 from guifw.views.general import *
 
@@ -19,6 +22,10 @@ urlpatterns = patterns('',
                        # Examples:
                        # url(r'^$', 'PyGUIFW.views.home', name='home'),
                        url(r'^$', permission_required('guifw.view_rules', login_url='login')(ruleView), name='rule-view'),
+
+                       # Log System
+                       url('audit-port/$', permission_required('guifw.view_rules')(listAuditLog), name='audit-port'),
+
 
                        # System URL
                        url('ruleview/$', permission_required('guifw.view_rules')(ruleView), name='rule-view'),
@@ -127,6 +134,22 @@ urlpatterns = patterns('',
                        url(r'^interface/create/$', permission_required('guifw.edit_rules')(InterfaceCreate.as_view()), name='interface-create'),
                        url(r'^interface/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(InterfaceUpdate.as_view()), name='interface-edit'),
                        url(r'^interface/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(InterfaceDelete.as_view()), name='interface-delete'),
+
+                       #Shappclass URLs Configuration
+                       url(r'^shappclass/list/$', permission_required('guifw.view_rules')(ShappclassList.as_view()), name='shappclass-list'),
+                       url(r'^shappclass/detail/(?P<pk>\d+)/$', permission_required('guifw.view_rules')(ShappclassDetail.as_view()), name='shappclass-detail'),
+                       url(r'^shappclass/multidelete/$', permission_required('guifw.edit_rules')(multipleDelete), name='shappclass-multidelete'),
+                       url(r'^shappclass/create/$', permission_required('guifw.edit_rules')(ShappclassCreate.as_view()), name='shappclass-create'),
+                       url(r'^shappclass/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(ShappclassUpdate.as_view()), name='shappclass-edit'),
+                       url(r'^shappclass/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(ShappclassDelete.as_view()), name='shappclass-delete'),
+
+                       #Shapping URLs Configuration
+                       url(r'^shapping/list/$', permission_required('guifw.view_rules')(ShappingList.as_view()), name='shapping-list'),
+                       url(r'^shapping/detail/(?P<pk>\d+)/$', permission_required('guifw.view_rules')(ShappingDetail.as_view()), name='shapping-detail'),
+                       url(r'^shapping/multidelete/$', permission_required('guifw.edit_rules')(multipleDelete), name='shapping-multidelete'),
+                       url(r'^shapping/create/$', permission_required('guifw.edit_rules')(ShappingCreate.as_view()), name='shapping-create'),
+                       url(r'^shapping/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(ShappingUpdate.as_view()), name='shapping-edit'),
+                       url(r'^shapping/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(ShappingDelete.as_view()), name='shapping-delete'),
 
 )
 

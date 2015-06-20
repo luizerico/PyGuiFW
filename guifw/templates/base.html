@@ -70,7 +70,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="{% url 'filter-list' %}">Filter</a></li>
                             <li><a href="{% url 'nat-list' %}">Nat</a></li>
-                            <li><a href="#">Traffic Shapping</a></li>
+                            <li><a href="{% url 'shapping-list' %}">Shapping Shapping</a></li>
                             <li class="divider"></li>
                             <li><a href="{% url 'rule-view' %}">View Rules</a></li>
                             <li><a href="{% url 'rule-apply' %}">Apply Rules</a></li>
@@ -96,6 +96,8 @@
                             <li><a href="{% url 'interface-list' %}">Interfaces</a></li>
                             <li class="divider"></li>
                             <li><a href="{% url 'chain-list' %}">Chains</a></li>
+                            <li class="divider"></li>
+                            <li><a href="{% url 'shappclass-list' %}">Shapping Classes</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -147,7 +149,7 @@
             </li>
             <li><a href="/guifw/filter/list">Filter Rules</a></li>
             <li><a href="/guifw/nat/list">NAT Rules</a></li>
-            <li><a href="">Traffic Shapping</a></li>
+            <li><a href="">Shapping Shapping</a></li>
             <li class="dropdown">
                 <a class="dropdown-toggle" data-toggle="dropdown" href="/onebt/">System<span class="caret"></span></a>
                 <ul class="dropdown-menu" role="menu">

@@ -4,6 +4,7 @@ from guifw.models.filter import Filter, FormFilter
 from guifw.models.network import Network
 from guifw.library.sysnet import Sysnet
 from guifw.library.rule import Rule
+from guifw.models.port import Port
 
 # Create your views here.
 

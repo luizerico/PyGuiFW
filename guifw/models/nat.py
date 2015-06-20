@@ -1,16 +1,12 @@
 from django.db import models
 from django import forms
-from django.contrib.admin import widgets
 
-from guifw.models.host import Host
-from guifw.models.network import Network
-from guifw.models.url import URL
 from guifw.models.interface import Interface
 from guifw.models.port import Port
 from guifw.models.protocol import Protocol
 from guifw.models.address import Address
-from guifw.models.chain import Chain
 from django.contrib.admin.widgets import FilteredSelectMultiple
+from audit_log.models.managers import AuditLog
 
 # Create your models here.
 
@@ -35,6 +31,8 @@ class Nat(models.Model):
     log = models.BooleanField(default=False)
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
+
+    audit_log = AuditLog()
 
     def __str__(self):
         return self.name

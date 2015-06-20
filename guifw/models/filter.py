@@ -9,7 +9,8 @@ from guifw.models.port import Port
 from guifw.models.protocol import Protocol
 from guifw.models.address import Address
 from guifw.models.chain import Chain
-from guifw.models.Ipset import Ipset
+from guifw.models.ipset import Ipset
+from audit_log.models.managers import AuditLog
 
 from guifw.library.sysnet import Sysnet
 
@@ -20,7 +21,7 @@ class Filter(models.Model):
     CONNECTION = ((0,'NEW'),(1, 'RELATED'),(2,'ESTABLISHED'),(3,'INVALID'),(4,'UNTRACKED'))
     LOG_LEVEL = (('debug','debug'),('info','info'),('notice','notice'),('warning','warning'),('error','error'),
                  ('crit','crit'),('alert','alert'),('emerg','emerg'))
-    WEEKDAYS = ((1,'Sunday'),(2, 'Monday'),(3,'Tuesday'),(4,'Wednesday'),(5,'Thursday'),(6,'Friday'),(7,'Saturday'))
+    WEEKDAYS = ((0,'Sunday'),(1, 'Monday'),(2,'Tuesday'),(3,'Wednesday'),(4,'Thursday'),(5,'Friday'),(6,'Saturday'))
 
     order = models.IntegerField()
     name = models.CharField(max_length=250)
@@ -47,6 +48,8 @@ class Filter(models.Model):
     date_stop = models.DateField(blank=True, null=True)
     time_start = models.TimeField(blank=True, null=True)
     time_stop = models.TimeField(blank=True, null=True)
+
+    audit_log = AuditLog()
 
     class Meta:
         ordering = ["order"]
