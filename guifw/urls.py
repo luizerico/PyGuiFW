@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, include, url
-from guifw import views
+from django.conf.urls import patterns, url
+from django.contrib.auth.decorators import permission_required
 from guifw.views.host_view import *
 from guifw.views.network_view import *
 from guifw.views.url_view import *
@@ -15,30 +15,29 @@ from guifw.views.auth import *
 from guifw.views.shappclass_view import *
 from guifw.views.shapping_view import *
 from guifw.views.auditlog_view import *
-
 from guifw.views.general import *
 
 urlpatterns = patterns('',
                        # Examples:
-                       # url(r'^$', 'PyGUIFW.views.home', name='home'),
+                       # Root
                        url(r'^$', permission_required('guifw.view_rules', login_url='login')(ruleView), name='rule-view'),
 
-                       # Log System
-                       url('audit-port/$', permission_required('guifw.view_rules')(listAuditLog), name='audit-port'),
+                       # Audit System
+                       url('audit/$', permission_required('guifw.view_rules')(listAuditLog), name='audit'),
 
-
-                       # System URL
+                       # Save and Apply URL
                        url('ruleview/$', permission_required('guifw.view_rules')(ruleView), name='rule-view'),
                        url('ruleapply/$', permission_required('guifw.edit_rules')(ruleApply), name='rule-apply'),
                        url('rulesave/$', permission_required('guifw.edit_rules')(ruleSave), name='rule-save'),
 
+                       # System URL
                        url('processes/$', permission_required('guifw.view_rules')(listProcesses), name='processes'),
                        url('routes/$', permission_required('guifw.view_rules')(listRoutes), name='routes'),
                        url('interfaces/$', permission_required('guifw.view_rules')(listInterfaces), name='interfaces'),
                        url('connections/$', permission_required('guifw.view_rules')(listConnections), name='connections'),
                        url('about/$', permission_required('guifw.view_rules')(listConnections), name='about'),
 
-                       #url('login/$', permission_required('guifw.edit_rules')(login_view),
+                       # Auth URL
                        url(r'^login/$', 'django.contrib.auth.views.login',{'template_name': 'login.html'}, name='login'),
                        url(r'^logout/$', logout_view, name='logout'),
                        url(r'^denied/$', denied_view, name='denied'),
@@ -126,6 +125,10 @@ urlpatterns = patterns('',
                        url(r'^nat/create/$', permission_required('guifw.edit_rules', login_url='denied')(NatCreate.as_view()), name='nat-create'),
                        url(r'^nat/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules', login_url='denied')(NatUpdate.as_view()), name='nat-edit'),
                        url(r'^nat/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules', login_url='denied')(NatDelete.as_view()), name='nat-delete'),
+                       url(r'^nat/reorder/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(NatReorder), name='nat-reorder'),
+                       url(r'^nat/reorderup/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(NatReorderUp), name='nat-reorderup'),
+                       url(r'^nat/reorderdown/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(NatReorderDown), name='nat-reorderdown'),
+
 
                        #Interface URLs Configuration
                        url(r'^interface/list/$', permission_required('guifw.view_rules')(InterfaceList.as_view()), name='interface-list'),

@@ -1,14 +1,12 @@
 from django.db import models
 from django import forms
-
+from django.contrib.admin.widgets import FilteredSelectMultiple
+from django.db.models import F
+from audit_log.models.managers import AuditLog
 from guifw.models.interface import Interface
 from guifw.models.port import Port
 from guifw.models.protocol import Protocol
 from guifw.models.address import Address
-from django.contrib.admin.widgets import FilteredSelectMultiple
-from audit_log.models.managers import AuditLog
-
-# Create your models here.
 
 class Nat(models.Model):
     ACTION = (('REDIRECT','Redirect'),('SNAT','Source NAT'),('DNAT','Destination NAT'),('MASQUERADE','Masquerade'))
@@ -31,11 +29,31 @@ class Nat(models.Model):
     log = models.BooleanField(default=False)
     log_level = models.CharField(max_length=20, choices=LOG_LEVEL, default='WARN')
     log_preffix = models.CharField(max_length=100, blank=True)
-
     audit_log = AuditLog()
+
+    class Meta:
+        ordering = ["order"]
 
     def __str__(self):
         return self.name
+
+    def save(self):
+        if self.pk is not None:
+            if (Nat.objects.filter(order = self.order)):
+                orig = Nat.objects.get(pk=self.pk)
+                if orig.order > self.order :
+                    Nat.objects.filter(order__lt = orig.order, order__gte = self.order).update(order=F('order') + 1)
+                elif orig.order < self.order :
+                    Nat.objects.filter(order__lte = self.order, order__gte = orig.order).update(order=F('order') - 1)
+        else:
+            Nat.objects.filter(order__gte = self.order).update(order=F('order') + 1)
+
+        super(Nat, self).save()
+
+    def delete(self):
+        Nat.objects.filter(order__gte = self.order).update(order=F('order') - 1)
+        print self.order
+        super(Nat, self).delete()
 
 
 class FormNat(forms.ModelForm):

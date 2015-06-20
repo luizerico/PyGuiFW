@@ -43,7 +43,7 @@
             <a href="{% url 'filter-reorderdown' order_id=filter.order %}">
                 <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
                     <span class="glyphicon glyphicon-chevron-down"></span></button>
-            </a>
+            </a> &nbsp
             {{ filter.order }}</td>
         <td>{{ filter.name }}</td>
         <td>{{ filter.chain }}</td>
@@ -51,14 +51,14 @@
 
         <td>{% for source in filter.source.all %}
                 <span data-toggle="tooltip" title="{{ source.getFullAddress }}">
-			{{ source.name }}
-		</span><br>
-		<span class="hidden">{{ source.getFullAddress }}</span>
-	    {% endfor %}
+                {{ source.name }}
+                </span><br>
+                <span class="hidden">{{ source.getFullAddress }}</span>
+            {% endfor %}
             {% if filter.srcset %} 
             	<span data-toggle="tooltip" title="Ipset">
             		{{ filter.srcset }} 
-	    	</span>
+	    	    </span>
             {% endif %}
 	    </td>
         <td>{% for srcport in filter.srcport.all %}
@@ -67,20 +67,20 @@
                 </span><br>
                 <span class="hidden">{{ srcport.port }}</span>
             {% endfor %}
-	</td>
+	    </td>
         <td>{% for destiny in filter.destiny.all %} 
-		<span data-toggle="tooltip" title="{{ destiny.getFullAddress }}">
+		        <span data-toggle="tooltip" title="{{ destiny.getFullAddress }}">
                         {{ destiny.name }}
-		</span><br>
-		<span class="hidden">{{ destiny.getFullAddress }}</span>
-	    {% endfor %}
-	    {% if filter.dstset %} 
+                </span><br>
+                <span class="hidden">{{ destiny.getFullAddress }}</span>
+            {% endfor %}
+	        {% if filter.dstset %}
                 <span data-toggle="tooltip" title="Ipset">
-			{{ filter.dstset }}
+			        {{ filter.dstset }}
                 </span>
             {% endif %}
-	</td>
-	<td>{% for dstport in filter.dstport.all %}
+	    </td>
+	    <td>{% for dstport in filter.dstport.all %}
                 <span data-toggle="tooltip" title="{{ dstport.port }}">
                         {{ dstport }}
                 </span><br>
@@ -116,7 +116,7 @@
     </tbody>
 </table>
 
-
+<!-- <a class="toggle-vis" data-column="2">Name</a> -->
 <!-- Code to generate Modal -->
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -129,10 +129,20 @@
 <script type="text/javascript">
 
 $(document).ready(function(){
-    $('#datatable').DataTable({
+    var table=$('#datatable').DataTable({
         "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
         "pageLength": 50,
     });
+
+    $('a.toggle-vis').on( 'click', function (e) {
+        e.preventDefault();
+
+        // Get the column API object
+        var column = table.column( $(this).attr('data-column') );
+
+        // Toggle the visibility
+        column.visible( ! column.visible() );
+    } );
 
     //function is used to delete selected row
     $('.deleteall').on("click", function(event){
@@ -165,6 +175,8 @@ function toggleChecked(status) {
   $(".checkbox").each( function() {
   	$(this).prop("checked",status);
   })
+
+
 }
 
 </script>

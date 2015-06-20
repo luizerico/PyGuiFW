@@ -5,8 +5,11 @@ from django.conf import settings
 
 from guifw.models.filter import Filter
 from guifw.models.nat import Nat
+from guifw.models.shapping import Shapping
 from guifw.models.netset import Netset
 from guifw.models.hostset import Hostset
+from guifw.models.interface import Interface
+from guifw.models.shappclass import Shappclass
 
 class Rule:
     @staticmethod
@@ -223,6 +226,101 @@ class Rule:
 
         return (tmpnat)
 
+    @staticmethod
+    def shappingrulecomposer():
+        rules = Shapping.objects.all()
+        tmprule = []
+        tmprule.append("### Building the Traffic Shapping RULES")
+
+        '''
+        tc qdisc add dev eth10 root handle 1 htb default 12
+
+        tc class add dev eth10 parent 1:0 classid 1:101 htb rate 1Mbit
+        tc qdisc add dev eth10 parent 1:101 handle 101 sfq perturb 10
+        tc filter add dev eth10 parent 1:0 protocol ip u32 match ip dst 10.1.25.18 flowid 1:101
+
+        tc class add dev eth192 parent 1:0 classid 1:100 htb rate 1536kbit
+        tc qdisc add dev eth192 parent 1:100 handle 100 sfq perturb 10
+        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.188 match ip dst 10.11.0.0/24 flowid 1:100
+        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.245 match ip dst 10.11.0.0/24 flowid 1:100
+        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.160 match ip dst 10.11.0.0/24 flowid 1:100
+        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.161 match ip dst 10.11.0.0/24 flowid 1:100
+        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.163 match ip dst 10.11.0.0/24 flowid 1:100
+        '''
+
+        #Cria a fila principal em cada Interface
+        tmprule.append("### Cria a fila principal em cada Interface")
+        interfaces = Interface.objects.all()
+        for interface in interfaces:
+            cmp_rule = "tc qdisc add dev " + interface.device + " root handle 1 htb default 12"
+            tmprule.append(cmp_rule)
+
+        #Cria as classes e qdisc's
+        #tc class add dev eth192 parent 1:0 classid 1:100 htb rate 1536kbit
+        #tc qdisc add dev eth192 parent 1:100 handle 100 sfq perturb 10
+        tmprule.append("### Building the Classes and Qdisc")
+        shappclasses = Shappclass.objects.all()
+        for shappclass in shappclasses:
+            class_rule = ""
+            qdisc_rule = ""
+
+            if shappclass.interface:
+                class_rule += " dev " + str(shappclass.interface.device)
+                qdisc_rule += " dev " + str(shappclass.interface.device)
+
+            if shappclass.parent:
+                classid = str(shappclass.parent.id) + ":" + str(shappclass.id)
+                class_rule += " parent " + str(shappclass.parent.id) + ":0 classid " + classid
+                qdisc_rule += " parent " + classid + " handle " + str(shappclass.id)
+
+            if shappclass.rate:
+                class_rule += " htb rate " + str(shappclass.rate) + "kbit "
+
+            if shappclass.ceil:
+                class_rule += " ceil " + str(shappclass.ceil) + "kbit "
+
+            if shappclass.burst:
+                class_rule += " burst " + str(shappclass.burst) + "kbit "
+
+            if shappclass.prio:
+                class_rule += " prio " + str(shappclass.prio)
+
+            if shappclass.perturb:
+                qdisc_rule += " sfq perturb " + str(shappclass.perturb)
+
+            tmprule.append("tc class add " + class_rule)
+            tmprule.append("tc qdisc add " + qdisc_rule)
+
+        #Cria os filtros
+        #tc filter add dev eth10 parent 1:0 protocol ip u32 match ip dst 10.1.25.18 flowid 1:101
+        tmprule.append("### Building the Filters")
+        shappings = Shapping.objects.all()
+        for shapping in shappings:
+            filter_rule = ""
+
+            if shapping.shappclass:
+                filter_rule += " add dev " + str(shapping.shappclass.interface.device)
+
+            #if shapping.parent:
+            filter_rule += " parent  " + str(shapping.shappclass.parent.id) + ":0 "
+            filter_rule += " protocol ip u32 match ip "
+
+            if shapping.source:
+                filter_rule += " src " + str(shapping.source.address)
+
+            if shapping.srcport:
+                filter_rule += " srcport " + str(shapping.srcport)
+
+            if shapping.destiny:
+                filter_rule += " dst " + str(shapping.destiny)
+
+            if shapping.dstport:
+                filter_rule += " dstport " + str(shapping.dstport)
+
+            tmprule.append("tc filter " + filter_rule)
+
+        # Shapping Rules Composer
+        return (tmprule)
 
     @staticmethod
     def rulecomposer():

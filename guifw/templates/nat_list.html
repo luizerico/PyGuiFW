@@ -24,6 +24,8 @@
         <th>Port</th>
         <th>Destiny</th>
         <th>Port</th>
+        <th>Inface</th>
+        <th>Outface</th>
         <th>Action</th>
         <th>Rdct Destiny</th>
         <th>Rdct Port</th>
@@ -35,15 +37,23 @@
     {% for nat in object_list %}
     <tr >
         <td><input type="checkbox" value={{ nat.id }} class="checkbox"/></td>
-        <td>{{ nat.order }}</td>
+        <td><a href="{% url 'nat-reorderup' order_id=nat.order %}">
+                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Up">
+                    <span class="glyphicon glyphicon-chevron-up"></span></button>
+            </a>
+            <a href="{% url 'nat-reorderdown' order_id=nat.order %}">
+                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
+                    <span class="glyphicon glyphicon-chevron-down"></span></button>
+            </a> &nbsp
+            {{ nat.order }}</td>
         <td>{{ nat.name }}</td>
 
-        <td>{% for source in nat.source.all %}
-                <span data-toggle="tooltip" title="{{ source.getFullAddress }}">
-                    {{ source.name }}
+        <td>{% if nat.source %}
+                <span data-toggle="tooltip" title="{{ nat.source.getFullAddress }}">
+                    {{ nat.source.name }}
                 </span><br>
-                <span class="hidden">{{ source.getFullAddress }}</span>
-            {% endfor %}
+                <span class="hidden">{{ nat.source.getFullAddress }}</span>
+            {% endif %}
 	    </td>
         <td>{% for srcport in nat.srcport.all %}
                 <span data-toggle="tooltip" title="{{ srcport.port }}">
@@ -52,12 +62,12 @@
                 <span class="hidden">{{ srcport.port }}</span>
             {% endfor %}
 	    </td>
-        <td>{% for destiny in nat.destiny.all %}
-		        <span data-toggle="tooltip" title="{{ destiny.getFullAddress }}">
-                        {{ destiny.name }}
+        <td>{% if nat.destiny %}
+		        <span data-toggle="tooltip" title="{{ nat.destiny.getFullAddress }}">
+                    {{ nat.destiny.name }}
 		        </span><br>
-		        <span class="hidden">{{ destiny.getFullAddress }}</span>
-	        {% endfor %}
+		        <span class="hidden">{{ nat.destiny.getFullAddress }}</span>
+	        {% endif %}
 	    </td>
         <td>{% for dstport in nat.dstport.all %}
                 <span data-toggle="tooltip" title="{{ dstport.port }}">
@@ -66,9 +76,33 @@
                 <span class="hidden">{{ dstport.port }}</span>
             {% endfor %}
         </td>
+        <td>{% if nat.in_interface %}
+		        <span data-toggle="tooltip" title="{{ nat.in_interface.name }}">
+                    {{ nat.in_interface.device }}
+		        </span><br>
+		        <span class="hidden">{{ nat.in_interface.name }}</span>
+	        {% endif %}
+	    </td>
+        <td>{% if nat.out_interface %}
+		        <span data-toggle="tooltip" title="{{ nat.out_interface.name }}">
+                    {{ nat.out_interface.device }}
+		        </span><br>
+		        <span class="hidden">{{ nat.out_interface.name }}</span>
+	        {% endif %}
+	    </td>
         <td>{{ nat.action }}</td>
-        <td>{{ nat.to_destiny }}</td>
-        <td>{{ nat.to_port }}</td>
+        <td>{% if nat.to_ip %}
+                <span data-toggle="tooltip" title="{{ nat.to_ip.getFullAddress }}">
+                        {{ nat.to_ip }}</span><br>
+		        <span class="hidden">{{ nat.to_ip.getFullAddress }}</span>
+            {% endif %}
+        </td>
+        <td>{% if nat.to_port %}
+                <span data-toggle="tooltip" title="{{ nat.to_port.port }}">
+                        {{ nat.to_port }}</span><br>
+		        <span class="hidden">{{ nat.to_port.port }}</span>
+            {% endif %}
+        </td>
         <td align="center">{% if nat.log %}
             <span style="font-size:14px; color:#009900" class="glyphicon glyphicon-ok"></span>{% endif %}</td>
         <td>

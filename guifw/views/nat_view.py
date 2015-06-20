@@ -1,24 +1,37 @@
 from django.shortcuts import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import F, Max
 
 from guifw.models.nat import Nat, FormNat
 
+def NatReorder(request, order_id):
+    Nat.objects.nat(order__gte=order_id).update(order=F('order') + 1)
+    return HttpResponseRedirect('/guifw/nat/list')
 
-# Create your views here.
+def NatReorderUp(request, order_id):
+    previous = int(order_id).__sub__(1)
+    Nat.objects.filter(order=previous).update(order='-1')
+    Nat.objects.filter(order=order_id).update(order=F('order') - 1)
+    Nat.objects.filter(order=-1).update(order=order_id)
+    return HttpResponseRedirect('/guifw/nat/list')
 
+def NatReorderDown(request, order_id):
+    if (int(order_id) != Nat.objects.latest('order').order):
+        previous = int(order_id).__add__(1)
+        Nat.objects.filter(order=previous).update(order='-1')
+        Nat.objects.filter(order=order_id).update(order=F('order') + 1)
+        Nat.objects.filter(order=-1).update(order=order_id)
+    return HttpResponseRedirect('/guifw/nat/list')
 
 def multipleDelete(request):
     # To implement best ways to delete multiple registers
     # To implement validation checks
     # Avoid insecures algorithms
-
     natlist=request.GET.getlist('items[]')
     if natlist:
         #Nat.objects.nat(id__in=natlist).delete()
         print "Deleting " + str(natlist)
-
     return HttpResponseRedirect('/guifw/nat/list')
-
 
 
 class NatList(ListView):

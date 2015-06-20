@@ -1,9 +1,8 @@
 from django.db import models
 from django import forms
 from django.forms.widgets import DateTimeInput
-from django.contrib.admin.widgets import FilteredSelectMultiple, AdminDateWidget, AdminSplitDateTime
+from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.db.models import F
-
 from guifw.models.interface import Interface
 from guifw.models.port import Port
 from guifw.models.protocol import Protocol
@@ -11,10 +10,6 @@ from guifw.models.address import Address
 from guifw.models.chain import Chain
 from guifw.models.ipset import Ipset
 from audit_log.models.managers import AuditLog
-
-from guifw.library.sysnet import Sysnet
-
-# Create your models here.
 
 class Filter(models.Model):
     ACTION = (('ACCEPT','ACCEPT'),('DROP','DROP'),('REJECT','REJECT'))
@@ -35,7 +30,6 @@ class Filter(models.Model):
     protocol = models.ForeignKey(Protocol, null=True, blank=True)
     in_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='in_in')
     out_interface = models.ForeignKey(Interface, null=True, blank=True, related_name='in_out')
-    #connection = models.ForeignKey(Connection, null=True, blank=True)
     conn_state = models.CharField(max_length=150, null=True, blank=True)
     adv_options = models.CharField(max_length=250, blank=True)
     action = models.CharField(max_length=20, choices=ACTION, default='DROP')
@@ -48,7 +42,6 @@ class Filter(models.Model):
     date_stop = models.DateField(blank=True, null=True)
     time_start = models.TimeField(blank=True, null=True)
     time_stop = models.TimeField(blank=True, null=True)
-
     audit_log = AuditLog()
 
     class Meta:
@@ -69,7 +62,6 @@ class Filter(models.Model):
             Filter.objects.filter(order__gte = self.order).update(order=F('order') + 1)
             
         super(Filter, self).save()
-
 
     def delete(self):
         Filter.objects.filter(order__gte = self.order).update(order=F('order') - 1)
@@ -92,6 +84,7 @@ class FormFilter(forms.ModelForm):
     week_days = forms.MultipleChoiceField(required=False,
                                            widget=forms.CheckboxSelectMultiple(),
                                            choices=Filter.WEEKDAYS)
+
     date_start = forms.DateField(widget=DateTimeInput(format='%Y-%m-%d', attrs={'class':'datepicker'}), required=False)
     date_stop = forms.DateField(widget=DateTimeInput(format='%Y-%m-%d', attrs={'class':'datepicker'}), required=False)
     time_start = forms.TimeField(widget=DateTimeInput(format='%H:%M', attrs={'class':'timepicker'}), required=False)
@@ -118,6 +111,3 @@ class FormFilter(forms.ModelForm):
 
     class Meta:
         model = Filter
-        '''permissions = (("can_view_filter", "Can view filter"),
-                       ("can_edit_filter", "Can edit filter"),)
-        '''

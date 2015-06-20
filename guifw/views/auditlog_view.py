@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from guifw.models.address import Address
 from guifw.models.chain import Chain
 from guifw.models.filter import Filter
 from guifw.models.hostset import Hostset
+from guifw.models.host import Host
 from guifw.models.interface import Interface
-from guifw.models.ipset import Ipset
 from guifw.models.nat import Nat
 from guifw.models.netset import Netset
 from guifw.models.network import Network
@@ -19,13 +18,13 @@ from itertools import chain
 
 
 def listAuditLog(request):
-    logs = chain(Address.audit_log.all(),
+    logs = chain(
                  Chain.audit_log.all(),
                  Filter.audit_log.all(),
                  Port.audit_log.all(),
+                 Host.audit_log.all(),
                  Hostset.audit_log.all(),
                  Interface.audit_log.all(),
-                 Ipset.audit_log.all(),
                  Nat.audit_log.all(),
                  Netset.audit_log.all(),
                  Network.audit_log.all(),
