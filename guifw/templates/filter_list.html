@@ -35,15 +35,14 @@
     {% for filter in object_list %}
     <tr >
         <td><input type="checkbox" value={{ filter.id }} class="checkbox"/></td>
-        <td>
+        <td><a href="{% url 'filter-reorderdown' order_id=filter.order %}">
+                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
+                    <span class="glyphicon glyphicon-chevron-down"></span></button>
+            </a>
             <a href="{% url 'filter-reorderup' order_id=filter.order %}">
                 <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Up">
                     <span class="glyphicon glyphicon-chevron-up"></span></button>
-            </a>
-            <a href="{% url 'filter-reorderdown' order_id=filter.order %}">
-                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
-                    <span class="glyphicon glyphicon-chevron-down"></span></button>
-            </a> &nbsp
+            </a>&nbsp
             {{ filter.order }}</td>
         <td>{{ filter.name }}</td>
         <td>{{ filter.chain }}</td>

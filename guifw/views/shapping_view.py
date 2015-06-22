@@ -1,15 +1,33 @@
-from django.shortcuts import render, HttpResponseRedirect, HttpResponse
+from django.shortcuts import HttpResponseRedirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.db.models import F, Max
 
 
 from guifw.models.shapping import Shapping
-# Create your views here.
+
+def ShappingReorder(request, order_id):
+    Shapping.objects.Shapping(order__gte=order_id).update(order=F('order') + 1)
+    return HttpResponseRedirect('/guifw/shapping/list')
+
+def ShappingReorderUp(request, order_id):
+    previous = int(order_id).__sub__(1)
+    Shapping.objects.filter(order=previous).update(order='-1')
+    Shapping.objects.filter(order=order_id).update(order=F('order') - 1)
+    Shapping.objects.filter(order=-1).update(order=order_id)
+    return HttpResponseRedirect('/guifw/shapping/list')
+
+def ShappingReorderDown(request, order_id):
+    if (int(order_id) != Shapping.objects.latest('order').order):
+        previous = int(order_id).__add__(1)
+        Shapping.objects.filter(order=previous).update(order='-1')
+        Shapping.objects.filter(order=order_id).update(order=F('order') + 1)
+        Shapping.objects.filter(order=-1).update(order=order_id)
+    return HttpResponseRedirect('/guifw/shapping/list')
 
 def multipleDelete(request):
     # To implement best ways to delete multiple registers
     # To implement validation checks
     # Avoid insecures algorithms
-
     shappinglist=request.GET.getlist('items[]')
     if shappinglist:
         #Shapping.objects.shapping(id__in=shappinglist).delete()

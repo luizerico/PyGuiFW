@@ -153,6 +153,10 @@ urlpatterns = patterns('',
                        url(r'^shapping/create/$', permission_required('guifw.edit_rules')(ShappingCreate.as_view()), name='shapping-create'),
                        url(r'^shapping/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(ShappingUpdate.as_view()), name='shapping-edit'),
                        url(r'^shapping/delete/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(ShappingDelete.as_view()), name='shapping-delete'),
+                       url(r'^shapping/reorder/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(ShappingReorder), name='shapping-reorder'),
+                       url(r'^shapping/reorderup/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(ShappingReorderUp), name='shapping-reorderup'),
+                       url(r'^shapping/reorderdown/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(ShappingReorderDown), name='shapping-reorderdown'),
+
 
 )
 

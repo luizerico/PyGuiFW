@@ -1,3 +1,6 @@
+Development Environment:
+Remove the if conditional - Used only to develop on my notebook (Windows8)
+
 Filter, Nat and Shapping:
 Bulk-Delete / Multidelete isn't working. correct
 View_Detail isn't working properly. correct

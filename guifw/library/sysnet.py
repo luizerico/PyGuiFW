@@ -2,8 +2,12 @@
 # found on <http://code.activestate.com/recipes/439093/#c1>
 # Thanks to Philipp Klaus - https://gist.github.com/pklaus
 
+# Remove this - Only to run tests on Windows
+import sys
+if sys.platform.startswith('linux'):
+    import fcntl
+
 import socket
-import fcntl
 import struct
 import array
 import subprocess
@@ -36,8 +40,10 @@ class Sysnet:
 
     def allInterfaces(self):
         all_int = []
-        ifs = self.all_interfaces()
-        #ifs = (('io','1.0.0.127'),('eth0','1.0.0.10'), ('eth0','11.34.23.10'))
+        if sys.platform.startswith('linux'):
+            ifs = self.all_interfaces()
+        else:
+            ifs = (('io','1.0.0.127'),('eth0','1.0.0.10'), ('eth0','11.34.23.10'))
         for i in ifs:
             all_int.append((i[0],self.format_ip(i[1])))
             print "%12s   %s" % (i[0], self.format_ip(i[1]))

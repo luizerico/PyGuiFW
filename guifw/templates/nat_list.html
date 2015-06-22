@@ -37,14 +37,14 @@
     {% for nat in object_list %}
     <tr >
         <td><input type="checkbox" value={{ nat.id }} class="checkbox"/></td>
-        <td><a href="{% url 'nat-reorderup' order_id=nat.order %}">
-                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Up">
-                    <span class="glyphicon glyphicon-chevron-up"></span></button>
-            </a>
-            <a href="{% url 'nat-reorderdown' order_id=nat.order %}">
+        <td><a href="{% url 'nat-reorderdown' order_id=nat.order %}">
                 <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Down">
                     <span class="glyphicon glyphicon-chevron-down"></span></button>
-            </a> &nbsp
+            </a>
+            <a href="{% url 'nat-reorderup' order_id=nat.order %}">
+                <button type="button" class="btn btn-principal btn-xs" data-toggle="tooltip" title="Up">
+                    <span class="glyphicon glyphicon-chevron-up"></span></button>
+            </a>&nbsp
             {{ nat.order }}</td>
         <td>{{ nat.name }}</td>
 
