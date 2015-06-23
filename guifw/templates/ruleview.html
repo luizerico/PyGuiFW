@@ -16,20 +16,27 @@
     </h2>
     <h2>NAT List</h2>
     <ul>
-         {% for nat in nats %}
+        {% for nat in nats %}
             <li>{{ nat }}</li>
         {% endfor %}
     </ul>
     <h2>Rule List</h2>
     <ul>
-         {% for rule in rules %}
+        {% for rule in rules %}
             <li>{{ rule }}</li>
         {% endfor %}
     </ul>
     <h2>Shapping List</h2>
     <ul>
-         {% for shapp in shapping %}
+        {% for shapp in shapping %}
             <li>{{ shapp }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Rule Save/Restore List</h2>
+    <ul>
+        {% for restore in restores %}
+            <li>{{ restore }}</li>
         {% endfor %}
     </ul>
 {% endblock %}

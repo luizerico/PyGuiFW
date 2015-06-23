@@ -37,7 +37,8 @@ def ruleView(request):
     context = {
             'rules': Rule.filterrulecomposer(),
             'nats': Rule.natrulecomposer(),
-            'shapping' : Rule.shappingrulecomposer()
+            'shapping' : Rule.shappingrulecomposer(),
+            'restores' : Rule.filtersavecomposer()
     }
     return render(request, 'ruleview.html', context)
 

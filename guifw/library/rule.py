@@ -10,6 +10,7 @@ from guifw.models.netset import Netset
 from guifw.models.hostset import Hostset
 from guifw.models.interface import Interface
 from guifw.models.shappclass import Shappclass
+from guifw.models.chain import Chain
 
 class Rule:
     @staticmethod
@@ -19,17 +20,16 @@ class Rule:
         result = subprocess.check_output(["sh", rulefile])
         return result
 
-
     @staticmethod
     def writeFilter():
-        rules = Rule.filterrulecomposer()
+        rules = Rule.filtersavecomposer()
+        #rules = Rule.filterrulecomposer()
         filename = datetime.now().strftime("%Y%m%d_%H%M") + "_filter.rule"
         filterfile = open(settings.RULES_DIR + "/" + filename, 'w')
         for rule in rules:
             filterfile.writelines(rule + "\n")
         filterfile.close()
         return filename
-
 
     @staticmethod
     def writeNat():
@@ -41,6 +41,118 @@ class Rule:
         natfile.close()
         return filename
 
+    @staticmethod
+    def filtersavecomposer():
+        rules = Filter.objects.all()
+        tmprule = []
+        tmprule.append("### Building the SET to the Firewall RULES")
+
+        for set in Netset.objects.all():
+            tmprule.append("### Building the IPSET: " + set.name)
+            tmprule.append("ipset -N " + set.name + " nethash")
+            for address in set.address.all():
+                tmprule.append("ipset -A " + set.name + " " + address.getFullAddress())
+
+        for set in Hostset.objects.all():
+            tmprule.append("### Building the IPSET: " + set.name)
+            tmprule.append("ipset -N " + set.name + " iphash")
+            for address in set.address.all():
+                tmprule.append("ipset -A " + set.name + " " + address.getFullAddress())
+
+        tmprule.append("### Building the Filter Firewall RULES")
+
+        # Filter Rules Composer
+        for chain in Chain.objects.all():
+            tmprule.append(":" + chain.name + " default " + chain.default)
+
+        for rule in rules:
+            cmp_rule = ""
+            if rule.protocol:
+                cmp_rule += " -p " + str(rule.protocol)
+
+            if rule.srcset:
+                cmp_rule += " -m set --match-set " + str(rule.srcset) + " src "
+
+            if rule.srcport.exists():
+                if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
+                    cmp_rule += " -m multiport --sports " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+                else:
+                    cmp_rule += " --sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+
+            if rule.dstset:
+                cmp_rule += " -m set --match-set " + str(rule.dstset) + " dst "
+
+            if rule.dstport.exists():
+                if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
+                    cmp_rule += " -m multiport --dports " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+                else:
+                    cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+
+            if (rule.time_start or rule.time_stop or rule.date_start or rule.date_stop or rule.week_days != '[]'):
+                cmp_rule += " -m time "
+                if(rule.time_start):
+                    cmp_rule += " --timestart " + str(rule.time_start)
+                if(rule.time_stop):
+                    cmp_rule += " --timestop " + str(rule.time_stop)
+                if(rule.date_start):
+                    cmp_rule += " --datestart " + str(rule.date_start)
+                if(rule.date_stop):
+                    cmp_rule += " --datestop " + str(rule.date_stop)
+                if rule.week_days != '[]':
+                    weekdays = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+                    # convert into a integer list to filter the Days list
+                    list_days = map(int, (str(rule.week_days).replace("u'", "").translate(None, "]['")).split(','))
+                    selected_days = [weekdays[x] for x in list_days]
+                    cmp_rule += " --weekdays " + (str(selected_days).translate(None, "'[]")).translate(None, " ")
+
+            if rule.in_interface:
+                cmp_rule += " -i " + str(rule.in_interface.device)
+
+            if rule.out_interface:
+                cmp_rule += " -o " + str(rule.out_interface.device)
+
+            if rule.conn_state != '[]':
+                states = ("NEW", "RELATED", "ESTABLISHED", "INVALID", "UNTRACKED")
+                # convert into a integer list to filter the STATES list
+                list_states = map(int, (str(rule.conn_state).replace("u'", "").translate(None, "]['")).split(','))
+                selected_states = [states[x] for x in list_states]
+                cmp_rule += " -m state --state " + (str(selected_states).translate(None, "'[]")).translate(None, " ")
+                # cmp_rule += " -m state --state " + str(list_states)
+
+            if rule.adv_options:
+                cmp_rule += " " + str(rule.adv_options)
+
+            cmp_rule = cmp_rule + " -j " + str(rule.action)
+
+            if rule.log:
+                if rule.log_preffix:
+                    log_rule = cmp_rule + " -j LOG --log-prefix " + str(rule.log_preffix) + \
+                               " --log-level " + str(rule.log_level)
+                else:
+                    log_rule = cmp_rule + " -j LOG --log-level " + str(rule.log_level)
+
+            if rule.source.all() and rule.destiny.all():
+                for source in rule.source.all():
+                    for destiny in rule.destiny.all():
+                        tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + cmp_rule)
+                        if rule.log:
+                            tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
+            elif rule.source.all():
+                for source in rule.source.all():
+                    tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + cmp_rule)
+                    if rule.log:
+                        tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
+            elif rule.destiny.all():
+                for destiny in rule.destiny.all():
+                    tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + cmp_rule)
+                    if rule.log:
+                        tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
+            else:
+                tmprule.append(" -A " + cmp_rule)
+                if rule.log:
+                    tmprule.append(" -A " + log_rule)
+
+        return tmprule
 
     @staticmethod
     def filterrulecomposer():
@@ -128,20 +240,19 @@ class Rule:
 
             if rule.log:
                 if rule.log_preffix:
-                    log_rule = "iptables -I " + str(rule.chain) + " " + cmp_rule + \
+                    log_rule = "iptables -A " + str(rule.chain) + " " + cmp_rule + \
                                " -j LOG --log-prefix " + str(rule.log_preffix) + \
                                " --log-level " + str(rule.log_level)
                 else:
-                    log_rule = "iptables -I " + str(rule.chain) + " " + cmp_rule + \
+                    log_rule = "iptables -A " + str(rule.chain) + " " + cmp_rule + \
                                " -j LOG --log-level " + str(rule.log_level)
                 tmprule.append(log_rule)
 
-            cmp_rule = "iptables -I " + str(rule.chain) + " " + cmp_rule + " -j " + str(rule.action)
+            cmp_rule = "iptables -A " + str(rule.chain) + " " + cmp_rule + " -j " + str(rule.action)
 
             tmprule.append(cmp_rule)
 
         return (tmprule)
-
 
     @staticmethod
     def natrulecomposer():
@@ -195,11 +306,11 @@ class Rule:
 
             if nat.log:
                 if nat.log_preffix:
-                    log_rule = "iptables -I " + str(nat.order + 100) + " " + cmp_rule + \
+                    log_rule = "iptables -A " + str(nat.order + 100) + " " + cmp_rule + \
                                "  -j LOG --log-prefix " + str(nat.log_preffix) + \
                                " --log-level " + str(nat.log_level)
                 else:
-                    log_rule = "iptables -I " + str(nat.order + 100) + " " + cmp_rule + \
+                    log_rule = "iptables -A " + str(nat.order + 100) + " " + cmp_rule + \
                                "  -j LOG --log-level " + str(nat.log_level)
                 tmpnat.append(log_rule)
 
@@ -468,4 +579,3 @@ class Rule:
             'rules': tmprule,
             'nats': tmpnat
         }
-

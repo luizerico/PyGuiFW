@@ -3,16 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="3e8ac1b0-047e-4780-a722-0673d8afbe42" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ToDo" afterPath="$PROJECT_DIR$/ToDo" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/filter_list.html" afterPath="$PROJECT_DIR$/guifw/templates/filter_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/models/nat.py" afterPath="$PROJECT_DIR$/guifw/models/nat.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/nat_list.html" afterPath="$PROJECT_DIR$/guifw/templates/nat_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/shappclass_list.html" afterPath="$PROJECT_DIR$/guifw/templates/shappclass_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/models/shapping.py" afterPath="$PROJECT_DIR$/guifw/models/shapping.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/shapping_list.html" afterPath="$PROJECT_DIR$/guifw/templates/shapping_list.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/views/shapping_view.py" afterPath="$PROJECT_DIR$/guifw/views/shapping_view.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/library/sysnet.py" afterPath="$PROJECT_DIR$/guifw/library/sysnet.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/urls.py" afterPath="$PROJECT_DIR$/guifw/urls.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/MRisk.iml" afterPath="$PROJECT_DIR$/.idea/MRisk.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/models/chain.py" afterPath="$PROJECT_DIR$/guifw/models/chain.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/views/general.py" afterPath="$PROJECT_DIR$/guifw/views/general.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/library/rule.py" afterPath="$PROJECT_DIR$/guifw/library/rule.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/guifw/templates/ruleview.html" afterPath="$PROJECT_DIR$/guifw/templates/ruleview.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="PyGUIFW.iws" />
@@ -34,12 +30,93 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="ToDo" pinned="false" current-in-tab="true">
+      <file leaf-file-name="ToDo" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/ToDo">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.45535713">
+            <state vertical-scroll-proportion="0.0">
               <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="chain.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guifw/models/chain.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rule.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/guifw/library/rule.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.91071427">
+              <caret line="65" column="73" selection-start-line="65" selection-start-column="73" selection-end-line="65" selection-end-column="73" />
+              <folding>
+                <element signature="e#0#35#0" expanded="true" />
+                <element signature="e#491#658#0" expanded="false" />
+                <element signature="e#1101#1387#0" expanded="false" />
+                <element signature="e#7351#12214#0" expanded="false" />
+                <element signature="e#12269#15832#0" expanded="false" />
+                <element signature="e#15892#20033#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="rule_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guifw/templates/rule_list.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="9.807693">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ruleview.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guifw/templates/ruleview.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-0.65384614">
+              <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="url_view.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guifw/views/url_view.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding>
+                <element signature="e#0#71#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="general.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guifw/views/general.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="0.0">
+              <caret line="39" column="53" selection-start-line="39" selection-start-column="53" selection-end-line="39" selection-end-column="53" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="filter.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/guifw/models/filter.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state vertical-scroll-proportion="-15.740741">
+              <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="76" />
+              <folding>
+                <element signature="e#0#28#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -71,7 +148,6 @@
         <option value="$PROJECT_DIR$/guifw/views/shappclass_view.py" />
         <option value="$PROJECT_DIR$/PyGUIFW/settings.py" />
         <option value="$PROJECT_DIR$/guifw/views/auditlog.py" />
-        <option value="$PROJECT_DIR$/guifw/models/chain.py" />
         <option value="$PROJECT_DIR$/guifw/models/interface.py" />
         <option value="$PROJECT_DIR$/guifw/models/port.py" />
         <option value="$PROJECT_DIR$/guifw/models/protocol.py" />
@@ -84,10 +160,7 @@
         <option value="$PROJECT_DIR$/guifw/models/network.py" />
         <option value="$PROJECT_DIR$/guifw/models/url.py" />
         <option value="$PROJECT_DIR$/guifw/templates/audit-log.html" />
-        <option value="$PROJECT_DIR$/guifw/views/general.py" />
-        <option value="$PROJECT_DIR$/guifw/templates/ruleview.html" />
         <option value="$PROJECT_DIR$/guifw/models/shappclass.py" />
-        <option value="$PROJECT_DIR$/guifw/library/rule.py" />
         <option value="$PROJECT_DIR$/guifw/templates/base.html" />
         <option value="$PROJECT_DIR$/guifw/models/filter.py" />
         <option value="$PROJECT_DIR$/guifw/views/filter_view.py" />
@@ -103,6 +176,10 @@
         <option value="$PROJECT_DIR$/guifw/templates/shapping_list.html" />
         <option value="$PROJECT_DIR$/guifw/templates/nat_list.html" />
         <option value="$PROJECT_DIR$/guifw/templates/filter_list.html" />
+        <option value="$PROJECT_DIR$/guifw/models/chain.py" />
+        <option value="$PROJECT_DIR$/guifw/templates/ruleview.html" />
+        <option value="$PROJECT_DIR$/guifw/views/general.py" />
+        <option value="$PROJECT_DIR$/guifw/library/rule.py" />
       </list>
     </option>
   </component>
@@ -188,25 +265,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="templates" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PyGUIFW" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="PyGUIFW" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="guifw" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="migrations" />
+              <option name="myItemId" value="views" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -252,7 +311,7 @@
     <property name="restartRequiresConfirmation" value="true" />
     <property name="FullScreen" value="false" />
     <property name="LayoutCode.rearrangeEntriesHTML" value="true" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
     <property name="settings.editor.splitter.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
@@ -549,7 +608,13 @@
       <option name="project" value="LOCAL" />
       <updated>1434657548413</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="Audit - Log 001&#10;">
+      <created>1435013156439</created>
+      <option name="number" value="00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1435013156439</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -558,6 +623,7 @@
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="DB Browser" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3296131" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="DB Execution Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.15279503" sideWeight="0.50584793" order="14" side_tool="true" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -571,7 +637,6 @@
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
@@ -731,13 +796,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/models/chain.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="11" column="26" selection-start-line="11" selection-start-column="26" selection-end-line="11" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guifw/models/host.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -832,27 +890,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/views/general.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="39" column="16" selection-start-line="39" selection-start-column="16" selection-end-line="39" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/templates/ruleview.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.65140843">
-          <caret line="29" column="8" selection-start-line="29" selection-start-column="8" selection-end-line="29" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/templates/rule_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guifw/templates/nat_delete.html">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -874,36 +911,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/library/rule.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="366" column="0" selection-start-line="366" selection-start-column="0" selection-end-line="366" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <element signature="e#454#621#0" expanded="false" />
-            <element signature="e#673#974#0" expanded="false" />
-            <element signature="e#1023#1309#0" expanded="false" />
-            <element signature="e#1368#6231#0" expanded="false" />
-            <element signature="e#6287#9850#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/guifw/library/sysnet.py">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.16152018">
           <caret line="4" column="44" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/guifw/models/filter.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="68" column="36" selection-start-line="52" selection-start-column="4" selection-end-line="68" selection-end-column="36" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -995,9 +1007,76 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/ToDo">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.45535713">
+        <state vertical-scroll-proportion="0.0">
           <caret line="12" column="0" selection-start-line="12" selection-start-column="0" selection-end-line="12" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/models/filter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-15.740741">
+          <caret line="34" column="4" selection-start-line="34" selection-start-column="4" selection-end-line="34" selection-end-column="76" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/templates/rule_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="9.807693">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/templates/ruleview.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.65384614">
+          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/views/url_view.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#71#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/views/general.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="53" selection-start-line="39" selection-start-column="53" selection-end-line="39" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/models/chain.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="22" column="21" selection-start-line="22" selection-start-column="21" selection-end-line="22" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/guifw/library/rule.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.91071427">
+          <caret line="65" column="73" selection-start-line="65" selection-start-column="73" selection-end-line="65" selection-end-column="73" />
+          <folding>
+            <element signature="e#0#35#0" expanded="true" />
+            <element signature="e#491#658#0" expanded="false" />
+            <element signature="e#1101#1387#0" expanded="false" />
+            <element signature="e#7351#12214#0" expanded="false" />
+            <element signature="e#12269#15832#0" expanded="false" />
+            <element signature="e#15892#20033#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

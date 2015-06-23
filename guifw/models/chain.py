@@ -6,9 +6,10 @@ from audit_log.models.managers import AuditLog
 
 
 class Chain(models.Model):
+    ACTION = (('ACCEPT','ACCEPT'),('DROP','DROP'),('REJECT','REJECT'))
     name = models.CharField(max_length=250)
+    default = models.CharField(max_length=20, choices=ACTION, default='DROP')
     description = models.TextField(blank=True)
-    #icon = models.ImageField(upload_to='images', blank=True)
     audit_log = AuditLog()
 
     def __str__(self):
