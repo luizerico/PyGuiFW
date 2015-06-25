@@ -35,6 +35,7 @@ def ruleSave(request):
 
 def ruleView(request):
     context = {
+            'hostnames' : Rule.createcache(),
             'rules': Rule.filterrulecomposer(),
             'nats': Rule.natrulecomposer(),
             'shapping' : Rule.shappingrulecomposer(),

@@ -14,6 +14,12 @@
             </button>
         </a>
     </h2>
+    <h2>Hostnames:IP Cache List</h2>
+    <ul>
+        {% for hostname in hostnames %}
+            <li>{{ hostname }}</li>
+        {% endfor %}
+    </ul>
     <h2>NAT List</h2>
     <ul>
         {% for nat in nats %}

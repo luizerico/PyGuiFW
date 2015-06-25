@@ -2,6 +2,7 @@ from datetime import datetime, date
 import subprocess
 import os
 from django.conf import settings
+from socket import gethostbyname
 
 from guifw.models.filter import Filter
 from guifw.models.nat import Nat
@@ -11,8 +12,20 @@ from guifw.models.hostset import Hostset
 from guifw.models.interface import Interface
 from guifw.models.shappclass import Shappclass
 from guifw.models.chain import Chain
+from guifw.models.url import URL
 
 class Rule:
+
+    @staticmethod
+    def createcache():
+        url_ip = []
+        for url in URL.objects.all():
+            try:
+                url_ip.append(url.name + " (" +url.address + ") : " + gethostbyname(url.address))
+            except:
+                url_ip.append(url.name + " (" +url.address + ") : DNS ERROR: NOT RESOLVED")
+        return url_ip
+
     @staticmethod
     def applyRules(filename):
         print settings.RULES_DIR
@@ -62,6 +75,9 @@ class Rule:
         tmprule.append("### Building the Filter Firewall RULES")
 
         # Filter Rules Composer
+        tmprule.append("### Building the Filter Firewall RULES")
+        tmprule.append("### Building the Filter Firewall RULES")
+        tmprule.append("*filter")
         for chain in Chain.objects.all():
             tmprule.append(":" + chain.name + " default " + chain.default)
 
@@ -122,14 +138,14 @@ class Rule:
             if rule.adv_options:
                 cmp_rule += " " + str(rule.adv_options)
 
-            cmp_rule = cmp_rule + " -j " + str(rule.action)
-
             if rule.log:
                 if rule.log_preffix:
                     log_rule = cmp_rule + " -j LOG --log-prefix " + str(rule.log_preffix) + \
                                " --log-level " + str(rule.log_level)
                 else:
                     log_rule = cmp_rule + " -j LOG --log-level " + str(rule.log_level)
+
+            cmp_rule = cmp_rule + " -j " + str(rule.action)
 
             if rule.source.all() and rule.destiny.all():
                 for source in rule.source.all():
@@ -148,10 +164,11 @@ class Rule:
                     if rule.log:
                         tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
             else:
-                tmprule.append(" -A " + cmp_rule)
+                tmprule.append(" -A " + str(rule.chain) + cmp_rule)
                 if rule.log:
-                    tmprule.append(" -A " + log_rule)
+                    tmprule.append(" -A " + str(rule.chain) + log_rule)
 
+        tmprule.append("COMMIT")
         return tmprule
 
     @staticmethod
