@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block content %}
+<div class="modal-header">
+	<h3 class="modal-title">Settings</h3>
+</div>
+<div class="modal-body">
+	<dl>
+		 <dt>Readable Rules: {{ object.readable_rules }}</dt>
+		 <dt>Restore Rules: {{ object.restore_rules }}</dt>
+		 <dt>Save Path: {{ object.save_path }} </dt>
+		 <dt>Pre Rules: </dt>
+		 <dd><pre>{{ object.prerule }}</pre></dd>
+		 <dt>Post Rules: </dt>
+		 <dd><pre>{{ object.postrule }}</pre></dd>
+	</dl>
+
+</div>
+<div class="modal-footer" >
+	<a href="{% url 'setting-edit' 1 %}">
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" title="Edit Settings">
+                <span class="glyphicon glyphicon-edit"></span> Edit Settings
+            </button>
+        </a>
+</div>
+
+{% endblock %}

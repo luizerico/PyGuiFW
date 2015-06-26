@@ -16,6 +16,7 @@ from guifw.views.shappclass_view import *
 from guifw.views.shapping_view import *
 from guifw.views.auditlog_view import *
 from guifw.views.general import *
+from guifw.views.setting_view import *
 
 urlpatterns = patterns('',
                        # Examples:
@@ -156,6 +157,10 @@ urlpatterns = patterns('',
                        url(r'^shapping/reorder/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(ShappingReorder), name='shapping-reorder'),
                        url(r'^shapping/reorderup/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(ShappingReorderUp), name='shapping-reorderup'),
                        url(r'^shapping/reorderdown/(?P<order_id>\d+)/$', permission_required('guifw.edit_rules')(ShappingReorderDown), name='shapping-reorderdown'),
+
+                       #Setting URLs Configuration
+                       url(r'^setting/detail/(?P<pk>\d+)/$', permission_required('guifw.view_rules')(SettingDetail.as_view()), name='setting-detail'),
+                       url(r'^setting/edit/(?P<pk>\d+)/$', permission_required('guifw.edit_rules')(SettingUpdate.as_view()), name='setting-edit'),
 
 
 )

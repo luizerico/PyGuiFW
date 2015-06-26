@@ -13,6 +13,7 @@ from guifw.models.hostset import Hostset, FormHostset
 from guifw.models.netset import Netset, FormNetset
 from guifw.models.shappclass import Shappclass
 from guifw.models.shapping import Shapping
+from guifw.models.setting import Setting
 
 
 from django.contrib.auth.models import Permission
@@ -115,9 +116,13 @@ class FilterAdmin(admin.ModelAdmin):
 
 
 @admin.register(Shappclass)
-class TrafficclassAdmin(admin.ModelAdmin):
+class SahppclassAdmin(admin.ModelAdmin):
     pass
 
 @admin.register(Shapping)
-class TrafficAdmin(admin.ModelAdmin):
+class ShappingAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Setting)
+class SettingAdmin(admin.ModelAdmin):
     pass
