@@ -92,3 +92,5 @@ STATICFILES_DIRS = (
 
 LOGIN_URL="/guifw/denied"
 LOGIN_REDIRECT_URL="/guifw/ruleview"
+
+LOGGING_CONFIG = None

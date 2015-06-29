@@ -1,4 +1,5 @@
-from django.db import models
+from django.db import models, Error
+from django.db.models.deletion import ProtectedError
 from django import forms
 from django.contrib.admin.widgets import FilteredSelectMultiple
 
@@ -9,7 +10,6 @@ from audit_log.models.managers import AuditLog
 
 class Hostset(ipset.Ipset):
     address = models.ManyToManyField(Host, blank=True, related_name='hostset_address')
-
     audit_log = AuditLog()
 
     @staticmethod

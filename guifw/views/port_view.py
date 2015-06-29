@@ -1,9 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-from django.forms.models import modelformset_factory
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.db.models.deletion import ProtectedError
 
 from guifw.models.port import Port, FormPort
 # Create your views here.
@@ -20,6 +17,25 @@ def multipleDelete(request):
         print "Deleting " + str(portlist)
 
     return HttpResponseRedirect('/guifw/port/list')
+
+def usedBy(self):
+    used = []
+    for use in self.filter_srcport.all():
+        used.append(["Filter: Source Port", use.order, str(use.name)])
+    for use in self.filter_dstport.all():
+        used.append(["Filter: Destiny Port", use.order, str(use.name)])
+    for use in self.nat_srcport.all():
+        used.append(["NAT: Source Port", use.order, str(use.name)])
+    for use in self.nat_dstport.all():
+        used.append(["NAT: Destiny Port", use.order, str(use.name)])
+    for use in self.nat_to_port.all():
+        used.append(["NAT: To Port", use.order, str(use.name)])
+    for use in self.shapp_srcport.all():
+        used.append(["Shapping: Source Port", use.order, str(use.name)])
+    for use in self.shapp_srcport.all():
+        used.append(["Shapping: Source Port", use.order, str(use.name)])
+
+    return used
 
 
 
@@ -47,10 +63,21 @@ class PortUpdate(UpdateView):
     success_url = '/guifw/port/list'
 
 
+
 class PortDelete(DeleteView):
     model = Port
     success_url = '/guifw/port/list'
     template_name = 'port_delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return HttpResponseRedirect('/guifw/port/list')
+        except ProtectedError as e:
+            used = usedBy(self.object)
+            result = {'used': used, 'error': str(e)}
+            return render(request,'error.html',result)
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:

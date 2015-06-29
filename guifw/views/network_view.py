@@ -1,9 +1,6 @@
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-
-from django.forms.models import modelformset_factory
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.db.models.deletion import ProtectedError
 
 from guifw.models.network import Network, FormNetwork
 # Create your views here.
@@ -51,6 +48,15 @@ class NetworkDelete(DeleteView):
     model = Network
     success_url = '/guifw/network/list'
     template_name = 'network_delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+            return HttpResponseRedirect('/guifw/network/list')
+        except ProtectedError as e:
+            result = {'error': str(e)}
+            return render(request,'error.html',result)
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:

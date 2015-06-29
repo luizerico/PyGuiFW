@@ -10,12 +10,12 @@ from audit_log.models.managers import AuditLog
 class Shapping(models.Model):
     order = models.IntegerField()
     name = models.CharField(max_length=250)
-    shappclass = models.ForeignKey(Shappclass)
-    parent = models.ForeignKey("self", blank=True, null=True)
-    source = models.ForeignKey(Address, blank=True, null=True, related_name="tsource")
-    srcport = models.ForeignKey(Port, blank=True, null=True, related_name="tsrc_port")
-    destiny = models.ForeignKey(Address, blank=True, null=True, related_name="tdestiny")
-    dstport = models.ForeignKey(Port, blank=True, null=True, related_name="tdst_port")
+    shappclass = models.ForeignKey(Shappclass, related_name="shapp_class", on_delete=models.PROTECT)
+    parent = models.ForeignKey("self", blank=True, null=True, related_name="shapp_parent", on_delete=models.PROTECT)
+    source = models.ForeignKey(Address, blank=True, null=True, related_name="shapp_source", on_delete=models.PROTECT)
+    srcport = models.ForeignKey(Port, blank=True, null=True, related_name="shapp_srcport", on_delete=models.PROTECT)
+    destiny = models.ForeignKey(Address, blank=True, null=True, related_name="shapp_destiny", on_delete=models.PROTECT)
+    dstport = models.ForeignKey(Port, blank=True, null=True, related_name="shapp_dstport", on_delete=models.PROTECT)
 
     audit_log = AuditLog()
 
