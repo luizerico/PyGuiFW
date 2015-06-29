@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from django.forms.models import modelformset_factory
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.db.models.deletion import ProtectedError
 
 from guifw.models.hostset import Hostset, FormHostset
 # Create your views here.
@@ -51,6 +52,15 @@ class HostsetDelete(DeleteView):
     model = Hostset
     success_url = '/guifw/hostset/list'
     template_name = 'hostset_delete.html'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        try:
+            self.object.delete()
+        except ProtectedError:
+            data = {'success': ProtectedError}
+
+        return HttpResponseRedirect('/guifw/hostset/list')
 
     def post(self, request, *args, **kwargs):
         if "cancel" in request.POST:
