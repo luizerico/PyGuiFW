@@ -18,6 +18,25 @@ def multipleDelete(request):
 
     return HttpResponseRedirect('/guifw/network/list')
 
+def usedBy(self):
+    used = []
+    for use in self.filter_source.all():
+        used.append(["filter", "Source", use.order, str(use.name), use.id])
+    for use in self.filter_destiny.all():
+        used.append(["filter", "Destiny", use.order, str(use.name), use.id])
+    for use in self.nat_source.all():
+        used.append(["nat", "Source", use.order, str(use.name), use.id])
+    for use in self.nat_destiny.all():
+        used.append(["nat:", "Destiny", use.order, str(use.name), use.id])
+    for use in self.nat_toip.all():
+        used.append(["nat", "To", use.order, str(use.name), use.id])
+    for use in self.shapp_source.all():
+        used.append(["shapping", "Source", use.order, str(use.name), use.id])
+    for use in self.shapp_destiny.all():
+        used.append(["shapping", "Destiny", use.order, str(use.name), use.id])
+    for use in self.netset_address.all():
+        used.append(["netset","---", "---", str(use.name), use.id])
+    return used
 
 
 class NetworkList(ListView):
@@ -48,6 +67,11 @@ class NetworkDelete(DeleteView):
     model = Network
     success_url = '/guifw/network/list'
     template_name = 'network_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['used'] = usedBy(self.object)
+        return context
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

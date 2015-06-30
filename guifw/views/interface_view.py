@@ -18,6 +18,20 @@ def multipleDelete(request):
 
     return HttpResponseRedirect('/guifw/interface/list')
 
+def usedBy(self):
+    used = []
+    for use in self.filter_inin.all():
+        used.append(["filter", "Interface Out", use.order, str(use.name), use.id])
+    for use in self.filter_inout.all():
+        used.append(["filter", "Interface In", use.order, str(use.name), use.id])
+    for use in self.nat_inin.all():
+        used.append(["nat", "Interface Out", use.order, str(use.name), use.id])
+    for use in self.nat_inout.all():
+        used.append(["nat", "Interface In", use.order, str(use.name), use.id])
+    for use in self.shappclass_in.all():
+        used.append(["shappclass", "Interface", "---", str(use.name), use.id])
+
+    return used
 
 
 class InterfaceList(ListView):
@@ -48,6 +62,11 @@ class InterfaceDelete(DeleteView):
     model = Interface
     success_url = '/guifw/interface/list'
     template_name = 'interface_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['used'] = usedBy(self.object)
+        return context
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

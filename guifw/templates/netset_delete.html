@@ -3,16 +3,21 @@
 {% block content %}
 
 <div class="modal-body">
-	<h2> <span class="label label-danger">Really delete {{ object.name }}?</span></h2>
-	<p>  The register will be deleted. There is no undo! </p>
-	<form action="" method="post">
-		{% csrf_token %}
-		<Button name="submit" type="submit" class="btn btn-danger btn-default">
-			<span class="glyphicon glyphicon-trash"></span>Delete</button>
-		<Button name="cancel" type="cancel" value="cancel" class="btn btn-info btn-default">
-			<span class="glyphicon glyphicon-remove"></span>Cancel</button>
-	</form>
+    <h2> Really delete {{ object.name }}?</h2>
+
+    <p> The register will be deleted. There is no undo! </p>
+
+    <form action="" method="post">
+        {% csrf_token %}
+        <Button name="submit" type="submit" class="btn btn-danger btn-default">
+            <span class="glyphicon glyphicon-trash"></span>Delete
+        </button>
+        <Button name="cancel" type="cancel" value="cancel" class="btn btn-info btn-default">
+            <span class="glyphicon glyphicon-remove"></span>Cancel
+        </button>
+    </form>
 </div>
+
 <div class="modal-body">
     {%if used %}
     <h3> Where this object is still used: </h3>

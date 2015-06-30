@@ -6,7 +6,7 @@ from audit_log.models.managers import AuditLog
 class Shappclass(models.Model):
     name = models.CharField(max_length=250)
     parent = models.ForeignKey("self", blank=True, null=True)
-    interface = models.ForeignKey(Interface, blank=True, null=True)
+    interface = models.ForeignKey(Interface, blank=True, null=True, related_name="shappclass_in", on_delete=models.PROTECT)
     flowid = models.IntegerField()
     rate = models.IntegerField()
     ceil = models.IntegerField(null=True, blank=True)

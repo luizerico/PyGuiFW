@@ -17,6 +17,12 @@ def multipleDelete(request):
 
     return HttpResponseRedirect('/guifw/shappclass/list')
 
+def usedBy(self):
+    used = []
+    for use in self.shapp_class.all():
+        used.append(["shappclass", "Interface", "---", str(use.name), use.id])
+    return used
+
 
 class ShappclassList(ListView):
     model = Shappclass
@@ -46,6 +52,11 @@ class ShappclassDelete(DeleteView):
     model = Shappclass
     success_url = '/guifw/shappclass/list'
     template_name = 'shappclass_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['used'] = usedBy(self.object)
+        return context
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

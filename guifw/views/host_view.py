@@ -28,10 +28,12 @@ def usedBy(self):
         used.append(["nat", "Source", use.order, str(use.name), use.id])
     for use in self.nat_destiny.all():
         used.append(["nat:", "Destiny", use.order, str(use.name), use.id])
-    for use in self.nat_to_ip.all():
+    for use in self.nat_toip.all():
         used.append(["nat", "To", use.order, str(use.name), use.id])
     for use in self.shapp_source.all():
         used.append(["shapping", "Source", use.order, str(use.name), use.id])
+    for use in self.shapp_destiny.all():
+        used.append(["shapping", "Destiny", use.order, str(use.name), use.id])
     for use in self.hostset_address.all():
         used.append(["hostset","---", "---", str(use.name), use.id])
     return used

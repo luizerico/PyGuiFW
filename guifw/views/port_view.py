@@ -28,7 +28,7 @@ def usedBy(self):
         used.append(["nat", "Source Port", use.order, str(use.name), use.id])
     for use in self.nat_dstport.all():
         used.append(["nat:", "Destiny Port", use.order, str(use.name), use.id])
-    for use in self.nat_to_port.all():
+    for use in self.nat_toport.all():
         used.append(["nat", "To Port", use.order, str(use.name), use.id])
     for use in self.shapp_srcport.all():
         used.append(["shapping", "Source Port", use.order, str(use.name), use.id])
