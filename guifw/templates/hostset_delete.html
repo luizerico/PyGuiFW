@@ -14,4 +14,65 @@
 	</form>
 </div>
 
+<div class="modal-body">
+    {%if used %}
+    <h3> Where this object is still used: </h3>
+    <table id="datatable" class="display table">
+        <thead>
+        <tr>
+            <th>Object</th>
+            <th>Order</th>
+            <th>Name</th>
+            <th>Position</th>
+            <th>View</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for rule in used %}
+        <tr>
+            <td>{{ rule.0 }}</td>
+            <td>{{ rule.2 }}</td>
+            <td>{{ rule.3 }}</td>
+            <td>{{ rule.1 }}</td>
+            <td>
+                <a href="/guifw/{{ rule.0 }}/edit/{{ rule.4 }}">
+                    <button type="button" class="btn btn-warning btn-xs" data-toggle="tooltip" title="Edit">
+                        <span class="glyphicon glyphicon-edit"></span></button>
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        var table=$('#datatable').DataTable({
+            "lengthMenu": [ [10, 25, 50, -1], [10, 25, 50, "All"] ] ,
+            "pageLength": 50,
+        });
+
+        $('a.toggle-vis').on( 'click', function (e) {
+            e.preventDefault();
+
+            // Get the column API object
+            var column = table.column( $(this).attr('data-column') );
+
+            // Toggle the visibility
+            column.visible( ! column.visible() );
+        } );
+    });
+
+    function toggleChecked(status) {
+      $(".checkbox").each( function() {
+        $(this).prop("checked",status);
+      })
+
+
+    }
+
+</script>
 {% endblock %}

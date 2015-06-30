@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
+    {% if error %}
     <h2>Error:</h2>
+    <p>Maybe there are rules who make reference to this object.
+        Check it before try delete to avoid inconsistencies.
+    </p>
     <pre>
-    {{ error }}
+        {{ error }}
     </pre>
+    {% endif %}
+
 {% endblock %}

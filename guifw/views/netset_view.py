@@ -18,6 +18,13 @@ def multipleDelete(request):
 
     return HttpResponseRedirect('/guifw/netset/list')
 
+def usedBy(self):
+    used = []
+    for use in self.filter_srcset.all():
+        used.append(["filter", "Source", use.order, str(use.name), use.id])
+    for use in self.filter_dstset.all():
+        used.append(["filter", "Destiny", use.order, str(use.name), use.id])
+    return used
 
 
 class NetsetList(ListView):
@@ -48,6 +55,11 @@ class NetsetDelete(DeleteView):
     model = Netset
     success_url = '/guifw/netset/list'
     template_name = 'netset_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['used'] = usedBy(self.object)
+        return context
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

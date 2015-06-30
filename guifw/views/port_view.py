@@ -21,19 +21,19 @@ def multipleDelete(request):
 def usedBy(self):
     used = []
     for use in self.filter_srcport.all():
-        used.append(["Filter: Source Port", use.order, str(use.name)])
+        used.append(["filter", "Source Port", use.order, str(use.name), use.id])
     for use in self.filter_dstport.all():
-        used.append(["Filter: Destiny Port", use.order, str(use.name)])
+        used.append(["filter", "Destiny Port", use.order, str(use.name), use.id])
     for use in self.nat_srcport.all():
-        used.append(["NAT: Source Port", use.order, str(use.name)])
+        used.append(["nat", "Source Port", use.order, str(use.name), use.id])
     for use in self.nat_dstport.all():
-        used.append(["NAT: Destiny Port", use.order, str(use.name)])
+        used.append(["nat:", "Destiny Port", use.order, str(use.name), use.id])
     for use in self.nat_to_port.all():
-        used.append(["NAT: To Port", use.order, str(use.name)])
+        used.append(["nat", "To Port", use.order, str(use.name), use.id])
     for use in self.shapp_srcport.all():
-        used.append(["Shapping: Source Port", use.order, str(use.name)])
-    for use in self.shapp_srcport.all():
-        used.append(["Shapping: Source Port", use.order, str(use.name)])
+        used.append(["shapping", "Source Port", use.order, str(use.name), use.id])
+    for use in self.shapp_dstport.all():
+        used.append(["shapping","Source Port", use.order, str(use.name), use.id])
 
     return used
 
@@ -63,11 +63,15 @@ class PortUpdate(UpdateView):
     success_url = '/guifw/port/list'
 
 
-
 class PortDelete(DeleteView):
     model = Port
     success_url = '/guifw/port/list'
     template_name = 'port_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['used'] = usedBy(self.object)
+        return context
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -75,8 +79,7 @@ class PortDelete(DeleteView):
             self.object.delete()
             return HttpResponseRedirect('/guifw/port/list')
         except ProtectedError as e:
-            used = usedBy(self.object)
-            result = {'used': used, 'error': str(e)}
+            result = {'error': str(e)}
             return render(request,'error.html',result)
 
     def post(self, request, *args, **kwargs):

@@ -18,6 +18,23 @@ def multipleDelete(request):
 
     return HttpResponseRedirect('/guifw/host/list')
 
+def usedBy(self):
+    used = []
+    for use in self.filter_source.all():
+        used.append(["filter", "Source", use.order, str(use.name), use.id])
+    for use in self.filter_destiny.all():
+        used.append(["filter", "Destiny", use.order, str(use.name), use.id])
+    for use in self.nat_source.all():
+        used.append(["nat", "Source", use.order, str(use.name), use.id])
+    for use in self.nat_destiny.all():
+        used.append(["nat:", "Destiny", use.order, str(use.name), use.id])
+    for use in self.nat_to_ip.all():
+        used.append(["nat", "To", use.order, str(use.name), use.id])
+    for use in self.shapp_source.all():
+        used.append(["shapping", "Source", use.order, str(use.name), use.id])
+    for use in self.hostset_address.all():
+        used.append(["hostset","---", "---", str(use.name), use.id])
+    return used
 
 
 class HostList(ListView):
@@ -48,6 +65,11 @@ class HostDelete(DeleteView):
     model = Host
     success_url = '/guifw/host/list'
     template_name = 'host_delete.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(self.__class__, self).get_context_data(**kwargs)
+        context['used'] = usedBy(self.object)
+        return context
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
