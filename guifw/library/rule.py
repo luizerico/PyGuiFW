@@ -16,8 +16,8 @@ from guifw.models.url import URL
 
 class Rule:
 
-    @staticmethod
-    def createcache():
+    #@staticmethod
+    def createcache(self):
         url_ip = []
         for url in URL.objects.all():
             try:
@@ -26,14 +26,14 @@ class Rule:
                 url_ip.append(url.name + " (" +url.address + ") : DNS ERROR: NOT RESOLVED")
         return url_ip
 
-    @staticmethod
+    #@staticmethod
     def applyRules(filename):
         print settings.RULES_DIR
         rulefile = os.path.join(settings.RULES_DIR, filename)
         result = subprocess.check_output(["sh", rulefile])
         return result
 
-    @staticmethod
+    #@staticmethod
     def writeFilter():
         rules = Rule.filtersavecomposer()
         #rules = Rule.filterrulecomposer()
@@ -44,8 +44,8 @@ class Rule:
         filterfile.close()
         return filename
 
-    @staticmethod
-    def writeNat():
+    #@staticmethod
+    def writeNat(self):
         rules = Rule.natrulecomposer()
         filename = datetime.now().strftime("%Y%m%d_%H%M") + "_nat.rule"
         natfile = open(settings.RULES_DIR + "/" + filename, 'w')
@@ -54,8 +54,8 @@ class Rule:
         natfile.close()
         return filename
 
-    @staticmethod
-    def filtersavecomposer():
+    #@staticmethod
+    def filtersavecomposer(self):
         rules = Filter.objects.all()
         tmprule = []
         tmprule.append("### Building the SET to the Firewall RULES")
@@ -171,8 +171,8 @@ class Rule:
         tmprule.append("COMMIT")
         return tmprule
 
-    @staticmethod
-    def filterrulecomposer():
+    #@staticmethod
+    def filterrulecomposer(self):
         rules = Filter.objects.all()
         tmprule = []
         tmprule.append("### Building the SET to the Firewall RULES")
@@ -271,8 +271,8 @@ class Rule:
 
         return (tmprule)
 
-    @staticmethod
-    def natrulecomposer():
+    #@staticmethod
+    def natrulecomposer(self):
         nats = Nat.objects.all()
         tmpnat = []
 
@@ -354,8 +354,8 @@ class Rule:
 
         return (tmpnat)
 
-    @staticmethod
-    def shappingrulecomposer():
+    #@staticmethod
+    def shappingrulecomposer(self):
         rules = Shapping.objects.all()
         tmprule = []
         tmprule.append("### Building the Traffic Shapping RULES")

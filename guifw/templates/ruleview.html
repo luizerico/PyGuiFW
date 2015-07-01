@@ -14,35 +14,53 @@
             </button>
         </a>
     </h2>
+
+    {% if hostnames %}
     <h2>Hostnames:IP Cache List</h2>
     <ul>
         {% for hostname in hostnames %}
-            <li>{{ hostname }}</li>
+            {% if "DNS ERROR" not in hostname %}
+                <li>{{ hostname }}</li>
+            {% else %}
+                <li style="color:#FF0000;">{{ hostname }}</li>
+            {% endif %}
         {% endfor %}
     </ul>
+    {% endif %}
+
+    {% if nats %}
     <h2>NAT List</h2>
     <ul>
         {% for nat in nats %}
             <li>{{ nat }}</li>
         {% endfor %}
     </ul>
+    {% endif %}
+
+    {% if rules %}
     <h2>Rule List</h2>
     <ul>
         {% for rule in rules %}
             <li>{{ rule }}</li>
         {% endfor %}
     </ul>
+    {% endif %}
+
+    {% if shappings %}
     <h2>Shapping List</h2>
     <ul>
-        {% for shapp in shapping %}
-            <li>{{ shapp }}</li>
+        {% for shapping in shappings %}
+            <li>{{ shapping }}</li>
         {% endfor %}
     </ul>
+    {% endif %}
 
+    {% if restores %}
     <h2>Rule Save/Restore List</h2>
     <ul>
         {% for restore in restores %}
             <li>{{ restore }}</li>
         {% endfor %}
     </ul>
+    {% endif %}
 {% endblock %}

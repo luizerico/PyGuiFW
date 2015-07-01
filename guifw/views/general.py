@@ -1,10 +1,9 @@
 from django.shortcuts import render
-from django.views import generic
-from guifw.models.filter import Filter, FormFilter
 from guifw.models.network import Network
 from guifw.library.sysnet import Sysnet
 from guifw.library.rule import Rule
-from guifw.models.port import Port
+from guifw.models.setting import Setting
+
 
 # Create your views here.
 
@@ -34,13 +33,20 @@ def ruleSave(request):
 
 
 def ruleView(request):
-    context = {
-            'hostnames' : Rule.createcache(),
-            'rules': Rule.filterrulecomposer(),
-            'nats': Rule.natrulecomposer(),
-            'shapping' : Rule.shappingrulecomposer(),
-            'restores' : Rule.filtersavecomposer()
-    }
+    rule = Rule()
+    setting = Setting.objects.filter(id=1)[0]
+    context = {}
+
+    if setting.create_dns_cache:
+        context['hostnames'] = rule.createcache()
+    if setting.readable_rules:
+        context['rules'] = rule.filterrulecomposer()
+    if setting.restore_rules:
+        context['restores'] = rule.filtersavecomposer()
+    if setting.shapping_rules:
+        context['shappings'] = rule.shappingrulecomposer()
+    if setting.nat_rules:
+        context['nats'] = rule.natrulecomposer()
     return render(request, 'ruleview.html', context)
 
 

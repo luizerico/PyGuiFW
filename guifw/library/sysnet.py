@@ -56,7 +56,7 @@ class Sysnet:
         return routes
 
     @staticmethod
-    def listInterfaces(self):
+    def listInterfaces():
         interfaces = subprocess.check_output(["ifconfig", "-a"])
         return interfaces
 

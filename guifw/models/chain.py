@@ -1,5 +1,6 @@
 from django.db import models
 from django import forms
+
 from audit_log.models.managers import AuditLog
 
 # Create your models here.
@@ -17,7 +18,7 @@ class Chain(models.Model):
 
 
 class FormChain(forms.ModelForm):
-    pass
+    name = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}))
 
     class Meta:
         model = Chain
