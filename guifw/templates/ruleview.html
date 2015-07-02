@@ -16,7 +16,7 @@
     </h2>
 
     {% if hostnames %}
-    <h2>Hostnames:IP Cache List</h2>
+    <h2>Hostnames: IP Cache List</h2>
     <ul>
         {% for hostname in hostnames %}
             {% if "DNS ERROR" not in hostname %}
@@ -24,6 +24,15 @@
             {% else %}
                 <li style="color:#FF0000;">{{ hostname }}</li>
             {% endif %}
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    {% if ipsets %}
+    <h2>IPSet List</h2>
+    <ul>
+        {% for ipset in ipsets %}
+            <li>{{ ipset }}</li>
         {% endfor %}
     </ul>
     {% endif %}

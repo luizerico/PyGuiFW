@@ -38,15 +38,17 @@ def ruleView(request):
     context = {}
 
     if setting.create_dns_cache:
-        context['hostnames'] = rule.createcache()
+        context['hostnames'] = rule.cacheComposer()
     if setting.readable_rules:
-        context['rules'] = rule.filterrulecomposer()
+        context['rules'] = rule.filterRuleComposer()
     if setting.restore_rules:
-        context['restores'] = rule.filtersavecomposer()
+        context['restores'] = rule.filterSaveComposer()
     if setting.shapping_rules:
-        context['shappings'] = rule.shappingrulecomposer()
+        context['shappings'] = rule.shappingRuleComposer()
     if setting.nat_rules:
-        context['nats'] = rule.natrulecomposer()
+        context['nats'] = rule.natRuleComposer()
+    if setting.ipset_rules:
+        context['ipsets'] = rule.setComposer()
     return render(request, 'ruleview.html', context)
 
 
@@ -68,10 +70,10 @@ def listInterfaces(request):
 
 def listConnections(request):
     connections = Sysnet.listConnections()
-    context = {'connections': connections }
+    context = {'connections': connections}
     return render(request, 'connections.html', context)
 
 def listProcesses(request):
     processes = Sysnet.listProcesses()
-    context = {'connections': processes }
+    context = {'connections': processes}
     return render(request, 'processes.html', context)

@@ -14,29 +14,29 @@ from guifw.models.shappclass import Shappclass
 from guifw.models.chain import Chain
 from guifw.models.url import URL
 
-class Rule:
 
-    #@staticmethod
-    def createcache(self):
+class Rule:
+    # @staticmethod
+    def cacheComposer(self):
         url_ip = []
         for url in URL.objects.all():
             try:
-                url_ip.append(url.name + " (" +url.address + ") : " + gethostbyname(url.address))
+                url_ip.append(url.name + " (" + url.address + ") : " + gethostbyname(url.address))
             except:
-                url_ip.append(url.name + " (" +url.address + ") : DNS ERROR: NOT RESOLVED")
+                url_ip.append(url.name + " (" + url.address + ") : DNS ERROR: NOT RESOLVED")
         return url_ip
 
-    #@staticmethod
+    # @staticmethod
     def applyRules(filename):
         print settings.RULES_DIR
         rulefile = os.path.join(settings.RULES_DIR, filename)
         result = subprocess.check_output(["sh", rulefile])
         return result
 
-    #@staticmethod
+    # @staticmethod
     def writeFilter():
         rules = Rule.filtersavecomposer()
-        #rules = Rule.filterrulecomposer()
+        # rules = Rule.filterrulecomposer()
         filename = datetime.now().strftime("%Y%m%d_%H%M") + "_filter.rule"
         filterfile = open(settings.RULES_DIR + "/" + filename, 'w')
         for rule in rules:
@@ -44,7 +44,7 @@ class Rule:
         filterfile.close()
         return filename
 
-    #@staticmethod
+    # @staticmethod
     def writeNat(self):
         rules = Rule.natrulecomposer()
         filename = datetime.now().strftime("%Y%m%d_%H%M") + "_nat.rule"
@@ -54,8 +54,8 @@ class Rule:
         natfile.close()
         return filename
 
-    #@staticmethod
-    def filtersavecomposer(self):
+    # @staticmethod
+    def filterSaveComposer(self):
         rules = Filter.objects.all()
         tmprule = []
         tmprule.append("### Building the SET to the Firewall RULES")
@@ -91,7 +91,8 @@ class Rule:
 
             if rule.srcport.exists():
                 if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
-                    cmp_rule += " -m multiport --sports " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+                    cmp_rule += " -m multiport --sports " + str(
+                        ','.join([srcport.port for srcport in rule.srcport.all()]))
                 else:
                     cmp_rule += " --sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
 
@@ -100,19 +101,20 @@ class Rule:
 
             if rule.dstport.exists():
                 if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
-                    cmp_rule += " -m multiport --dports " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+                    cmp_rule += " -m multiport --dports " + str(
+                        ','.join([dstport.port for dstport in rule.dstport.all()]))
                 else:
                     cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
 
             if (rule.time_start or rule.time_stop or rule.date_start or rule.date_stop or rule.week_days != '[]'):
                 cmp_rule += " -m time "
-                if(rule.time_start):
+                if (rule.time_start):
                     cmp_rule += " --timestart " + str(rule.time_start)
-                if(rule.time_stop):
+                if (rule.time_stop):
                     cmp_rule += " --timestop " + str(rule.time_stop)
-                if(rule.date_start):
+                if (rule.date_start):
                     cmp_rule += " --datestart " + str(rule.date_start)
-                if(rule.date_stop):
+                if (rule.date_stop):
                     cmp_rule += " --datestop " + str(rule.date_stop)
                 if rule.week_days != '[]':
                     weekdays = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
@@ -150,19 +152,24 @@ class Rule:
             if rule.source.all() and rule.destiny.all():
                 for source in rule.source.all():
                     for destiny in rule.destiny.all():
-                        tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + cmp_rule)
+                        tmprule.append(" -A " + str(
+                            rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + cmp_rule)
                         if rule.log:
-                            tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
+                            tmprule.append(" -A " + str(
+                                rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
             elif rule.source.all():
                 for source in rule.source.all():
                     tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + cmp_rule)
                     if rule.log:
-                        tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
+                        tmprule.append(" -A " + str(
+                            rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
             elif rule.destiny.all():
                 for destiny in rule.destiny.all():
-                    tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + cmp_rule)
+                    tmprule.append(" -A " + str(
+                        rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + cmp_rule)
                     if rule.log:
-                        tmprule.append(" -A " + str(rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
+                        tmprule.append(" -A " + str(
+                            rule.chain) + " -s " + source.getFullAddress() + " -d " + destiny.getFullAddress() + log_rule)
             else:
                 tmprule.append(" -A " + str(rule.chain) + cmp_rule)
                 if rule.log:
@@ -171,65 +178,80 @@ class Rule:
         tmprule.append("COMMIT")
         return tmprule
 
-    #@staticmethod
-    def filterrulecomposer(self):
-        rules = Filter.objects.all()
+    def setComposer(self):
         tmprule = []
-        tmprule.append("### Building the SET to the Firewall RULES")
 
         for set in Netset.objects.all():
-            tmprule.append("### Building the IPSET: " + set.name)
+            tmprule.append("# Building the IPSET: " + set.name)
             tmprule.append("ipset -N " + set.name + " nethash")
             for address in set.address.all():
                 tmprule.append("ipset -A " + set.name + " " + address.getFullAddress())
 
         for set in Hostset.objects.all():
-            tmprule.append("### Building the IPSET: " + set.name)
+            tmprule.append("# Building the IPSET: " + set.name)
             tmprule.append("ipset -N " + set.name + " iphash")
             for address in set.address.all():
                 tmprule.append("ipset -A " + set.name + " " + address.getFullAddress())
 
+        return tmprule
+
+    # @staticmethod
+    def filterRuleComposer(self):
+        tmprule = []
         tmprule.append("### Building the Filter Firewall RULES")
 
-        # Filter Rules Composer
-        for rule in rules:
+        for rule in Filter.objects.all():
             cmp_rule = ""
-            if rule.protocol:
-                cmp_rule += " -p " + str(rule.protocol)
 
-            if rule.source.all():
-                cmp_rule += " -s " + str(','.join([source.getFullAddress() for source in rule.source.all()]))
+            if (bool(rule.srcset) or bool(rule.source.all())):
+                if rule.source.all():
+                    cmp_rule += " -s " + str(','.join([source.getFullAddress() for source in rule.source.all()]))
+                if rule.srcset:
+                    cmp_rule += " -m set --match-set " + str(rule.srcset) + " src "
+            else:
+                cmp_rule = "Error in rule no. " + str(rule.order) + ": You must define the SOURCE."
+                tmprule.append(cmp_rule)
+                continue
 
-            if rule.srcset:
-                cmp_rule += " -m set --match-set " + str(rule.srcset) + " src "
+            if (bool(rule.dstset) or bool(rule.destiny.all())):
+                if rule.destiny.all():
+                    cmp_rule += " -d " + str(','.join([destiny.getFullAddress() for destiny in rule.destiny.all()]))
+                if rule.dstset:
+                    cmp_rule += " -m set --match-set " + str(rule.dstset) + " dst "
+            else:
+                cmp_rule = "Error in rule no. " + str(rule.order) + ": You must define the DESTINY."
+                tmprule.append(cmp_rule)
+                continue
 
-            if rule.srcport.exists():
-                if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
-                    cmp_rule += " -m multiport --sports " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
-                else:
-                    cmp_rule += " --sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
-
-            if rule.destiny.all():
-                cmp_rule += " -d " + str(','.join([destiny.getFullAddress() for destiny in rule.destiny.all()]))
-
-            if rule.dstset:
-                cmp_rule += " -m set --match-set " + str(rule.dstset) + " dst "
-
-            if rule.dstport.exists():
-                if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
-                    cmp_rule += " -m multiport --dports " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
-                else:
-                    cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+            if not (bool(rule.protocol) != bool(bool(rule.dstport.exists()) or bool(rule.srcport.exists()))):
+                if rule.protocol:
+                    cmp_rule += " -p " + str(rule.protocol)
+                if rule.srcport.exists():
+                    if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
+                        cmp_rule += " -m multiport --sports " + str(
+                            ','.join([srcport.port for srcport in rule.srcport.all()]))
+                    else:
+                        cmp_rule += " --sport " + str(','.join([srcport.port for srcport in rule.srcport.all()]))
+                if rule.dstport.exists():
+                    if (len(rule.dstport.all()) > 1 or len(rule.srcport.all()) > 1):
+                        cmp_rule += " -m multiport --dports " + str(
+                            ','.join([dstport.port for dstport in rule.dstport.all()]))
+                    else:
+                        cmp_rule += " --dport " + str(','.join([dstport.port for dstport in rule.dstport.all()]))
+            else:
+                cmp_rule = "Error in rule no. " + str(rule.order) + ": You must set the PROTOCOL and PORT together."
+                tmprule.append(cmp_rule)
+                continue
 
             if (rule.time_start or rule.time_stop or rule.date_start or rule.date_stop or rule.week_days != '[]'):
                 cmp_rule += " -m time "
-                if(rule.time_start):
+                if (rule.time_start):
                     cmp_rule += " --timestart " + str(rule.time_start)
-                if(rule.time_stop):
+                if (rule.time_stop):
                     cmp_rule += " --timestop " + str(rule.time_stop)
-                if(rule.date_start):
+                if (rule.date_start):
                     cmp_rule += " --datestart " + str(rule.date_start)
-                if(rule.date_stop):
+                if (rule.date_stop):
                     cmp_rule += " --datestop " + str(rule.date_stop)
                 if rule.week_days != '[]':
                     weekdays = ("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
@@ -239,10 +261,22 @@ class Rule:
                     cmp_rule += " --weekdays " + (str(selected_days).translate(None, "'[]")).translate(None, " ")
 
             if rule.in_interface:
-                cmp_rule += " -i " + str(rule.in_interface.device)
+                if not (rule.chain.name == 'INPUT' and bool(rule.out_interface)):
+                    cmp_rule += " -i " + str(rule.in_interface.device)
+                else:
+                    cmp_rule = "Error in rule no. " + str(
+                        rule.order) + ": You cant use OUT interface together the INPUT chain"
+                    tmprule.append(cmp_rule)
+                    continue
 
             if rule.out_interface:
-                cmp_rule += " -o " + str(rule.out_interface.device)
+                if not (rule.chain.name == 'OUTPUT' and bool(rule.in_interface)):
+                    cmp_rule += " -o " + str(rule.out_interface.device)
+                else:
+                    cmp_rule = "Error in rule no. " + str(
+                        rule.order) + ": You cant use IN interface together the OUTPUT chain"
+                    tmprule.append(cmp_rule)
+                    continue
 
             if rule.conn_state != '[]':
                 states = ("NEW", "RELATED", "ESTABLISHED", "INVALID", "UNTRACKED")
@@ -271,8 +305,8 @@ class Rule:
 
         return (tmprule)
 
-    #@staticmethod
-    def natrulecomposer(self):
+    # @staticmethod
+    def natRuleComposer(self):
         nats = Nat.objects.all()
         tmpnat = []
 
@@ -289,7 +323,8 @@ class Rule:
 
             if nat.srcport.exists():
                 if (len(nat.dstport.all()) > 1 or len(nat.srcport.all()) > 1):
-                    cmp_rule += " -m multiport --sports " + str(','.join([srcport.port for srcport in nat.srcport.all()]))
+                    cmp_rule += " -m multiport --sports " + str(
+                        ','.join([srcport.port for srcport in nat.srcport.all()]))
                 else:
                     cmp_rule += " --sport " + str(','.join([srcport.port for srcport in nat.srcport.all()]))
 
@@ -298,7 +333,8 @@ class Rule:
 
             if nat.dstport.exists():
                 if (len(nat.dstport.all()) > 1 or len(nat.srcport.all()) > 1):
-                    cmp_rule += " -m multiport --dports " + str(','.join([dstport.port for dstport in nat.dstport.all()]))
+                    cmp_rule += " -m multiport --dports " + str(
+                        ','.join([dstport.port for dstport in nat.dstport.all()]))
                 else:
                     cmp_rule += " --dport " + str(','.join([dstport.port for dstport in nat.dstport.all()]))
 
@@ -354,38 +390,22 @@ class Rule:
 
         return (tmpnat)
 
-    #@staticmethod
-    def shappingrulecomposer(self):
+    # @staticmethod
+    def shappingRuleComposer(self):
         rules = Shapping.objects.all()
         tmprule = []
-        tmprule.append("### Building the Traffic Shapping RULES")
+        tmprule.append("iptables -F")
 
-        '''
-        tc qdisc add dev eth10 root handle 1 htb default 12
-
-        tc class add dev eth10 parent 1:0 classid 1:101 htb rate 1Mbit
-        tc qdisc add dev eth10 parent 1:101 handle 101 sfq perturb 10
-        tc filter add dev eth10 parent 1:0 protocol ip u32 match ip dst 10.1.25.18 flowid 1:101
-
-        tc class add dev eth192 parent 1:0 classid 1:100 htb rate 1536kbit
-        tc qdisc add dev eth192 parent 1:100 handle 100 sfq perturb 10
-        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.188 match ip dst 10.11.0.0/24 flowid 1:100
-        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.245 match ip dst 10.11.0.0/24 flowid 1:100
-        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.160 match ip dst 10.11.0.0/24 flowid 1:100
-        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.161 match ip dst 10.11.0.0/24 flowid 1:100
-        tc filter add dev eth192 parent 1:0 protocol ip u32 match ip src 10.1.0.163 match ip dst 10.11.0.0/24 flowid 1:100
-        '''
-
-        #Cria a fila principal em cada Interface
+        # Cria a fila principal em cada Interface
         tmprule.append("### Cria a fila principal em cada Interface")
         interfaces = Interface.objects.all()
         for interface in interfaces:
             cmp_rule = "tc qdisc add dev " + interface.device + " root handle 1 htb default 12"
             tmprule.append(cmp_rule)
 
-        #Cria as classes e qdisc's
-        #tc class add dev eth192 parent 1:0 classid 1:100 htb rate 1536kbit
-        #tc qdisc add dev eth192 parent 1:100 handle 100 sfq perturb 10
+        # Cria as classes e qdisc's
+        # tc class add dev eth192 parent 1:0 classid 1:100 htb rate 1536kbit
+        # tc qdisc add dev eth192 parent 1:100 handle 100 sfq perturb 10
         tmprule.append("### Building the Classes and Qdisc")
         shappclasses = Shappclass.objects.all()
         for shappclass in shappclasses:
@@ -419,8 +439,8 @@ class Rule:
             tmprule.append("tc class add " + class_rule)
             tmprule.append("tc qdisc add " + qdisc_rule)
 
-        #Cria os filtros
-        #tc filter add dev eth10 parent 1:0 protocol ip u32 match ip dst 10.1.25.18 flowid 1:101
+        # Cria os filtros
+        # tc filter add dev eth10 parent 1:0 protocol ip u32 match ip dst 10.1.25.18 flowid 1:101
         tmprule.append("### Building the Filters")
         shappings = Shapping.objects.all()
         for shapping in shappings:
@@ -429,7 +449,7 @@ class Rule:
             if shapping.shappclass:
                 filter_rule += " add dev " + str(shapping.shappclass.interface.device)
 
-            #if shapping.parent:
+            # if shapping.parent:
             filter_rule += " parent  " + str(shapping.shappclass.parent.id) + ":0 "
             filter_rule += " protocol ip u32 match ip "
 
